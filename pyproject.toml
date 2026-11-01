@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stockanalyzer"
+version = "3.0.0"
+description = "Multi-asset analysis platform: data store, technical & fundamental analysis, screener, backtesting, portfolio/risk."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pandas>=2.2",
+    "numpy>=1.26",
+    "pyarrow>=15",
+    "duckdb>=1.0",
+    "scipy>=1.11",
+    "scikit-learn>=1.4",
+    "yfinance>=0.2.54",
+    "requests>=2.31",
+    "plotly>=5.20",
+    "streamlit>=1.50",
+    "openpyxl>=3.1",
+]
+
+[project.optional-dependencies]
+talib = ["TA-Lib>=0.4.28"]
+dev = ["pytest>=8", "ruff>=0.5"]
+
+[project.scripts]
+stockanalyzer = "stockanalyzer.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["stockanalyzer*"]
+
+[tool.setuptools.package-data]
+stockanalyzer = ["resources/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = ["network: calls live market-data APIs (deselected by default, run with -m network)"]
+addopts = "-m 'not network' -p no:cacheprovider"
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

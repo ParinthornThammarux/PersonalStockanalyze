@@ -3,10 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-favorite_stocks.json
 .claude
-guideline.md
-.csv
 
 # C extensions
 *.so
@@ -37,7 +34,7 @@ MANIFEST
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
-
+tests/*
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
@@ -199,11 +196,5 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 
-registered_users/
-registered_users/*
-
-# Runtime cache files
-cache/
-cache/*
-stock_cache.json
-TrainMLModel/predictions.csv
+# Stock Analyzer local data (price store, features, models, SQLite state) - rebuilt by `python -m stockanalyzer nightly`
+/data/

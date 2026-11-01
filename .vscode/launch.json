@@ -2,10 +2,29 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Run Main App",
+            "name": "Streamlit app",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/main_app.py",
+            "module": "streamlit",
+            "args": ["run", "app/streamlit_app.py"],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "CLI: status",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "stockanalyzer",
+            "args": ["status"],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Tests",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "pytest",
+            "args": ["-q"],
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}"
         }

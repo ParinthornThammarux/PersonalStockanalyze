@@ -1,26 +1,2 @@
-# Web Framework (Migrated from DearPyGUI)
-streamlit>=1.28.0
-
-# Data Analysis and Visualization
-pandas>=2.0.0
-numpy>=1.24.0
-matplotlib>=3.7.0
-plotly>=5.17.0
-kaleido>=0.2.1
-mplfinance>=0.12.9
-threadpoolctl==3.6.0
-
-
-# Web Scraping and HTML Parsing
-beautifulsoup4>=4.12.0
-requests>=2.31.0
-
-# Image Processing
-Pillow>=10.0.0
-
-# Stock Data Source
-stockdex>=1.0.6
-yahooquery>=2.3.7
-
-# Additional utilities
-pathlib2>=2.3.7
+# Installs the project and its dependencies (see pyproject.toml); extras: .[talib] .[dev]
+-e .

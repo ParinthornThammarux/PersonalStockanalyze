@@ -36,8 +36,12 @@ def empty_ohlcv() -> pd.DataFrame:
     return pd.DataFrame({c: pd.Series(dtype="float64") for c in CANONICAL_COLUMNS}, index=idx)
 
 
+_RENAMED = {"stock_splits": "splits"}  # yfinance's name for the column we call ``splits``
+
+
 def _canon(name: object) -> str:
-    return str(name).strip().lower().replace(" ", "_")
+    canon = str(name).strip().lower().replace(" ", "_")
+    return _RENAMED.get(canon, canon)
 
 
 def normalize_ohlcv(df: pd.DataFrame | None, *, interval: str = "1d") -> pd.DataFrame:
@@ -128,3 +132,29 @@ class FundamentalsProvider(Protocol):
     def statements(self, symbol: str, *, quarterly: bool = False): ...
 
     def info(self, symbol: str) -> dict: ...
+
+
+EARNINGS_COLUMNS = ["at", "eps_estimate", "eps_actual", "surprise_pct"]
+ECONOMIC_COLUMNS = ["at", "event", "region", "period", "actual", "expected", "last", "revised"]
+
+
+@runtime_checkable
+class EventsProvider(Protocol):
+    def earnings_dates(self, symbol: str, *, limit: int = 12) -> pd.DataFrame:
+        """Past and scheduled reports: ``EARNINGS_COLUMNS`` with ``at`` as a UTC timestamp."""
+
+    def calendar(self, symbol: str) -> dict:
+        """Next dates as ``YYYY-MM-DD`` strings: ``earnings`` (list), ``ex_dividend``, ``dividend_payment``,
+        plus consensus ``eps_estimate`` / ``eps_low`` / ``eps_high`` / ``revenue_estimate`` (None when unknown)."""
+
+    def economic_events(self, start, end) -> pd.DataFrame:
+        """Economic releases of every region between two dates: ``ECONOMIC_COLUMNS``, ``at`` in UTC."""
+
+    def news(self, symbol: str, *, limit: int = 20) -> list[dict]:
+        """Headlines tagged with the symbol, in the shape of ``NewsProvider.headlines``."""
+
+
+@runtime_checkable
+class NewsProvider(Protocol):
+    def headlines(self, query: str, *, lang: str = "en", limit: int = 20) -> list[dict]:
+        """Newest first: dicts with ``title``, ``source``, ``url`` and ``published`` (UTC timestamp or NaT)."""

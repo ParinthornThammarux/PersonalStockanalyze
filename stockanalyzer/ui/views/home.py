@@ -7,9 +7,12 @@ import streamlit as st
 
 from stockanalyzer import __version__
 from stockanalyzer.alerts.watchlist import FAVORITES
+from stockanalyzer.config import display_timezone
+from stockanalyzer.pipelines.nightly import tracked_symbols
 from stockanalyzer.ui import data as ui_data
 from stockanalyzer.ui.context import services
 from stockanalyzer.ui.format import pct
+from stockanalyzer.ui.views.events import agenda_table
 from stockanalyzer.ui.widgets import show_table
 
 
@@ -62,6 +65,16 @@ def render() -> None:
             show_table(pd.DataFrame(events)[["triggered_at", "symbol", "message"]], hide_index=True)
         else:
             st.caption("Nothing has fired yet.")
+
+    st.subheader("Coming up this week")
+    tz = display_timezone()
+    today = sv.events.today(tz)
+    agenda = sv.events.agenda(tracked_symbols(sv.state), today, today + pd.Timedelta(days=7), tz=tz)  # cache only
+    if agenda.empty:
+        st.caption("Nothing cached for the next 7 days. Open **Calendar & News** to load earnings, dividend and "
+                   "economic-release dates for your watchlists and holdings.")
+    else:
+        show_table(agenda_table(agenda, today, tz), hide_index=True)
 
     run = ov["last_run"]
     if run:

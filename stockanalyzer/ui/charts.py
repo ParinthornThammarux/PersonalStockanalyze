@@ -118,18 +118,38 @@ def price_figure(
 
 
 def equity_figure(strategy: pd.Series, benchmark: pd.Series, drawdown: pd.Series | None = None,
-                  strategy_name: str = "Strategy") -> go.Figure:
+                  strategy_name: str = "Strategy", benchmark_name: str = "Buy & hold") -> go.Figure:
     rows = 2 if drawdown is not None else 1
     fig = make_subplots(rows=rows, cols=1, shared_xaxes=True, vertical_spacing=0.04,
                         row_heights=[0.7, 0.3] if rows == 2 else [1.0])
     fig.add_trace(go.Scatter(x=strategy.index, y=strategy, name=strategy_name, line=dict(width=2, color=PALETTE[0])), row=1, col=1)
-    fig.add_trace(go.Scatter(x=benchmark.index, y=benchmark, name="Buy & hold", line=dict(width=1.5, color="#9e9e9e")), row=1, col=1)
+    fig.add_trace(go.Scatter(x=benchmark.index, y=benchmark, name=benchmark_name, line=dict(width=1.5, color="#9e9e9e")), row=1, col=1)
     if drawdown is not None:
         fig.add_trace(go.Scatter(x=drawdown.index, y=drawdown * 100, name="Drawdown %", fill="tozeroy",
                                  line=dict(width=1, color=DOWN)), row=2, col=1)
         fig.update_yaxes(title_text="DD %", row=2, col=1)
     fig.update_yaxes(title_text="Equity", row=1, col=1)
     fig.update_layout(height=520, hovermode="x unified", margin=dict(l=10, r=10, t=30, b=10),
+                      legend=dict(orientation="h", yanchor="bottom", y=1.01, x=0))
+    return fig
+
+
+def weights_figure(weights: pd.DataFrame, *, top: int = 12, height: int = 340) -> go.Figure:
+    """Share of the equity held in each asset over time, stacked; what is missing up to 100% is cash.
+
+    With more than ``top`` assets the ones held least on average are summed into "Other (n)".
+    """
+    order = weights.mean().sort_values(ascending=False).index
+    if len(order) > top:
+        rest = order[top:]
+        weights = pd.concat([weights[order[:top]], weights[rest].sum(axis=1).rename(f"Other ({len(rest)})")], axis=1)
+    fig = go.Figure()
+    for i, col in enumerate(weights.columns):
+        color = "#9e9e9e" if str(col).startswith("Other (") else PALETTE[i % len(PALETTE)]
+        fig.add_trace(go.Scatter(x=weights.index, y=weights[col] * 100, name=str(col), mode="lines", stackgroup="w",
+                                 line=dict(width=0.5, color=color), fillcolor=_rgba(color, 0.75)))
+    fig.update_yaxes(title_text="% of equity", range=[0, 100])
+    fig.update_layout(height=height, hovermode="x unified", margin=dict(l=10, r=10, t=30, b=10),
                       legend=dict(orientation="h", yanchor="bottom", y=1.01, x=0))
     return fig
 
@@ -158,12 +178,79 @@ def heatmap_figure(matrix: pd.DataFrame, *, title: str = "", zmin: float = -1.0,
     return fig
 
 
-def bar_figure(series: pd.Series, *, title: str = "", horizontal: bool = True, fmt: str = ".1%", height: int | None = None) -> go.Figure:
-    s = series.sort_values()
+def bar_figure(series: pd.Series, *, title: str = "", horizontal: bool = True, fmt: str = ".1%", height: int | None = None,
+               sort: bool = True) -> go.Figure:
+    s = series.sort_values() if sort else series
     fig = go.Figure(go.Bar(x=s.values if horizontal else s.index, y=s.index if horizontal else s.values,
                            orientation="h" if horizontal else "v", marker_color=PALETTE[0],
                            text=[format(v, fmt) for v in s.values], textposition="auto"))
     fig.update_layout(title=title, height=height or max(240, 28 * len(s) + 100), margin=dict(l=10, r=10, t=50 if title else 20, b=10))
+    return fig
+
+
+QUADRANT_COLORS = {"Leading": UP, "Weakening": "#ffa726", "Lagging": DOWN, "Improving": PALETTE[0]}
+
+
+def quadrant_of(ratio: float, momentum: float) -> str:
+    if ratio >= 100:
+        return "Leading" if momentum >= 100 else "Weakening"
+    return "Improving" if momentum >= 100 else "Lagging"
+
+
+def rrg_figure(ratio: pd.DataFrame, momentum: pd.DataFrame, *, trail: int = 8, height: int = 600) -> go.Figure:
+    """Relative rotation graph: each sector's path over the last ``trail`` bars, coloured by its current quadrant.
+
+    A sector normally travels clockwise: Improving -> Leading -> Weakening -> Lagging.
+    """
+    ratio = ratio.tail(trail + 1)
+    momentum = momentum.reindex(ratio.index)
+    fig = go.Figure()
+    xs, ys = [100.0], [100.0]
+    for name in ratio.columns:
+        keep = ratio[name].notna() & momentum[name].notna()
+        x, y = ratio.loc[keep, name], momentum.loc[keep, name]
+        if x.empty:
+            continue
+        color = QUADRANT_COLORS[quadrant_of(x.iloc[-1], y.iloc[-1])]
+        xs += list(x)
+        ys += list(y)
+        fig.add_trace(go.Scatter(
+            x=x, y=y, mode="lines+markers+text", name=name, showlegend=False,
+            line=dict(width=1.5, color=_rgba(color, 0.55)),
+            marker=dict(size=[5] * (len(x) - 1) + [12], color=color), text=[""] * (len(x) - 1) + [name],
+            textposition="top center", customdata=[d.strftime("%Y-%m-%d") for d in x.index],
+            hovertemplate=f"<b>{name}</b> %{{customdata}}<br>RS-Ratio %{{x:.1f}}<br>RS-Momentum %{{y:.1f}}<extra></extra>"))
+    half_x, half_y = (max(abs(v - 100) for v in vs) * 1.15 + 0.5 for vs in (xs, ys))
+    x0, x1, y0, y1 = 100 - half_x, 100 + half_x, 100 - half_y, 100 + half_y
+    corners = {"Leading": (100, x1, 100, y1, "right", "top"), "Weakening": (100, x1, y0, 100, "right", "bottom"),
+               "Lagging": (x0, 100, y0, 100, "left", "bottom"), "Improving": (x0, 100, 100, y1, "left", "top")}
+    for quad, (xa, xb, ya, yb, xanchor, yanchor) in corners.items():
+        fig.add_shape(type="rect", x0=xa, x1=xb, y0=ya, y1=yb, fillcolor=_rgba(QUADRANT_COLORS[quad], 0.07), line_width=0, layer="below")
+        fig.add_annotation(x=xb if xanchor == "right" else xa, y=yb if yanchor == "top" else ya, text=f"<b>{quad}</b>", showarrow=False,
+                           xanchor=xanchor, yanchor=yanchor, font=dict(color=QUADRANT_COLORS[quad], size=13))
+    fig.update_xaxes(range=[x0, x1], title_text="RS-Ratio  (relative strength vs its own trend)", zeroline=False)
+    fig.update_yaxes(range=[y0, y1], title_text="RS-Momentum  (is it improving?)", zeroline=False)
+    fig.update_layout(height=height, margin=dict(l=10, r=10, t=20, b=10), hovermode="closest")
+    return fig
+
+
+def bump_figure(ranks: pd.DataFrame, *, highlight: Sequence[str] = (), height: int | None = None) -> go.Figure:
+    """Rank of every sector in every period (1 at the top); ``highlight`` sectors are drawn bold, the rest faded."""
+    labels = [d.strftime("%b %y") for d in ranks.index]
+    fig = go.Figure()
+    for i, name in enumerate(ranks.columns):
+        r = ranks[name]
+        on = not highlight or name in highlight
+        color = PALETTE[i % len(PALETTE)] if on else "#bdbdbd"
+        last = r.last_valid_index()
+        text = [name if d == last else "" for d in ranks.index]
+        fig.add_trace(go.Scatter(x=labels, y=r, name=name, mode="lines+markers+text", text=text, textposition="middle right",
+                                 cliponaxis=False, line=dict(width=3 if on and highlight else 1.5, color=color), marker=dict(size=7 if on else 4),
+                                 opacity=1.0 if on else 0.55, hovertemplate=f"<b>{name}</b> %{{x}}: rank %{{y:.0f}}<extra></extra>"))
+    fig.update_yaxes(range=[len(ranks.columns) + 0.5, 0.5], dtick=1, title_text="Rank (1 = best)")  # reversed: rank 1 on top
+    fig.update_xaxes(type="category")
+    fig.update_layout(height=height or max(360, 34 * len(ranks.columns) + 120), showlegend=False, margin=dict(l=10, r=190, t=20, b=10),
+                      hovermode="closest")
     return fig
 
 
@@ -177,6 +264,43 @@ def scenario_figure(scen: pd.DataFrame, price: float | None = None) -> go.Figure
         fig.add_hline(y=price, line_dash="dash", line_color="#9e9e9e", annotation_text=f"Price {price:,.2f}",
                       annotation_position="top left")
     fig.update_layout(height=300, margin=dict(l=10, r=10, t=30, b=10), yaxis_title="Value per share", showlegend=False)
+    return fig
+
+
+BAND_COLORS = {-2: "#00897b", -1: "#80cbc4", 0: "#9e9e9e", 1: "#ef9a9a", 2: "#c62828"}
+
+
+def _sd_label(k: float) -> str:
+    return "mean" if k == 0 else f"{k:+g} SD"
+
+
+def band_figure(price: pd.Series, implied: pd.DataFrame, *, title: str = "", height: int = 420) -> go.Figure:
+    """Price over the prices that the company's own average multiple, +-1 and +-2 SD would imply that day.
+
+    ``implied`` has one column per band level (see ``bands.implied_prices``); low levels are teal (cheap), high red.
+    """
+    fig = go.Figure()
+    for k in implied.columns:
+        s = implied[k].dropna()
+        fig.add_trace(go.Scatter(x=s.index, y=s, name=_sd_label(k), mode="lines",
+                                 line=dict(width=1.1, color=BAND_COLORS.get(k, "#9e9e9e"), dash="solid" if k == 0 else "dash")))
+    fig.add_trace(go.Scatter(x=price.index, y=price, name="Price", mode="lines", line=dict(width=1.8, color=PALETTE[0])))
+    fig.update_layout(title=title, height=height, hovermode="x unified", margin=dict(l=10, r=10, t=50 if title else 20, b=10),
+                      legend=dict(orientation="h", yanchor="bottom", y=1.01, x=0))
+    return fig
+
+
+def multiple_figure(series: pd.Series, stats, *, name: str, tickformat: str = ".1f", height: int = 320) -> go.Figure:
+    """A multiple through time with its average and +-1 / +-2 SD lines (``stats``: ``bands.BandStats``)."""
+    s = series.dropna()
+    fig = go.Figure()
+    fig.add_hrect(y0=stats.level(-1), y1=stats.level(1), fillcolor="#9e9e9e", opacity=0.12, line_width=0)
+    for k in (-2, -1, 0, 1, 2):
+        fig.add_hline(y=stats.level(k), line_width=1, line_dash="solid" if k == 0 else "dot",
+                      line_color=BAND_COLORS[k], annotation_text=_sd_label(k), annotation_position="right")
+    fig.add_trace(go.Scatter(x=s.index, y=s, name=name, mode="lines", line=dict(width=1.6, color=PALETTE[0])))
+    fig.update_layout(height=height, hovermode="x unified", showlegend=False, margin=dict(l=10, r=60, t=20, b=10),
+                      yaxis=dict(tickformat=tickformat, title=name))
     return fig
 
 

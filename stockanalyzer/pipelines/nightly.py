@@ -1,4 +1,4 @@
-"""The scheduled job: update prices -> compute features -> refresh fundamentals -> check alerts.
+"""The scheduled job: update prices -> compute features -> refresh fundamentals -> events -> check alerts.
 
 Every step is isolated: a failure is recorded in the result and the run continues, so one
 flaky provider call never leaves the screener with yesterday's features *and* no alerts.
@@ -19,12 +19,14 @@ import pandas as pd
 
 from stockanalyzer.alerts.alerts import AlertManager
 from stockanalyzer.alerts.watchlist import WatchlistRepo
-from stockanalyzer.data import universe as uni
+from stockanalyzer.data import sectors, universe as uni
+from stockanalyzer.data.events import EventsService
 from stockanalyzer.data.fundamentals import FundamentalsService
 from stockanalyzer.data.service import MarketData
+from stockanalyzer.portfolio.ledger import TransactionRepo, build_book
 from stockanalyzer.screener.features import compute_universe_features
 from stockanalyzer.screener.store import FeatureStore
-from stockanalyzer.storage.state import to_iso
+from stockanalyzer.storage.state import StateDB, to_iso
 
 log = logging.getLogger(__name__)
 
@@ -39,6 +41,7 @@ class PipelineOptions:
     limit: int | None = None  # keep the N largest by market cap
     symbols: list[str] = field(default_factory=list)
     include_cross_assets: bool = True
+    include_sectors: bool = False  # sector ETFs, asset-class ETFs and the Thai sector baskets for Sector Rotation
     include_watchlists: bool = True
     include_macro: bool = False
     benchmark: str = "SPY"
@@ -47,6 +50,7 @@ class PipelineOptions:
     update_prices: bool = True
     compute_features: bool = True
     fundamentals_limit: int = 0  # refresh at most N stale snapshots per run (0 = skip)
+    refresh_events: bool = False  # earnings/dividend dates of tracked symbols + the economic calendar
     check_alerts: bool = True
     workers: int = 0
     chunk_size: int = 100
@@ -69,12 +73,26 @@ class PipelineResult:
         return "\n".join(lines)
 
 
+def tracked_symbols(state: StateDB) -> list[str]:
+    """Symbols the user follows: every watchlist plus the open positions of every portfolio."""
+    symbols = WatchlistRepo(state).symbols()
+    repo = TransactionRepo(state)
+    for pf in repo.portfolios():
+        try:
+            symbols += list(build_book(repo.list(pf)).positions.index)
+        except ValueError:  # an inconsistent ledger must not hide the watchlists
+            log.warning("portfolio %r cannot be replayed; its holdings are not tracked", pf)
+    return list(dict.fromkeys(symbols))
+
+
 def resolve_symbols(opts: PipelineOptions, md: MarketData) -> list[str]:
     """Everything the run should keep fresh, benchmark and extras first."""
     symbols: list[str] = [opts.benchmark] if opts.benchmark else []
     symbols += [s.upper() for s in opts.symbols]
     if opts.include_cross_assets:
         symbols += list(uni.cross_asset_universe()["symbol"])
+    if opts.include_sectors:
+        symbols += sectors.all_symbols()
     if opts.include_macro:
         symbols += list(uni.MACRO_SERIES)
     if opts.include_watchlists:
@@ -93,6 +111,7 @@ def run_pipeline(
     md: MarketData | None = None,
     fundamentals: FundamentalsService | None = None,
     progress: Callable[[str, int, int, str], None] | None = None,
+    events: EventsService | None = None,
 ) -> PipelineResult:
     opts = opts or PipelineOptions()
     md = md or MarketData()
@@ -150,6 +169,14 @@ def run_pipeline(
             return svc.refresh(stocks, limit=opts.fundamentals_limit, workers=4).summary()
 
         step("fundamentals", refresh)
+
+    if opts.refresh_events:
+        def calendar() -> str:
+            svc = events or EventsService(store=md.store, state=md.state, settings=md.settings)
+            report = svc.refresh(tracked_symbols(md.state))
+            return f"{report.summary()}; {svc.refresh_economic()}"
+
+        step("events", calendar)
 
     if opts.check_alerts:
         def alerts() -> str:

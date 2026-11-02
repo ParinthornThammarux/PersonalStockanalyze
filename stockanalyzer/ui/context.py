@@ -9,6 +9,7 @@ import streamlit as st
 from stockanalyzer.alerts.alerts import AlertManager
 from stockanalyzer.alerts.watchlist import WatchlistRepo
 from stockanalyzer.config import Settings, get_settings
+from stockanalyzer.data.events import EventsService
 from stockanalyzer.data.fundamentals import FundamentalsService
 from stockanalyzer.data.service import MarketData
 from stockanalyzer.portfolio.ledger import TransactionRepo
@@ -22,6 +23,11 @@ class Services:
     state: StateDB
     md: MarketData
     fundamentals: FundamentalsService
+    events: EventsService | None = None  # built over the same store and state when not given
+
+    def __post_init__(self):
+        if self.events is None:
+            self.events = EventsService(store=self.md.store, state=self.state, settings=self.settings)
 
     @property
     def watchlists(self) -> WatchlistRepo:

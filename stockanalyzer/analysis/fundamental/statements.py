@@ -18,6 +18,7 @@ ALIASES: dict[str, dict[str, list[str]]] = {
         "ebitda": ["EBITDA", "Normalized EBITDA"],
         "net_income": ["Net Income", "Net Income Common Stockholders",
                        "Net Income From Continuing Operation Net Minority Interest"],
+        "net_income_common": ["Net Income Common Stockholders", "Diluted NI Availto Com Stockholders", "Net Income"],
         "interest_expense": ["Interest Expense", "Interest Expense Non Operating"],
         "pretax_income": ["Pretax Income"],
         "tax": ["Tax Provision"],
@@ -37,6 +38,7 @@ ALIASES: dict[str, dict[str, list[str]]] = {
         "inventory": ["Inventory"],
         "shares": ["Ordinary Shares Number", "Share Issued"],
         "invested_capital": ["Invested Capital"],
+        "minority": ["Minority Interest"],
     },
     "cashflow": {
         "cfo": ["Operating Cash Flow", "Cash Flow From Continuing Operating Activities"],

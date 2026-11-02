@@ -24,6 +24,7 @@ def _add_universe_args(p: argparse.ArgumentParser) -> None:
     p.add_argument("--min-cap", type=float, dest="min_cap", help="minimum market cap in USD")
     p.add_argument("--symbols", nargs="*", default=[], help="extra symbols (e.g. GC=F PTT.BK)")
     p.add_argument("--no-cross", action="store_true", help="skip indices/commodities/FX/crypto presets")
+    p.add_argument("--no-sectors", action="store_true", dest="no_sectors", help="skip the sector / asset-class rotation symbols")
     p.add_argument("--macro", action="store_true", help="also store FRED macro series")
     p.add_argument("--benchmark", default="SPY")
     p.add_argument("--start", help="history start for symbols new to the store (default: 10 years)")
@@ -35,7 +36,7 @@ def _options(args, **extra):
 
     return PipelineOptions(
         universe=args.universe, limit=args.limit, min_market_cap=args.min_cap, symbols=args.symbols,
-        include_cross_assets=not args.no_cross, include_macro=args.macro, benchmark=args.benchmark,
+        include_cross_assets=not args.no_cross, include_sectors=not args.no_sectors, include_macro=args.macro, benchmark=args.benchmark,
         start=args.start, force=args.force, **extra,
     )
 
@@ -172,9 +173,81 @@ def cmd_alerts(args) -> int:
 def cmd_nightly(args) -> int:
     from stockanalyzer.pipelines.nightly import run_pipeline
 
-    result = run_pipeline(_options(args, fundamentals_limit=args.fundamentals, workers=args.workers))
+    result = run_pipeline(_options(args, fundamentals_limit=args.fundamentals, workers=args.workers,
+                                   refresh_events=not args.no_events))
     print(result.summary())
     return 0 if result.ok else 1
+
+
+def cmd_calendar(args) -> int:
+    from stockanalyzer.config import display_timezone
+    from stockanalyzer.data import events as ev
+    from stockanalyzer.pipelines.nightly import tracked_symbols
+
+    md = _md()
+    svc = ev.EventsService(store=md.store, state=md.state, settings=md.settings)
+    symbols = [s.upper() for s in args.symbols] if args.symbols else tracked_symbols(md.state)
+    report = svc.refresh(symbols, max_age_hours=0 if args.refresh else ev.COMPANY_TTL_HOURS)
+    if report.failed:
+        print(f"could not load: {', '.join(report.failed)}", file=sys.stderr)
+    try:
+        svc.refresh_economic(max_age_hours=0 if args.refresh else ev.ECONOMIC_TTL_HOURS)
+    except Exception as exc:
+        print(f"economic calendar unavailable: {exc}", file=sys.stderr)
+
+    tz = display_timezone()
+    today = svc.today(tz)
+    agenda = svc.agenda(symbols, today, today + pd.Timedelta(days=args.days), regions=args.regions,
+                        key_only=not args.all_releases, tz=tz)
+    print(f"{len(symbols)} symbols, regions {' '.join(args.regions) or '-'}, {today:%Y-%m-%d} + {args.days} days "
+          f"(times UTC{pd.Timestamp.now(tz=tz):%z})")
+    for r in agenda.itertuples(index=False):
+        clock = ""
+        if pd.notna(r.at):  # company days are exchange-local: a US evening report is the next morning in Bangkok
+            local = r.at.tz_convert(tz)
+            shift = (local.normalize().tz_localize(None) - r.day).days
+            clock = f"{local:%H:%M}" + (f"{shift:+d}d" if shift else "")
+        who = r.region if r.kind == ev.ECONOMIC else r.symbol
+        what = r.title if r.kind == ev.ECONOMIC else ev.KIND_LABELS[r.kind]
+        print(f"{r.day:%Y-%m-%d %a} {clock:<8s} {who:<10s} {what:<32s} {ev.describe(r.kind, r.data)}")
+    if agenda.empty:
+        print("nothing scheduled")
+    return 0
+
+
+def cmd_rotation(args) -> int:
+    import pandas as pd
+
+    from stockanalyzer.analysis import rotation as rot
+    from stockanalyzer.data import sectors
+
+    md = _md()
+    universe = sectors.UNIVERSES[args.universe]
+    if args.update:
+        print(md.update(universe.symbols).summary())
+    data = sectors.load_sector_data(md.store, universe)
+    if data is None:
+        print(f"no stored prices for {universe.label}; run with --update (or: nightly)", file=sys.stderr)
+        return 1
+    end = data.asof
+    start = end - pd.DateOffset(months=args.months)
+    sb = data.scoreboard(start, end)
+    bench = rot.window_returns(data.benchmark, start, end)
+    print(f"{universe.label}  {start:%Y-%m-%d} .. {end:%Y-%m-%d}  benchmark {universe.benchmark_name} {bench:+.1%}")
+    ratio, mom = rot.rrg(data.close, data.benchmark)
+    quad = rot.quadrants(ratio, mom).iloc[-1]
+    print(f"{'':25s}{'return':>8s}{'vs bench':>9s}{'rank':>6s}{'was':>5s}{'flow':>7s}  quadrant")
+    for name, r in sb.iterrows():
+        flow = f"{r['flow']:+.2f}" if pd.notna(r["flow"]) else "-"
+        was = f"{r['prev_rank']:.0f}" if pd.notna(r["prev_rank"]) else "-"
+        print(f"{name:25s}{r['ret']:>+8.1%}{r['rel']:>+9.1%}{r['rank']:>6.0f}{was:>5s}{flow:>7s}  {quad.get(name) or '-'}")
+    od = rot.offensive_defensive(data.close, universe.offensive, universe.defensive)
+    if len(od) and od["regime"].iloc[-1]:
+        print(f"risk appetite: {od['regime'].iloc[-1]}")
+    changes = rot.quadrant_changes(rot.quadrants(ratio, mom), since=start).rename(columns={"from": "was"})  # 'from' is a keyword
+    for r in changes.itertuples(index=False):
+        print(f"  {r.date:%Y-%m-%d}  {r.sector}: {r.was} -> {r.to}")
+    return 0
 
 
 def _kv(pairs: list[str]) -> dict:
@@ -262,11 +335,27 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--short", action="store_true", help="allow short positions")
     p.set_defaults(fn=cmd_backtest)
 
-    p = sub.add_parser("nightly", help="update + features + (fundamentals) + alerts")
+    p = sub.add_parser("nightly", help="update + features + (fundamentals) + events + alerts")
     _add_universe_args(p)
     p.add_argument("--fundamentals", type=int, default=0, help="refresh up to N stale snapshots")
     p.add_argument("--workers", type=int, default=0, help="processes for the feature step")
+    p.add_argument("--no-events", action="store_true", dest="no_events",
+                   help="skip earnings/dividend dates and the economic calendar")
     p.set_defaults(fn=cmd_nightly)
+
+    p = sub.add_parser("rotation", help="which sectors / asset classes gained or lost ground, and the rotations in between")
+    p.add_argument("universe", nargs="?", default="us_sectors", choices=["us_sectors", "th_sectors", "asset_classes"])
+    p.add_argument("--months", type=int, default=3, help="length of the window to analyse (default 3)")
+    p.add_argument("--update", action="store_true", help="download / refresh the universe's prices first")
+    p.set_defaults(fn=cmd_rotation)
+
+    p = sub.add_parser("calendar", help="upcoming earnings, dividends and economic releases")
+    p.add_argument("--days", type=int, default=14)
+    p.add_argument("--symbols", nargs="*", help="default: your watchlists and portfolio holdings")
+    p.add_argument("--regions", nargs="*", default=["US", "TH"], help="economic release regions, e.g. US TH CN EU")
+    p.add_argument("--all-releases", action="store_true", dest="all_releases", help="not just the key releases")
+    p.add_argument("--refresh", action="store_true", help="re-fetch even if cached today")
+    p.set_defaults(fn=cmd_calendar)
     return parser
 
 

@@ -9,7 +9,8 @@ Timing contract (this is what prevents look-ahead bias):
   the new position earns bar t+1's close-to-close return. Slightly optimistic.
 
 Costs are ``(commission_bps + slippage_bps)`` per unit of traded notional (one-way).
-Prices are split/dividend adjusted. Trade statistics treat every trade at full size.
+Prices are split/dividend adjusted, i.e. dividends are reinvested on the ex-date. Only the portfolio backtester can
+instead pay them out as cash (``reinvest_dividends=False``). Trade statistics treat every trade at full size.
 """
 
 from __future__ import annotations
@@ -33,6 +34,7 @@ class BacktestConfig:
     max_leverage: float = 1.0
     risk_free: float = 0.0
     periods_per_year: int = 252
+    reinvest_dividends: bool = True  # portfolio backtester only: False pays dividends out as cash that is never invested
 
     def __post_init__(self):
         if self.execution not in ("next_open", "close"):
@@ -162,20 +164,49 @@ def run_backtest(df: pd.DataFrame, position: pd.Series, config: BacktestConfig |
 class PortfolioBacktestResult:
     config: BacktestConfig
     returns: pd.Series
-    equity: pd.Series
-    weights: pd.DataFrame  # weights held after each close's (re)balancing
+    equity: pd.Series  # invested equity plus any dividends paid out so far
+    weights: pd.DataFrame  # weights held at each close, after any trade made by then (share of invested equity)
     turnover: pd.Series
     costs: pd.Series
     metrics: dict[str, float]
+    contribution: pd.DataFrame = field(default_factory=pd.DataFrame)  # each asset's part of every bar's gross return
+    dividends: pd.DataFrame = field(default_factory=pd.DataFrame)  # money each asset's holding was paid, per ex-date bar
+    invested: pd.Series | None = None  # equity in positions; below ``equity`` once dividends are being paid out
+
+    def pnl_by_asset(self) -> pd.Series:
+        """Money each asset made, dividends included: its contribution to a bar's return times the invested equity at
+        the start of that bar (plus its dividends when they are paid out rather than reinvested).
+
+        Together with the costs (``costs`` times the same starting equity) this adds up exactly to the change in equity.
+        """
+        base = self.equity if self.invested is None else self.invested
+        pnl = self.contribution.mul(base.shift(1).fillna(self.config.initial_capital), axis=0).sum()
+        return pnl if self.config.reinvest_dividends else pnl + self.dividends.sum()
+
+
+def _drift(w: np.ndarray, r: np.ndarray) -> tuple[float, np.ndarray]:
+    """Portfolio return of weights ``w`` over asset returns ``r`` and the weights after it (cash earns nothing)."""
+    port = float(w @ r)
+    return port, (w * (1 + r) / (1 + port) if 1 + port > 0 else w)
 
 
 def run_portfolio_backtest(
-    close: pd.DataFrame, target_weights: pd.DataFrame, config: BacktestConfig | None = None
+    close: pd.DataFrame, target_weights: pd.DataFrame, config: BacktestConfig | None = None,
+    open_: pd.DataFrame | None = None, dividend_yield: pd.DataFrame | None = None,
 ) -> PortfolioBacktestResult:
     """Rebalance to ``target_weights`` on the dates it has values (NaN rows = hold and drift).
 
     Weights chosen at close t earn returns from t+1; the remainder (1 - sum) sits in cash at 0%.
     Costs are charged on the turnover needed to get from the drifted weights to the target.
+
+    By default the trade happens at close t. Pass ``open_`` (opens on the same dates and columns) together with
+    ``config.execution == "next_open"`` to trade at the open of t+1 instead: the old weights earn the overnight gap
+    and the new ones the open-to-close move, exactly as ``run_backtest`` does for one asset.
+
+    ``dividend_yield`` is what one unit held at the previous close was paid on each ex-date bar (dividend / that
+    close). It always fills ``dividends`` (money). With ``config.reinvest_dividends`` the prices must already include
+    the dividends (dividend-adjusted), so it only reports them; otherwise the prices must be price-only and the
+    dividends go to a cash balance that is never invested - it is added to ``equity`` but not to ``invested``.
     """
     cfg = config or BacktestConfig()
     close = close.sort_index()
@@ -183,29 +214,65 @@ def run_portfolio_backtest(
     targets = target_weights.reindex(index=close.index, columns=close.columns)
     rebal = targets.notna().any(axis=1).to_numpy()
     tw = targets.fillna(0.0).to_numpy()
+    dy = (np.zeros(rets.shape) if dividend_yield is None
+          else dividend_yield.reindex(index=close.index, columns=close.columns).fillna(0.0).to_numpy())
+
+    next_open = open_ is not None and cfg.execution == "next_open"
+    if next_open:
+        opens = open_.reindex(index=close.index, columns=close.columns)
+        opens = opens.where(opens.notna(), close)  # no open printed: treat the whole move as the gap
+        gap = (opens / close.shift(1) - 1).fillna(0.0).to_numpy()
+        intraday = (close / opens - 1).fillna(0.0).to_numpy()
 
     n, m = rets.shape
     w = np.zeros(m)
     net, turnover, costs = np.zeros(n), np.zeros(n), np.zeros(n)
-    held = np.zeros((n, m))
-    for t in range(n):
-        port = float(w @ rets[t])
-        drifted = w * (1 + rets[t]) / (1 + port) if 1 + port > 0 else w
-        if rebal[t]:
-            turnover[t] = np.abs(tw[t] - drifted).sum()
-            costs[t] = turnover[t] * cfg.cost_rate
-            w = tw[t].copy()
-        else:
-            w = drifted
-        net[t] = port - costs[t]
-        held[t] = w
+    held, contrib, paid = np.zeros((n, m)), np.zeros((n, m)), np.zeros((n, m))
+    invested = np.zeros(n)
+    value = cfg.initial_capital
+    trades = 0
 
-    idx = close.index
-    returns = pd.Series(net, index=idx)
-    equity = cfg.initial_capital * (1 + returns).cumprod()
+    def trade(target: np.ndarray, w: np.ndarray, t: int) -> np.ndarray:
+        nonlocal trades
+        turnover[t] = np.abs(target - w).sum()
+        costs[t] = turnover[t] * cfg.cost_rate
+        trades += 1
+        return target.copy()
+
+    for t in range(n):
+        paid[t] = value * w * dy[t]  # whoever held at the previous close gets the dividend
+        if next_open:
+            gap_part = w * gap[t]
+            port_gap, w = _drift(w, gap[t])
+            if t and rebal[t - 1]:
+                w = trade(tw[t - 1], w, t)
+            day_part = w * intraday[t]
+            port_day, w = _drift(w, intraday[t])
+            gross = (1 + port_gap) * (1 + port_day) - 1
+            contrib[t] = gap_part + (1 + port_gap) * day_part
+        else:
+            contrib[t] = w * rets[t]
+            gross, w = _drift(w, rets[t])
+            if rebal[t]:
+                w = trade(tw[t], w, t)
+        net[t] = gross - costs[t]
+        value *= 1 + net[t]
+        invested[t], held[t] = value, w
+
+    idx, cols = close.index, close.columns
+    invested_s = pd.Series(invested, index=idx)
+    payout = np.zeros(n) if cfg.reinvest_dividends else paid.sum(axis=1)
+    equity = invested_s + pd.Series(payout, index=idx).cumsum()
+    returns = pd.Series(net, index=idx) if cfg.reinvest_dividends else equity.div(equity.shift(1).fillna(cfg.initial_capital)) - 1
     years = max(n / cfg.periods_per_year, 1e-9)
+    received = float(paid.sum())
     metrics = risk.summary(returns, None, cfg.risk_free, cfg.periods_per_year)
     metrics.update(turnover_per_year=float(turnover.sum() / years), total_costs=float(costs.sum()),
-                   final_equity=float(equity.iloc[-1]), rebalances=int(rebal.sum()))
-    return PortfolioBacktestResult(cfg, returns, equity, pd.DataFrame(held, index=idx, columns=close.columns),
-                                   pd.Series(turnover, index=idx), pd.Series(costs, index=idx), metrics)
+                   final_equity=float(equity.iloc[-1]), rebalances=trades,
+                   exposure=float(np.abs(held).sum(axis=1).mean()),
+                   avg_positions=float((np.abs(held) > 1e-9).sum(axis=1).mean()),
+                   dividends_received=received, dividend_yield=received / years / max(float(equity.mean()), 1e-9))
+    return PortfolioBacktestResult(cfg, returns, equity, pd.DataFrame(held, index=idx, columns=cols),
+                                   pd.Series(turnover, index=idx), pd.Series(costs, index=idx), metrics,
+                                   pd.DataFrame(contrib, index=idx, columns=cols), pd.DataFrame(paid, index=idx, columns=cols),
+                                   invested_s)

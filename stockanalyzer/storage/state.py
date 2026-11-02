@@ -45,9 +45,24 @@ CREATE TABLE IF NOT EXISTS transactions (
 CREATE TABLE IF NOT EXISTS fundamentals_cache (
     symbol TEXT PRIMARY KEY, fetched_at TEXT NOT NULL, data TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS statements_archive (
+    symbol TEXT NOT NULL, freq TEXT NOT NULL CHECK (freq IN ('a', 'q')),
+    statement TEXT NOT NULL, period TEXT NOT NULL,
+    first_seen TEXT NOT NULL, last_seen TEXT NOT NULL, data TEXT NOT NULL,
+    PRIMARY KEY (symbol, freq, statement, period)
+);
 CREATE TABLE IF NOT EXISTS pipeline_runs (
     id INTEGER PRIMARY KEY AUTOINCREMENT, started_at TEXT NOT NULL, finished_at TEXT,
     status TEXT NOT NULL, summary TEXT
+);
+CREATE TABLE IF NOT EXISTS events (
+    symbol TEXT NOT NULL, kind TEXT NOT NULL, day TEXT NOT NULL, title TEXT NOT NULL,
+    region TEXT NOT NULL DEFAULT '', at TEXT, data TEXT NOT NULL DEFAULT '{}',
+    PRIMARY KEY (symbol, kind, day, title, region)
+);
+CREATE INDEX IF NOT EXISTS events_by_day ON events(day);
+CREATE TABLE IF NOT EXISTS events_log (
+    scope TEXT PRIMARY KEY, fetched_at TEXT NOT NULL, status TEXT NOT NULL, message TEXT NOT NULL DEFAULT ''
 );
 """
 

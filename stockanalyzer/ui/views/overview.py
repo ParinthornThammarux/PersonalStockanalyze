@@ -10,11 +10,14 @@ from stockanalyzer.analysis.risk import metrics as risk
 from stockanalyzer.analysis.technical import indicators as ind
 from stockanalyzer.analysis.technical import signals
 from stockanalyzer.analysis.fundamental.valuation import snapshot_from_info
+from stockanalyzer.config import display_timezone
+from stockanalyzer.data import events as ev
 from stockanalyzer.domain.assets import AssetClass, infer_asset_class
 from stockanalyzer.ui import charts
 from stockanalyzer.ui import data as ui_data
 from stockanalyzer.ui.context import services
 from stockanalyzer.ui.format import heat, money, pct
+from stockanalyzer.ui.views.events import dividends_block, earnings_block, news_list, when
 from stockanalyzer.ui.widgets import period_and_interval, show_chart, show_table, symbol_picker
 
 HORIZONS = {"1W": 5, "1M": 21, "3M": 63, "6M": 126, "1Y": 252, "3Y": 756, "5Y": 1260}
@@ -38,6 +41,24 @@ def _quote_row(df: pd.DataFrame, daily: pd.DataFrame, symbol: str) -> None:
         c5.metric("Bars loaded", f"{len(df):,}")
 
 
+def _events_line(symbol: str) -> None:
+    """Next earnings and dividend dates under the quote (fetched at most once a day per symbol)."""
+    if not ev.has_company_events(symbol):
+        return
+    sv = services()
+    sv.events.refresh([symbol])
+    today = sv.events.today(display_timezone())
+    upcoming = sv.events.company_events([symbol], today, today + pd.Timedelta(days=120),
+                                        kinds=(ev.EARNINGS, ev.EX_DIVIDEND, ev.DIVIDEND_PAYMENT))
+    parts = [f"{ev.KIND_ICONS[k]} {ev.KIND_LABELS[k]} {g['day'].iloc[0]:%a %d %b} ({when(g['day'].iloc[0], today)})"
+             for k, g in upcoming.groupby("kind", sort=False)]
+    last = sv.events.dividends(symbol).tail(1)
+    if not last.empty:
+        parts.append(f"last XD {last.index[0]:%d %b %Y}: {last.iloc[0]:,.4g}")
+    if parts:
+        st.caption(" · ".join(parts))
+
+
 def render() -> None:
     st.title("🔎 Stock Overview")
     symbol = symbol_picker()
@@ -51,13 +72,14 @@ def render() -> None:
     sv = services()
 
     _quote_row(df, daily, symbol)
+    _events_line(symbol)
 
     close = df["close"]
     overlays = [(f"SMA {n}", ind.sma(close, n)) for n in (20, 50, 200) if len(df) > n]
     skip = not infer_asset_class(symbol).trades_weekends
     show_chart(charts.price_figure(df, title=f"{symbol} ({interval})", overlays=overlays, skip_weekends=skip))
 
-    tab_trend, tab_perf, tab_data = st.tabs(["Trend & signals", "Performance & risk", "Data"])
+    tab_trend, tab_perf, tab_events, tab_data = st.tabs(["Trend & signals", "Performance & risk", "Events & news", "Data"])
 
     with tab_trend:
         if len(daily) < 60:
@@ -104,6 +126,23 @@ def render() -> None:
             with st.expander("Calendar returns"):
                 table = risk.monthly_table(rets) * 100
                 show_table(heat(table.tail(10).style.format("{:+.1f}", na_rep=""), vmin=-10, vmax=10))
+
+    with tab_events:
+        if ev.has_company_events(symbol):
+            left, right = st.columns(2)
+            with left:
+                st.markdown("**Earnings reports**")
+                earnings_block(symbol)
+            with right:
+                st.markdown("**Dividends**")
+                dividends_block(symbol)
+        st.markdown("**Headlines**")
+        items, errors = ui_data.headlines((symbol,), 10)
+        if errors:
+            st.caption(f"Headlines unavailable right now ({errors[symbol]}).")
+        else:
+            news_list(items, sv.events.now(), show_symbol=False)
+        st.caption("All dates across your symbols, plus economic releases: **Calendar & News**.")
 
     with tab_data:
         show_table(df.tail(250).iloc[::-1])

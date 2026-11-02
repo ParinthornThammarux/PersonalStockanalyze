@@ -15,9 +15,12 @@ from __future__ import annotations
 import logging
 import os
 from dataclasses import dataclass
+from datetime import datetime, tzinfo
 from pathlib import Path
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 ENV_HOME = "STOCKANALYZER_HOME"
+ENV_TZ = "STOCKANALYZER_TZ"
 
 
 def default_home() -> Path:
@@ -58,6 +61,17 @@ class Settings:
 
 def get_settings(home: str | Path | None = None) -> Settings:
     return Settings(home=Path(home).expanduser() if home else default_home())
+
+
+def display_timezone() -> tzinfo:
+    """Timezone for showing event times: ``$STOCKANALYZER_TZ`` (e.g. ``Asia/Bangkok``), else the machine's."""
+    name = os.environ.get(ENV_TZ)
+    if name:
+        try:
+            return ZoneInfo(name)
+        except ZoneInfoNotFoundError:
+            logging.getLogger(__name__).warning("unknown %s=%r, using the system timezone", ENV_TZ, name)
+    return datetime.now().astimezone().tzinfo
 
 
 def setup_logging(level: int | str = "INFO") -> None:

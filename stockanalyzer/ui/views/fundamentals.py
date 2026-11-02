@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-from stockanalyzer.analysis.fundamental import dcf_inputs, ratios, scores, valuation
+from stockanalyzer.analysis.fundamental import bands, dcf_inputs, ratios, scores, valuation
 from stockanalyzer.domain.assets import AssetClass, infer_asset_class
 from stockanalyzer.ui import charts
 from stockanalyzer.ui import data as ui_data
@@ -195,6 +195,79 @@ def _dcf_tab(symbol: str, stmts, snap: dict, info: dict) -> None:
                 "- The suggested discount rate uses fixed market assumptions (4.3% risk-free rate, 5% equity premium); move the slider if you disagree.")
 
 
+WINDOWS = {"3 years": 3, "5 years": 5, "10 years": 10, "All": None}
+STANCE_TEXT = {"cheap": "on the **cheap** side of its own history", "fair": "**in line** with its own history",
+               "expensive": "on the **expensive** side of its own history"}
+
+
+def _bands_tab(symbol: str, snap: dict, info: dict) -> None:
+    price_ccy = info.get("currency") or "USD"
+    fin_ccy = info.get("financialCurrency") or price_ccy
+    fx = 1.0
+    if fin_ccy != price_ccy:
+        fx = ui_data.fx_rate(fin_ccy, price_ccy)
+        if fx is None:
+            st.error(f"{symbol} reports in {fin_ccy} but its price is in {price_ccy}, and no exchange rate could be found, "
+                     "so its multiples would mix two currencies.")
+            return
+        st.info(f"Statements are in {fin_ccy}, the price in {price_ccy}: earnings and book value were converted at today's "
+                f"rate (1 {fin_ccy} = {fx:.4g} {price_ccy}) for the whole history, so past currency moves are ignored.")
+
+    hist = ui_data.valuation_history(symbol, fx)
+    if hist.empty:
+        st.info("No price history for this symbol yet.")
+        return
+    yld = bands.dividend_yield_history(hist["close"], ui_data.dividends(symbol))
+    # name -> (series, per-share figure behind the price bands, lower is cheaper, tick format)
+    metrics = {
+        "P/E": (hist["pe"], hist["eps_ttm"], True, ".1f"),
+        "P/B": (hist["pb"], hist["bvps"], True, ".2f"),
+        "EV/EBITDA": (hist["ev_ebitda"], None, True, ".1f"),
+        "Dividend yield": (yld["dividend_yield"], yld["dps_ttm"], False, ".1%"),
+    }
+    window = st.radio("Look-back", list(WINDOWS), index=len(WINDOWS) - 1, horizontal=True, key=f"band_window_{symbol}")
+    years = WINDOWS[window]
+    ready = {name: m for name, m in metrics.items() if bands.band_stats(m[0], years=years) is not None}
+    if not ready:
+        first = hist["eps_ttm"].first_valid_index()
+        st.info("Not enough history to draw bands: a multiple needs at least 120 trading days with positive earnings / book "
+                "value" + (f" (the first figures here are from {first:%b %Y})." if first is not None else ".")
+                + " Each time you open a company its statements are archived, so the history grows with every report.")
+        return
+    name = st.radio("Multiple", list(ready), horizontal=True, key=f"band_metric_{symbol}")
+    series, per_share, lower_cheaper, tick = ready[name]
+    stats = bands.band_stats(series, years=years)
+    known = series.dropna()
+    start = known.index[-1] - pd.DateOffset(years=years) if years else known.index[0]
+    fmt =(lambda v: f"{v:.1%}") if name == "Dividend yield" else (lambda v: f"{v:.2f}")
+
+    where = bands.stance(stats, higher_is_cheaper=not lower_cheaper)
+    st.info(f"{name} is **{fmt(stats.current)}**, {STANCE_TEXT[where]}: higher than {stats.percentile:.0%} of trading days over the "
+            f"{stats.years:.1f} years measured (average {fmt(stats.mean)}, ±1 SD {fmt(max(stats.level(-1), 0))} - {fmt(stats.level(1))}).")
+    m = st.columns(4)
+    m[0].metric(f"{name} now", fmt(stats.current))
+    m[1].metric("Average", fmt(stats.mean), help="Mean of the daily multiple over the window, outliers removed.")
+    m[2].metric("Percentile", f"{stats.percentile:.0%}", help="Share of days in the window with a multiple at or below today's.")
+    m[3].metric("Distance from average", f"{stats.zscore:+.1f} SD" if stats.zscore == stats.zscore else "-")
+
+    if per_share is not None:
+        implied = bands.implied_prices(per_share, stats, inverse=not lower_cheaper)
+        show_chart(charts.band_figure(hist["close"].loc[start:], implied.loc[start:], title=f"Price vs {name} bands ({price_ccy})"))
+        st.caption("Each line is the price the company's own average multiple (or ±1 / ±2 standard deviations) would imply "
+                   "given the earnings, book value or dividends known on that day.")
+    show_chart(charts.multiple_figure(series.loc[start:], stats, name=name, tickformat=tick))
+
+    notes = [f"{stats.days:,} trading days measured" + (f"; {stats.excluded} days with near-zero earnings ignored" if stats.excluded else "")]
+    first = hist["eps_ttm"].first_valid_index()
+    if first is not None:
+        notes.append(f"statements start {first:%b %Y} (Yahoo gives about 4-5 years; older periods exist only once the app has archived them)")
+    st.caption(" · ".join(notes))
+    mine, yahoo = hist["pe"].dropna(), snap.get("pe")
+    if name == "P/E" and len(mine) and yahoo and abs(mine.iloc[-1] / yahoo - 1) > 0.25:
+        st.warning(f"The P/E here ({mine.iloc[-1]:.1f}) differs from Yahoo's trailing P/E ({yahoo:.1f}). Per-share figures in the statements "
+                   "can be on another share basis than the quoted price (ADRs) or the last report may be stale, so read this band as indicative.")
+
+
 def render() -> None:
     st.title("📑 Fundamentals & Valuation")
     symbol = symbol_picker()
@@ -224,7 +297,7 @@ def render() -> None:
     c[5].metric("FCF yield", pct(snap.get("fcf_yield")))
 
     r = ratios.compute_ratios(stmts)
-    t_stat, t_ratio, t_score, t_dcf = st.tabs(["Statements", "Ratios", "Quality scores", "DCF valuation"])
+    t_stat, t_ratio, t_score, t_bands, t_dcf = st.tabs(["Statements", "Ratios", "Quality scores", "Valuation bands", "DCF valuation"])
 
     with t_stat:
         which = st.radio("Statement", ["Income", "Balance sheet", "Cash flow"], horizontal=True)
@@ -256,6 +329,9 @@ def render() -> None:
             show_table(pd.DataFrame([z.components], index=["value"]).style.format("{:.3f}"))
             if snap.get("industry") and any(k in snap["industry"] for k in ("Banks", "Insurance", "Capital Markets")):
                 st.warning("Altman Z is not meaningful for banks and insurers.")
+
+    with t_bands:
+        _bands_tab(symbol, snap, info)
 
     with t_dcf:
         _dcf_tab(symbol, stmts, snap, info)

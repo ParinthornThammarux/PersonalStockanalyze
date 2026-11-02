@@ -35,6 +35,11 @@ def _market_for(symbol: str) -> tuple[str, int, int]:
     return _MARKETS[""]
 
 
+def exchange_timezone(symbol: str) -> str:
+    """IANA timezone of the symbol's exchange (New York unless the suffix names another market)."""
+    return _market_for(symbol)[0]
+
+
 def _previous_weekday(d):
     while d.weekday() >= 5:
         d -= timedelta(days=1)

@@ -6,7 +6,7 @@ import json
 import logging
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import datetime, timedelta, timezone
 from typing import Callable, Iterable
 
@@ -14,8 +14,9 @@ import pandas as pd
 
 from stockanalyzer.analysis.fundamental.valuation import snapshot_from_info
 from stockanalyzer.config import Settings, get_settings
-from stockanalyzer.data.providers.base import FundamentalsProvider
+from stockanalyzer.data.providers.base import FundamentalsProvider, ProviderError
 from stockanalyzer.data.providers.yfinance_provider import YFinanceProvider
+from stockanalyzer.data.statement_archive import StatementArchive
 from stockanalyzer.domain.financials import FinancialStatements
 from stockanalyzer.storage.state import StateDB, to_iso
 
@@ -30,11 +31,13 @@ class RefreshReport:
     fresh: int = 0
     refreshed: int = 0
     empty: list[str] = field(default_factory=list)
+    failed: dict[str, str] = field(default_factory=dict)
     elapsed: float = 0.0
 
     def summary(self) -> str:
+        failed = f", {len(self.failed)} failed" if self.failed else ""
         return (f"{self.requested} requested, {self.fresh} fresh, {self.refreshed} refreshed, "
-                f"{len(self.empty)} empty in {self.elapsed:.1f}s")
+                f"{len(self.empty)} empty{failed} in {self.elapsed:.1f}s")
 
 
 class FundamentalsService:
@@ -50,10 +53,27 @@ class FundamentalsService:
         self.provider = provider or YFinanceProvider()
         self.state = state or StateDB(self.settings.state_db)
         self._now = now or (lambda: datetime.now(timezone.utc))
+        self.archive = StatementArchive(self.state)
 
     # -- live ---------------------------------------------------------------------------------
-    def statements(self, symbol: str, *, quarterly: bool = False) -> FinancialStatements:
-        return self.provider.statements(symbol.upper(), quarterly=quarterly)
+    def statements(self, symbol: str, *, quarterly: bool = False, splits: pd.Series | None = None) -> FinancialStatements:
+        """Yahoo's current periods merged with every period archived earlier (``splits``: ratio by date).
+
+        When Yahoo fails or has nothing, the archive alone is returned if it holds anything.
+        """
+        symbol = symbol.upper()
+        try:
+            fresh = self.provider.statements(symbol, quarterly=quarterly)
+        except ProviderError:
+            archived = self.archive.load(symbol, quarterly, splits)
+            if archived.is_empty:
+                raise
+            log.warning("statements(%s) failed, serving the archive", symbol)
+            return archived
+        if fresh.is_empty:
+            return self.archive.load(symbol, quarterly, splits)
+        # archive under the symbol asked for, which is also the one it is read back by
+        return self.archive.merge(replace(fresh, symbol=symbol, quarterly=quarterly), self._now(), splits)
 
     def info(self, symbol: str) -> dict:
         return self.provider.info(symbol.upper())

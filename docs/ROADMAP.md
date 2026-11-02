@@ -20,7 +20,7 @@ Status of the original wish list (`note.md`) and what comes next.
 | 12 | Detect trend | Done | `signals.trend_state`, regression slope/R², S/R zones |
 | 13 | Filter and sort stock | Done | Screener |
 | 14 | Tax calculator | **Not done** | Needs your jurisdiction's rules. The ledger already produces FIFO lots with holding days |
-| 15 | Simulation portfolio | Done | Transaction ledger (paper trades work too) and rotation backtest |
+| 15 | Simulation portfolio | Done | Transaction ledger (paper trades work too), multi-asset strategy backtest and rotation backtest |
 | 16 | Risk evaluation | Done | Portfolio & Risk |
 | 17 | Finance and fundamental analyser | Done | Fundamentals & Valuation |
 | 18 | Group indicator | Done | Registry categories + multi-panel charts |
@@ -42,13 +42,22 @@ Status of the original wish list (`note.md`) and what comes next.
 ## Next
 
 **Data**
-- Thai market universe (SET/mai symbol list as CSV -> `load_symbol_file`; the `.BK` close time is already handled).
+- Thai market universe beyond SET50 (SET100 / mai: set.or.th blocks scripted access, so import a CSV -> `load_symbol_file`; the `.BK` close time is already handled). Index pools are snapshots from `scripts/build_pools.py`; rerun it to refresh, and a point-in-time membership history would remove the survivorship bias of testing over today's members.
 - Point-in-time fundamentals and a survivorship-bias-free universe (needs a paid source) before any factor backtests.
-- Intraday bars in the store; earnings and dividend calendars; corporate-action table.
+- Intraday bars in the store; corporate-action table. (Earnings, dividend and economic calendars: done, see Calendar & News.)
+- Calendar follow-ups: alerts before an earnings / XD date, SET dividend amounts and payment dates from SET itself,
+  company names for SET symbols.
 - A second price provider (Tiingo / Polygon / FMP behind the existing `PriceProvider` protocol) as a fallback for Yahoo outages.
 
 **Analysis**
+- Fundamental / valuation (in progress): valuation bands and the statement archive are done. Next: peer comparison with
+  relative valuation, analyst consensus and EPS-estimate revisions, a bank mode (justified P/B instead of FCF DCF), Beneish
+  M-score / accruals / Magic Formula, dividend quality, then a football-field summary and screener columns for all of it.
+  Ownership (insiders, institutions) is parked: Yahoo has it for US stocks only.
 - Ichimoku, Supertrend, volume profile; multi-timeframe confirmation in the screener.
+- Sector rotation (done): US sector ETFs, asset classes, Thai baskets. Follow-ups: alerts when a sector changes quadrant or
+  the risk regime flips; official SET sector membership (needs a SET source); industries below the 11 US sectors; money flow
+  from ETF shares outstanding (needs a paid source - Yahoo only has the current figure).
 - Factor exposure (market / size / value / momentum) in Portfolio & Risk.
 - Walk-forward strategy optimisation (re-fit parameters on a rolling window) instead of one in-/out-of-sample split.
 

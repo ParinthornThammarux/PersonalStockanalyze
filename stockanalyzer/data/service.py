@@ -161,16 +161,19 @@ class MarketData:
         return pd.concat([stored, newer])
 
     def prices_many(
-        self, symbols: Iterable[str], *, period: str | None = "1y", start=None, adjusted: bool = True
+        self, symbols: Iterable[str], *, period: str | None = "1y", start=None, adjusted: bool = True, live: bool = True
     ) -> dict[str, pd.DataFrame]:
         return {s: df for s in dict.fromkeys(x.upper() for x in symbols)
-                if not (df := self.prices(s, period=period, start=start, adjusted=adjusted)).empty}
+                if not (df := self.prices(s, period=period, start=start, adjusted=adjusted, live=live)).empty}
 
     def close_matrix(
-        self, symbols: Iterable[str], *, period: str | None = "2y", start=None
+        self, symbols: Iterable[str], *, period: str | None = "2y", start=None, live: bool = True
     ) -> pd.DataFrame:
-        """Adjusted closes side by side (dates x symbols), forward-filled over non-shared holidays."""
-        frames = self.prices_many(symbols, period=period, start=start)
+        """Adjusted closes side by side (dates x symbols), forward-filled over non-shared holidays.
+
+        ``live=False`` leaves out today's unfinished bar and saves one network call per symbol.
+        """
+        frames = self.prices_many(symbols, period=period, start=start, live=live)
         if not frames:
             return pd.DataFrame()
         return pd.DataFrame({s: df["close"] for s, df in frames.items()}).sort_index().ffill()

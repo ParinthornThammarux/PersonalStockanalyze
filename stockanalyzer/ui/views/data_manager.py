@@ -29,10 +29,12 @@ def _update_tab() -> None:
     limit = None
     if mode == "Largest US companies":
         limit = st.slider("How many (by market cap)", 25, UI_LIMIT, 100, 25, key="dm_limit")
-    c1, c2, c3 = st.columns(3)
+    c1, c2, c3, c4 = st.columns(4)
     cross = c1.checkbox("Cross-asset presets", value=True, key="dm_cross", help="Indices, commodities, FX, crypto, key ETFs")
-    macro = c2.checkbox("FRED macro series", value=False, key="dm_macro")
-    wl = c3.checkbox("Watchlist symbols", value=True, key="dm_wl")
+    sect = c2.checkbox("Sector rotation set", value=True, key="dm_sectors",
+                       help="US sector ETFs, asset-class ETFs and the stocks of the Thai sector baskets (~75 symbols)")
+    macro = c3.checkbox("FRED macro series", value=False, key="dm_macro")
+    wl = c4.checkbox("Watchlist symbols", value=True, key="dm_wl")
     extra = st.text_input("Extra symbols (comma separated)", "", key="dm_extra")
     start = st.date_input("History start for new symbols", pd.Timestamp.today() - pd.DateOffset(years=10), key="dm_start")
     force = st.checkbox("Force re-download", value=False, key="dm_force")
@@ -40,7 +42,7 @@ def _update_tab() -> None:
 
     opts = PipelineOptions(universe="us" if mode == "Largest US companies" else "none", limit=limit,
                            symbols=[s.strip().upper() for s in extra.split(",") if s.strip()],
-                           include_cross_assets=cross, include_macro=macro, include_watchlists=wl)
+                           include_cross_assets=cross, include_sectors=sect, include_macro=macro, include_watchlists=wl)
     symbols = resolve_symbols(opts, sv.md)
     st.caption(f"{len(symbols):,} symbols selected.")
     if st.button("Update now", type="primary", disabled=not symbols, key="dm_run"):
@@ -60,6 +62,7 @@ def _update_tab() -> None:
                     st.success(f"Features computed for {len(frame):,} symbols.")
         ui_data.store_overview.clear()
         ui_data.stored_closes.clear()
+        ui_data.rotation_data.clear()
 
 
 def _fundamentals_tab() -> None:
@@ -115,6 +118,6 @@ def render() -> None:
         st.code(
             "# once: everything in the packaged US list (~6 min first time, seconds afterwards)\n"
             "python -m stockanalyzer nightly --universe us --fundamentals 300 --workers 4\n\n"
-            "# crontab -e   (weekdays 22:30 after the US close; adjust for your timezone)\n"
-            "30 22 * * 1-5  cd /path/to/PersonalStockanalyze && python -m stockanalyzer nightly --fundamentals 300",
+            "# crontab -e   (after the US close in your timezone: 05:30 Tue-Sat in Bangkok)\n"
+            "30 5 * * 2-6  cd /path/to/PersonalStockanalyze && python -m stockanalyzer nightly --fundamentals 300",
             language="bash")

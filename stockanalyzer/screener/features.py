@@ -20,7 +20,7 @@ from stockanalyzer.analysis.technical import indicators as ind
 from stockanalyzer.analysis.technical import signals, sr_zones
 from stockanalyzer.data.service import adjust_ohlc
 from stockanalyzer.data.store import PriceStore
-from stockanalyzer.domain.assets import AssetClass, infer_asset_class
+from stockanalyzer.domain.assets import DEFAULT_BENCHMARK, AssetClass, benchmark_for, infer_asset_class
 
 log = logging.getLogger(__name__)
 
@@ -90,6 +90,14 @@ def compute_features(
         v = _last(sma[k])
         return last / v - 1 if v == v and v else NAN
 
+    def above(k: int) -> float | bool:
+        """Price over its SMA(k); unknown (NaN) while the stock has fewer than k bars, never a made-up False."""
+        d = dist(k)
+        return NAN if d != d else bool(d > 0)
+
+    fast, slow = _last(sma[50]), _last(sma[200])
+    votes = max(int(trend["available"]), 1)
+
     daily = close.pct_change(fill_method=None)
     beta = rs = NAN
     if benchmark is not None:
@@ -108,9 +116,11 @@ def compute_features(
         "ret_126d": ret(126), "ret_252d": ret(252),
         "mom_12_1": float(close.iloc[-22] / close.iloc[-253] - 1) if n >= 253 else NAN,
         "sma20_dist": dist(20), "sma50_dist": dist(50), "sma200_dist": dist(200),
-        "above_sma50": bool(dist(50) > 0), "above_sma200": bool(dist(200) > 0),
-        "golden_cross": bool(_last(sma[50]) > _last(sma[200])),
-        "trend_score": int(trend["score"]), "trend_label": trend["label"],
+        "above_sma50": above(50), "above_sma200": above(200),
+        "golden_cross": NAN if fast != fast or slow != slow else bool(fast > slow),
+        # fewer than five votes (young stock) is scaled back to -5..5 so it ranks against the others
+        "trend_score": int(np.sign(trend["score"]) * np.floor(abs(trend["score"]) * 5 / votes + 0.5)),
+        "trend_label": trend["label"],
         "adx14": _last(adx["adx"]), "trend_r2": trend["r2"],
         "trend_slope_annual": trend["slope_annual_pct"] / 100 if trend["slope_annual_pct"] == trend["slope_annual_pct"] else NAN,
         "rsi14": _last(ind.rsi(close)), "stoch_k": _last(stoch["stoch_k"]),
@@ -143,11 +153,11 @@ def compute_features(
 
 
 def _compute_chunk(args: tuple) -> list[tuple[str, dict | None]]:
-    chunk, benchmark, include_zones = args
+    chunk, benchmarks, include_zones = args
     out = []
-    for symbol, frame in chunk:
+    for symbol, frame, bench_key in chunk:
         try:
-            out.append((symbol, compute_features(frame, benchmark, include_zones=include_zones)))
+            out.append((symbol, compute_features(frame, benchmarks.get(bench_key), include_zones=include_zones)))
         except Exception as exc:  # one malformed symbol must not sink the run
             log.warning("features failed for %s: %s", symbol, exc)
             out.append((symbol, None))
@@ -164,19 +174,31 @@ def compute_universe_features(
     workers: int = 0,
     chunk_size: int = 150,
     include_zones: bool = True,
+    local_benchmarks: bool = True,
 ) -> pd.DataFrame:
-    """Feature table indexed by symbol for every symbol in the store (or ``symbols``)."""
+    """Feature table indexed by symbol for every symbol in the store (or ``symbols``).
+
+    ``beta_1y`` and ``rs_126`` are measured against ``benchmark`` - except for symbols of a market with its own
+    benchmark (Thai ``.BK`` stocks use the SET50 ETF ``TDEX.BK``) while ``local_benchmarks`` is on. If that
+    benchmark is not in the store they are left empty rather than measured against the wrong market.
+    """
     long = store.read_many(symbols, interval, last_n=last_n, columns=READ_COLUMNS)
     if long.empty:
         return pd.DataFrame(columns=list(FEATURE_INFO)).rename_axis("symbol")
 
-    bench = None
-    if benchmark:
-        b = store.read(benchmark, interval)
-        bench = b["adj_close"] if not b.empty else None
+    def bench_key(symbol: str) -> str | None:
+        local = benchmark_for(symbol)
+        return local if local_benchmarks and local != DEFAULT_BENCHMARK else benchmark
 
-    items = [(sym, g.drop(columns="symbol").set_index("ts")) for sym, g in long.groupby("symbol", sort=False)]
-    chunks = [(items[i : i + chunk_size], bench, include_zones) for i in range(0, len(items), chunk_size)]
+    keys = {sym: bench_key(sym) for sym in long["symbol"].unique()}
+    benchmarks: dict[str, pd.Series] = {}
+    for key in {k for k in keys.values() if k}:
+        b = store.read(key, interval)
+        if not b.empty:
+            benchmarks[key] = b["adj_close"]
+
+    items = [(sym, g.drop(columns="symbol").set_index("ts"), keys[sym]) for sym, g in long.groupby("symbol", sort=False)]
+    chunks = [(items[i : i + chunk_size], benchmarks, include_zones) for i in range(0, len(items), chunk_size)]
 
     if workers and workers > 1 and len(chunks) > 1:
         with ProcessPoolExecutor(max_workers=workers) as pool:
@@ -187,6 +209,9 @@ def compute_universe_features(
     rows = {sym: feat for sym, feat in results if feat is not None}
     df = pd.DataFrame.from_dict(rows, orient="index", columns=list(FEATURE_INFO))
     df.index.name = "symbol"
+    for column, (_, kind) in FEATURE_INFO.items():
+        if kind == "bool":  # True / False / unknown (young stocks have no SMA200)
+            df[column] = df[column].astype("boolean")
     # Yahoo's crypto volume is already in USD and index volume is meaningless, so close*volume
     # would pass any liquidity filter for the wrong reason.
     non_traded = [s for s in df.index if infer_asset_class(s) not in (AssetClass.EQUITY, AssetClass.ETF)]

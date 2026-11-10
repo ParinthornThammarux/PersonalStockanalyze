@@ -14,6 +14,57 @@ from stockanalyzer.domain.assets import AssetClass, infer_asset_class, parse_mar
 UNIVERSE_COLUMNS = ["symbol", "listed_symbol", "name", "industry", "market_cap", "asset_class"]
 SPAC_INDUSTRY = "Shell Companies"
 
+# Yahoo's 11 sectors and the industries under each (Yahoo's own taxonomy; "Consumer Discretionary" is not a Yahoo industry
+# but appears in the packaged list)
+SECTOR_INDUSTRIES: dict[str, tuple[str, ...]] = {
+    "Technology": ("Communication Equipment", "Computer Hardware", "Consumer Electronics", "Electronic Components",
+                   "Electronics & Computer Distribution", "Information Technology Services", "Scientific & Technical Instruments",
+                   "Semiconductor Equipment & Materials", "Semiconductors", "Software - Application", "Software - Infrastructure",
+                   "Solar"),
+    "Communication Services": ("Advertising Agencies", "Broadcasting", "Electronic Gaming & Multimedia", "Entertainment",
+                               "Internet Content & Information", "Publishing", "Telecom Services"),
+    "Consumer Cyclical": ("Apparel Manufacturing", "Apparel Retail", "Auto & Truck Dealerships", "Auto Manufacturers", "Auto Parts",
+                          "Consumer Discretionary", "Department Stores", "Footwear & Accessories",
+                          "Furnishings, Fixtures & Appliances", "Gambling", "Home Improvement Retail", "Internet Retail", "Leisure",
+                          "Lodging", "Luxury Goods", "Packaging & Containers", "Personal Services", "Recreational Vehicles",
+                          "Residential Construction", "Resorts & Casinos", "Restaurants", "Specialty Retail", "Textile Manufacturing",
+                          "Travel Services"),
+    "Consumer Defensive": ("Beverages - Brewers", "Beverages - Non-Alcoholic", "Beverages - Wineries & Distilleries", "Confectioners",
+                           "Discount Stores", "Education & Training Services", "Farm Products", "Food Distribution",
+                           "Grocery Stores", "Household & Personal Products", "Packaged Foods", "Tobacco"),
+    "Healthcare": ("Biotechnology", "Diagnostics & Research", "Drug Manufacturers - General", "Drug Manufacturers - Specialty & Generic",
+                   "Health Information Services", "Healthcare Plans", "Medical Care Facilities", "Medical Devices",
+                   "Medical Distribution", "Medical Instruments & Supplies", "Pharmaceutical Retailers"),
+    "Financial Services": ("Asset Management", "Asset Management - Income", "Banks - Diversified", "Banks - Regional",
+                           "Capital Markets", "Credit Services", "Financial - Credit Services", "Financial Conglomerates",
+                           "Financial Data & Stock Exchanges", "Insurance - Diversified", "Insurance - Life",
+                           "Insurance - Property & Casualty", "Insurance - Reinsurance", "Insurance - Specialty", "Insurance Brokers",
+                           "Mortgage Finance", SPAC_INDUSTRY),
+    "Industrials": ("Aerospace & Defense", "Airlines", "Airports & Air Services", "Building Products & Equipment",
+                    "Business Equipment & Supplies", "Conglomerates", "Consulting Services", "Electrical Equipment & Parts",
+                    "Engineering & Construction", "Farm & Heavy Construction Machinery", "Industrial Distribution",
+                    "Infrastructure Operations", "Integrated Freight & Logistics", "Marine Shipping", "Metal Fabrication",
+                    "Pollution & Treatment Controls", "Railroads", "Rental & Leasing Services", "Security & Protection Services",
+                    "Specialty Business Services", "Specialty Industrial Machinery", "Staffing & Employment Services",
+                    "Tools & Accessories", "Trucking", "Waste Management"),
+    "Basic Materials": ("Agricultural Inputs", "Aluminum", "Building Materials", "Chemicals", "Coking Coal", "Copper", "Gold",
+                        "Lumber & Wood Production", "Other Industrial Metals & Mining", "Other Precious Metals & Mining",
+                        "Paper & Paper Products", "Silver", "Specialty Chemicals", "Steel"),
+    "Energy": ("Oil & Gas Drilling", "Oil & Gas E&P", "Oil & Gas Exploration & Production", "Oil & Gas Equipment & Services",
+               "Oil & Gas Integrated", "Oil & Gas Midstream", "Oil & Gas Refining & Marketing", "Thermal Coal", "Uranium"),
+    "Utilities": ("Utilities - Diversified", "Utilities - Independent Power Producers", "Utilities - Regulated Electric",
+                  "Utilities - Regulated Gas", "Utilities - Regulated Water", "Utilities - Renewable"),
+    "Real Estate": ("REIT - Diversified", "REIT - Healthcare Facilities", "REIT - Hotel & Motel", "REIT - Industrial", "REIT - Mortgage",
+                    "REIT - Office", "REIT - Residential", "REIT - Retail", "REIT - Specialty", "Real Estate", "Real Estate - Development",
+                    "Real Estate - Diversified", "Real Estate Services"),
+}
+_SECTOR_OF = {industry: sector for sector, industries in SECTOR_INDUSTRIES.items() for industry in industries}
+
+
+def sector_of(industry: str | None) -> str | None:
+    """Yahoo sector of a Yahoo industry label; ``None`` when unknown or blank."""
+    return _SECTOR_OF.get((industry or "").strip())
+
 
 def us_listed_to_yahoo(symbol: str) -> str:
     """Map exchange notation to Yahoo's: ``BRK.B -> BRK-B``, ``ALB.PRA -> ALB-PA``."""
@@ -49,6 +100,31 @@ def load_us_stocks() -> pd.DataFrame:
     return _frame(rows)
 
 
+def is_thai_common_stock(symbol: str, short_name: str | None = None) -> bool:
+    """A SET / mai share, as opposed to what Yahoo lists beside it: depositary receipts of foreign stocks (``NVDA80.BK``,
+    named ``NVDA80_DR ...``), NVDRs (``PTT-R.BK``), warrants (``AAV-W1.BK``) and preferred / foreign-board lines (``-P``, ``-F``)."""
+    s = symbol.strip().upper()
+    if not s.endswith(".BK"):
+        return False
+    code = s[:-3]
+    if not re.fullmatch(r"[A-Z0-9&]+", code):
+        return False
+    return not (short_name and short_name.upper().startswith(f"{code}_DR"))
+
+
+def load_th_stocks() -> pd.DataFrame:
+    """Every Thai share the app knows (the SET and mai, snapshot of Yahoo's list) with a US-dollar market cap and, where known, an industry."""
+    raw = json.loads(
+        resources.files("stockanalyzer.resources").joinpath("th_stocks.json").read_text("utf-8")
+    )
+    rows = [
+        {"symbol": s["yahoo"], "listed_symbol": s["symbol"], "name": s["name"], "industry": s["industry"],
+         "market_cap": s["market_cap"], "asset_class": AssetClass.EQUITY.value}
+        for s in raw["stocks"]
+    ]
+    return _frame(rows)
+
+
 # (symbol, name, asset class) -- all valid Yahoo Finance tickers.
 CROSS_ASSETS: list[tuple[str, str, AssetClass]] = [
     ("^GSPC", "S&P 500", AssetClass.INDEX),
@@ -57,6 +133,7 @@ CROSS_ASSETS: list[tuple[str, str, AssetClass]] = [
     ("^RUT", "Russell 2000", AssetClass.INDEX),
     ("^VIX", "VIX Volatility", AssetClass.INDEX),
     ("^SET.BK", "SET Index (Thailand)", AssetClass.INDEX),
+    ("TDEX.BK", "SET50 ETF (Thailand)", AssetClass.ETF),
     ("^N225", "Nikkei 225", AssetClass.INDEX),
     ("^HSI", "Hang Seng", AssetClass.INDEX),
     ("^FTSE", "FTSE 100", AssetClass.INDEX),

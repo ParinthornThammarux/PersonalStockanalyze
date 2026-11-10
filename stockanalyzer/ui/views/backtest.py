@@ -12,6 +12,7 @@ from stockanalyzer.backtest.engine import BacktestConfig, run_backtest, run_port
 from stockanalyzer.data import pools as stock_pools
 from stockanalyzer.data import sectors
 from stockanalyzer.data import universe as uni
+from stockanalyzer.domain.assets import currency_of
 from stockanalyzer.ui import charts
 from stockanalyzer.ui import data as ui_data
 from stockanalyzer.ui.context import services
@@ -133,6 +134,10 @@ def _strategy_tab() -> None:
     if not frames:
         st.error("None of these symbols has prices. Update them in Data Manager or check the tickers.")
         return
+    currencies = sorted({currency_of(sym) for sym in frames})
+    if len(currencies) > 1:
+        st.info(f"These assets are quoted in {', '.join(currencies)}. Each is tested in its own currency and the results are added up "
+                "as if they were one, so exchange-rate moves (and the cost of converting) are not part of the result.")
     if trim and len(frames) > 1:
         frames, short = S.drop_short_histories(frames, MIN_HISTORY)
         if short:

@@ -17,6 +17,7 @@ def rebalance_orders(
     whole_shares: bool = True,
     min_trade_value: float = 0.0,
     fee_bps: float = 0.0,
+    lot_sizes: pd.Series | None = None,
 ) -> pd.DataFrame:
     """Orders that move ``holdings`` toward ``target_weights`` of total equity (holdings + cash).
 
@@ -36,8 +37,14 @@ def rebalance_orders(
 
     equity = float((qty * px).sum() + cash)
     current_value = qty * px
-    delta_shares = (target * equity - current_value) / px
-    delta_shares = np.trunc(delta_shares) if whole_shares else delta_shares
+    lots = pd.Series(1.0, index=symbols) if lot_sizes is None else lot_sizes.reindex(symbols).fillna(1.0).astype(float).clip(lower=1.0)
+
+    def snap(shares: pd.Series) -> pd.Series:
+        return np.trunc(shares / lots) * lots if whole_shares else shares
+
+    delta_shares = snap((target * equity - current_value) / px)
+    exits = (target == 0) & (qty > 0) & (lots > 1) & whole_shares
+    delta_shares[exits] = -qty[exits]
     delta_shares[(delta_shares.abs() * px) < max(min_trade_value, 1e-12)] = 0.0
     delta_shares = delta_shares.clip(lower=-qty)  # cannot sell more than held
 
@@ -49,7 +56,7 @@ def rebalance_orders(
     if need > available + 1e-9 and need > 0:
         scale = max(available, 0.0) / need
         delta_shares = delta_shares.where(delta_shares < 0, delta_shares * scale)
-        delta_shares = np.trunc(delta_shares).where(delta_shares > 0, delta_shares) if whole_shares else delta_shares
+        delta_shares = snap(delta_shares).where(delta_shares > 0, delta_shares)
 
     value = delta_shares.abs() * px
     fees = value * fee

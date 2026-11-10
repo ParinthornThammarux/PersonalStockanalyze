@@ -62,3 +62,22 @@ def show_table(df, **kwargs) -> None:
 
 def show_chart(fig, **kwargs) -> None:
     st.plotly_chart(fig, width="stretch", **kwargs)
+
+
+def amount_scale(exact: float) -> tuple[float, str, int, float]:
+    """(scale, unit letter, decimals, value shown in that unit) for a money/count box."""
+    scale, unit = (1e9, "B") if abs(exact) >= 1e9 else (1e6, "M")
+    decimals = 3 if scale == 1e9 else 2
+    return scale, unit, decimals, round(exact / scale, decimals)
+
+
+def amount_input(label: str, exact: float, key: str, *, help: str | None = None, min_value: float | None = None) -> float:
+    """Number box in billions/millions instead of 11-digit raw numbers.
+
+    The exact suggested amount is returned until the user edits the shown number, so the display
+    rounding never leaks into the calculation.
+    """
+    scale, unit, decimals, shown = amount_scale(exact)
+    step = max(float(f"{abs(shown) * 0.05:.1g}"), 10.0**-decimals)
+    value = st.number_input(f"{label} ({unit})", key=key, step=step, format=f"%.{decimals}f", help=help, min_value=min_value)
+    return exact if value == shown else value * scale

@@ -167,6 +167,22 @@ def line_figure(df: pd.DataFrame, *, title: str = "", rebase: bool = False, heig
     return fig
 
 
+def spread_figure(spread: pd.Series, *, title: str = "", band: float = 2.0, height: int = 320) -> go.Figure:
+    """A spread as a z-score (standard deviations from its own mean) with the mean and +/- ``band`` lines.
+
+    Above the upper line the first leg is expensive against the second, below the lower line it is cheap.
+    """
+    sd = spread.std(ddof=1)
+    z = (spread - spread.mean()) / sd if sd and sd > 0 else spread * 0.0
+    fig = go.Figure(go.Scatter(x=z.index, y=z, name="z-score", mode="lines", line=dict(width=1.5, color=PALETTE[0])))
+    fig.add_hline(y=0, line=dict(color="#888888", width=1))
+    fig.add_hline(y=band, line=dict(color=DOWN, width=1, dash="dot"), annotation_text=f"+{band:g}", annotation_position="top left")
+    fig.add_hline(y=-band, line=dict(color=UP, width=1, dash="dot"), annotation_text=f"-{band:g}", annotation_position="bottom left")
+    fig.update_layout(title=title, height=height, hovermode="x unified", showlegend=False,
+                      margin=dict(l=10, r=10, t=50 if title else 20, b=10), yaxis_title="std devs")
+    return fig
+
+
 def heatmap_figure(matrix: pd.DataFrame, *, title: str = "", zmin: float = -1.0, zmax: float = 1.0,
                    colorscale: str = "RdBu", fmt: str = ".2f", height: int | None = None) -> go.Figure:
     fig = go.Figure(go.Heatmap(z=matrix.to_numpy(), x=[str(c) for c in matrix.columns], y=[str(i) for i in matrix.index],
@@ -267,6 +283,17 @@ def scenario_figure(scen: pd.DataFrame, price: float | None = None) -> go.Figure
     return fig
 
 
+def method_figure(values: dict[str, float], price: float | None = None) -> go.Figure:
+    """One bar per valuation method, teal where the value is above the price (cheap) and red where it is below, with the price as a dashed line."""
+    names = [k for k, v in values.items() if v == v]
+    fig = go.Figure(go.Bar(x=names, y=[values[k] for k in names], text=[f"{values[k]:,.2f}" for k in names], textposition="outside",
+                           marker_color=[UP if not price or values[k] >= price else DOWN for k in names]))
+    if price:
+        fig.add_hline(y=price, line_dash="dash", line_color="#9e9e9e", annotation_text=f"Price {price:,.2f}", annotation_position="top left")
+    fig.update_layout(height=300, margin=dict(l=10, r=10, t=30, b=10), yaxis_title="Value per share", showlegend=False)
+    return fig
+
+
 BAND_COLORS = {-2: "#00897b", -1: "#80cbc4", 0: "#9e9e9e", 1: "#ef9a9a", 2: "#c62828"}
 
 
@@ -311,4 +338,109 @@ def sensitivity_figure(grid: pd.DataFrame, price: float | None = None) -> go.Fig
     fig.update_yaxes(title_text="WACC")
     if price:
         fig.update_layout(title=f"Intrinsic value per share (current price {price:,.2f})")
+    return fig
+
+
+def grouped_bar_figure(df: pd.DataFrame, *, title: str = "", height: int = 340, tickformat: str | None = None,
+                       colors: Sequence[str] | None = None) -> go.Figure:
+    """One group of bars per row (e.g. a year), one bar per column."""
+    fig = go.Figure()
+    for i, col in enumerate(df.columns):
+        fig.add_trace(go.Bar(x=[str(x) for x in df.index], y=df[col], name=str(col),
+                             marker_color=(colors[i] if colors and i < len(colors) else PALETTE[i % len(PALETTE)])))
+    fig.add_hline(y=0, line=dict(color="#888888", width=1))
+    fig.update_layout(title=title, barmode="group", height=height, hovermode="x unified", yaxis_tickformat=tickformat,
+                      margin=dict(l=10, r=10, t=50 if title else 20, b=10), legend=dict(orientation="h", yanchor="bottom", y=1.01, x=0))
+    return fig
+
+
+# -- market breadth -----------------------------------------------------------------------------------
+REGIME_COLORS = {"Healthy uptrend": UP, "Narrow uptrend": "#ffa726", "Improving underneath": PALETTE[0], "Downtrend": DOWN,
+                 "Calm": UP, "Stressed": "#ffa726", "Crisis": DOWN}
+
+
+def stacked_figure(top: pd.DataFrame, bottom: pd.DataFrame, *, top_title: str = "", bottom_title: str = "",
+                   bottom_levels: Sequence[float] = (), bottom_bars: Sequence[str] = (), bottom_format: str | None = None,
+                   log_top: bool = False, height: int = 560) -> go.Figure:
+    """Two panels on one time axis: e.g. the index on top and a breadth reading under it."""
+    fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.05, row_heights=[0.55, 0.45])
+    for i, col in enumerate(top.columns):
+        fig.add_trace(go.Scatter(x=top.index, y=top[col], name=str(col), mode="lines",
+                                 line=dict(width=1.6 if i == 0 else 1.1, color=PALETTE[i] if i == 0 else "#9e9e9e",
+                                           dash="solid" if i == 0 else "dot")), row=1, col=1)
+    for i, col in enumerate(bottom.columns):
+        color = PALETTE[(i + 1) % len(PALETTE)]
+        if col in bottom_bars:
+            s = bottom[col]
+            fig.add_trace(go.Bar(x=s.index, y=s, name=str(col), marker_color=[UP if v >= 0 else DOWN for v in s.fillna(0)],
+                                 marker_line_width=0), row=2, col=1)
+        else:
+            fig.add_trace(go.Scatter(x=bottom.index, y=bottom[col], name=str(col), mode="lines", line=dict(width=1.4, color=color)),
+                          row=2, col=1)
+    for level in bottom_levels:
+        fig.add_hline(y=level, line=dict(color="#888888", width=1, dash="dot"), row=2, col=1)
+    fig.update_yaxes(title_text=top_title, type="log" if log_top else "linear", row=1, col=1)
+    fig.update_yaxes(title_text=bottom_title, tickformat=bottom_format, row=2, col=1)
+    fig.update_layout(height=height, hovermode="x unified", bargap=0, margin=dict(l=10, r=10, t=30, b=10),
+                      legend=dict(orientation="h", yanchor="bottom", y=1.01, x=0))
+    return fig
+
+
+def highs_lows_figure(new_highs: pd.Series, new_lows: pd.Series, net_10: pd.Series, *, height: int = 380) -> go.Figure:
+    """New 52-week highs as bars above zero, new lows below, with the 10-day average of highs minus lows."""
+    fig = go.Figure()
+    fig.add_trace(go.Bar(x=new_highs.index, y=new_highs, name="New highs", marker_color=UP, marker_line_width=0))
+    fig.add_trace(go.Bar(x=new_lows.index, y=-new_lows, name="New lows", marker_color=DOWN, marker_line_width=0))
+    fig.add_trace(go.Scatter(x=net_10.index, y=net_10, name="Highs − lows, 10-day average", mode="lines",
+                             line=dict(width=1.6, color=PALETTE[0])))
+    fig.add_hline(y=0, line=dict(color="#888888", width=1))
+    fig.update_layout(height=height, barmode="relative", bargap=0, hovermode="x unified", margin=dict(l=10, r=10, t=30, b=10),
+                      yaxis_title="stocks", legend=dict(orientation="h", yanchor="bottom", y=1.01, x=0))
+    return fig
+
+
+def regime_figure(level: pd.Series, regime: pd.Series, *, name: str = "Index", log: bool = True, height: int = 420) -> go.Figure:
+    """The index with its background shaded by breadth regime."""
+    fig = go.Figure(go.Scatter(x=level.index, y=level, name=name, mode="lines", line=dict(width=1.6, color="#212121")))
+    s = regime.reindex(level.index)
+    run = (s != s.shift()).cumsum()
+    seen: set[str] = set()
+    for _, g in s.groupby(run):
+        label = g.iloc[0]
+        if not isinstance(label, str):
+            continue
+        fig.add_vrect(x0=g.index[0], x1=g.index[-1], fillcolor=REGIME_COLORS.get(label, "#bdbdbd"), opacity=0.18, line_width=0)
+        if label not in seen:  # a legend entry per regime
+            seen.add(label)
+            fig.add_trace(go.Scatter(x=[None], y=[None], mode="markers", name=label,
+                                     marker=dict(size=10, symbol="square", color=REGIME_COLORS.get(label, "#bdbdbd"))))
+    fig.update_yaxes(type="log" if log else "linear")
+    fig.update_layout(height=height, hovermode="x unified", margin=dict(l=10, r=10, t=30, b=10),
+                      legend=dict(orientation="h", yanchor="bottom", y=1.01, x=0))
+    return fig
+
+
+def fan_figure(bands: pd.DataFrame, invested: pd.Series, *, samples: pd.DataFrame | None = None,
+               compare: pd.Series | None = None, compare_name: str = "Base case median", currency: str = "",
+               log: bool = False, height: int = 460) -> go.Figure:
+    """Simulated portfolio value: 5-95 % and 25-75 % bands, the median, the money put in and a few single paths."""
+    fig = go.Figure()
+    x = bands.index
+    if samples is not None:
+        for i, col in enumerate(samples.columns):
+            fig.add_trace(go.Scatter(x=x, y=samples[col], mode="lines", line=dict(width=0.7, color="rgba(120,120,120,0.35)"),
+                                     name="Single paths", legendgroup="paths", showlegend=i == 0, hoverinfo="skip"))
+    for lo, hi, alpha, label in (("p5", "p95", 0.15, "5-95 % of paths"), ("p25", "p75", 0.3, "25-75 % of paths")):
+        fig.add_trace(go.Scatter(x=x, y=bands[hi], mode="lines", line=dict(width=0), showlegend=False, hoverinfo="skip"))
+        fig.add_trace(go.Scatter(x=x, y=bands[lo], mode="lines", line=dict(width=0), fill="tonexty",
+                                 fillcolor=_rgba(PALETTE[0], alpha), name=label, hoverinfo="skip"))
+    fig.add_trace(go.Scatter(x=x, y=bands["p50"], mode="lines", line=dict(width=2.2, color=PALETTE[0]), name="Median"))
+    if compare is not None:
+        fig.add_trace(go.Scatter(x=compare.index, y=compare, mode="lines", line=dict(width=1.8, color=PALETTE[1], dash="dot"),
+                                 name=compare_name))
+    fig.add_trace(go.Scatter(x=invested.index, y=invested, mode="lines", line=dict(width=1.6, color="#424242", dash="dash"),
+                             name="Money put in"))
+    fig.update_yaxes(title=currency or None, type="log" if log else "linear", tickformat=",.0f")
+    fig.update_layout(height=height, hovermode="x unified", margin=dict(l=10, r=10, t=30, b=10),
+                      legend=dict(orientation="h", yanchor="bottom", y=1.01, x=0))
     return fig

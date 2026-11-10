@@ -1,0 +1,6219 @@
+{
+ "metadata": {
+  "count": 887,
+  "source": "Yahoo Finance screener",
+  "built": "2026-11-02",
+  "currency": "USD"
+ },
+ "stocks": [
+  {
+   "symbol": "2S",
+   "yahoo": "2S.BK",
+   "name": "2S Metal Public Company Limited",
+   "industry": "",
+   "market_cap": 57328569
+  },
+  {
+   "symbol": "3BBIF",
+   "yahoo": "3BBIF.BK",
+   "name": "3BB Internet Infrastructure Fund",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "88TH",
+   "yahoo": "88TH.BK",
+   "name": "88(Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 21772282
+  },
+  {
+   "symbol": "A5",
+   "yahoo": "A5.BK",
+   "name": "Asset Five Group Public Company Limited",
+   "industry": "",
+   "market_cap": 61742973
+  },
+  {
+   "symbol": "AAI",
+   "yahoo": "AAI.BK",
+   "name": "Asian Alliance International Public Company Limited",
+   "industry": "",
+   "market_cap": 261995748
+  },
+  {
+   "symbol": "AAV",
+   "yahoo": "AAV.BK",
+   "name": "Asia Aviation Public Company Limited",
+   "industry": "",
+   "market_cap": 277776143
+  },
+  {
+   "symbol": "ABM",
+   "yahoo": "ABM.BK",
+   "name": "Asia Biomass Public Company Limited",
+   "industry": "",
+   "market_cap": 15986199
+  },
+  {
+   "symbol": "ACC",
+   "yahoo": "ACC.BK",
+   "name": "Advanced Connection Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 16704182
+  },
+  {
+   "symbol": "ACE",
+   "yahoo": "ACE.BK",
+   "name": "Absolute Clean Energy Public Company Limited",
+   "industry": "",
+   "market_cap": 372474522
+  },
+  {
+   "symbol": "ACG",
+   "yahoo": "ACG.BK",
+   "name": "Autocorp Holding Public Company Limited",
+   "industry": "",
+   "market_cap": 13147764
+  },
+  {
+   "symbol": "ADB",
+   "yahoo": "ADB.BK",
+   "name": "Applied DB Public Company Limited",
+   "industry": "",
+   "market_cap": 23003256
+  },
+  {
+   "symbol": "ADD",
+   "yahoo": "ADD.BK",
+   "name": "AddTech Hub Public Company Limited",
+   "industry": "",
+   "market_cap": 17710394
+  },
+  {
+   "symbol": "ADVANC",
+   "yahoo": "ADVANC.BK",
+   "name": "Advanced Info Service Public Company Limited",
+   "industry": "Telecom Services",
+   "market_cap": 29856592390
+  },
+  {
+   "symbol": "ADVICE",
+   "yahoo": "ADVICE.BK",
+   "name": "Advice IT Infinite Public Company Limited",
+   "industry": "",
+   "market_cap": 127598449
+  },
+  {
+   "symbol": "AEONTS",
+   "yahoo": "AEONTS.BK",
+   "name": "AEON Thana Sinsap (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 642063941
+  },
+  {
+   "symbol": "AF",
+   "yahoo": "AF.BK",
+   "name": "AIRA Factoring Public Company Limited",
+   "industry": "",
+   "market_cap": 20373112
+  },
+  {
+   "symbol": "AFC",
+   "yahoo": "AFC.BK",
+   "name": "Asia Fiber Public Company Limited",
+   "industry": "",
+   "market_cap": 5884033
+  },
+  {
+   "symbol": "AGE",
+   "yahoo": "AGE.BK",
+   "name": "Asia Green Energy Public Company Limited",
+   "industry": "",
+   "market_cap": 46415328
+  },
+  {
+   "symbol": "AH",
+   "yahoo": "AH.BK",
+   "name": "AAPICO Hitech Public Company Limited",
+   "industry": "",
+   "market_cap": 145302823
+  },
+  {
+   "symbol": "AHC",
+   "yahoo": "AHC.BK",
+   "name": "Aikchol Hospital Public Company Limited",
+   "industry": "",
+   "market_cap": 53269506
+  },
+  {
+   "symbol": "AI",
+   "yahoo": "AI.BK",
+   "name": "Asian Insulators Public Company Limited",
+   "industry": "",
+   "market_cap": 65916406
+  },
+  {
+   "symbol": "AIE",
+   "yahoo": "AIE.BK",
+   "name": "AI Energy Public Company Limited",
+   "industry": "",
+   "market_cap": 56557275
+  },
+  {
+   "symbol": "AIMCG",
+   "yahoo": "AIMCG.BK",
+   "name": "AIM Commercial Growth Freehold And Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 12195440
+  },
+  {
+   "symbol": "AIMIRT",
+   "yahoo": "AIMIRT.BK",
+   "name": "AIM Industrial Growth Freehold and Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 274224194
+  },
+  {
+   "symbol": "AIT",
+   "yahoo": "AIT.BK",
+   "name": "Advanced Information Technology Public Company Limited",
+   "industry": "",
+   "market_cap": 214743304
+  },
+  {
+   "symbol": "AJ",
+   "yahoo": "AJ.BK",
+   "name": "A.J. Plast Public Company Limited",
+   "industry": "",
+   "market_cap": 46985051
+  },
+  {
+   "symbol": "AJA",
+   "yahoo": "AJA.BK",
+   "name": "AJ Advance Technology Public Company Limited",
+   "industry": "",
+   "market_cap": 20408216
+  },
+  {
+   "symbol": "AKP",
+   "yahoo": "AKP.BK",
+   "name": "Akkhie Prakarn Public Company Limited",
+   "industry": "",
+   "market_cap": 8493929
+  },
+  {
+   "symbol": "AKR",
+   "yahoo": "AKR.BK",
+   "name": "Ekarat Engineering Public Company Limited",
+   "industry": "",
+   "market_cap": 44021815
+  },
+  {
+   "symbol": "ALLA",
+   "yahoo": "ALLA.BK",
+   "name": "Alla Public Company Limited",
+   "industry": "",
+   "market_cap": 19543974
+  },
+  {
+   "symbol": "ALLY",
+   "yahoo": "ALLY.BK",
+   "name": "Ally Freehold And Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 140310088
+  },
+  {
+   "symbol": "ALPHAX",
+   "yahoo": "ALPHAX.BK",
+   "name": "Alpha Divisions Public Company Limited",
+   "industry": "",
+   "market_cap": 55033309
+  },
+  {
+   "symbol": "ALT",
+   "yahoo": "ALT.BK",
+   "name": "ALT Telecom Public Company Limited",
+   "industry": "",
+   "market_cap": 50139028
+  },
+  {
+   "symbol": "ALUCON",
+   "yahoo": "ALUCON.BK",
+   "name": "Alucon Public Company Limited",
+   "industry": "",
+   "market_cap": 332602776
+  },
+  {
+   "symbol": "AMA",
+   "yahoo": "AMA.BK",
+   "name": "Ama Marine Public Company Limited",
+   "industry": "",
+   "market_cap": 56438664
+  },
+  {
+   "symbol": "AMANAH",
+   "yahoo": "AMANAH.BK",
+   "name": "Amanah Leasing Public Company Limited",
+   "industry": "",
+   "market_cap": 24194376
+  },
+  {
+   "symbol": "AMARC",
+   "yahoo": "AMARC.BK",
+   "name": "Asia Medical and Agricultural Laboratory and Research Center Public Company Limited",
+   "industry": "",
+   "market_cap": 33639324
+  },
+  {
+   "symbol": "AMARIN",
+   "yahoo": "AMARIN.BK",
+   "name": "Amarin Corporations Public Company Limited",
+   "industry": "",
+   "market_cap": 54688213
+  },
+  {
+   "symbol": "AMATA",
+   "yahoo": "AMATA.BK",
+   "name": "Amata Corporation Public Company Limited",
+   "industry": "Real Estate - Development",
+   "market_cap": 868374306
+  },
+  {
+   "symbol": "AMATAR",
+   "yahoo": "AMATAR.BK",
+   "name": "Amata Summit Growth Freehold and Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 77894325
+  },
+  {
+   "symbol": "AMATAV",
+   "yahoo": "AMATAV.BK",
+   "name": "Amata VN Public Company Limited",
+   "industry": "",
+   "market_cap": 66283273
+  },
+  {
+   "symbol": "AMC",
+   "yahoo": "AMC.BK",
+   "name": "Asia Metal Public Company Limited",
+   "industry": "",
+   "market_cap": 33266961
+  },
+  {
+   "symbol": "AMR",
+   "yahoo": "AMR.BK",
+   "name": "AMR Asia Public Company Limited",
+   "industry": "",
+   "market_cap": 6472097
+  },
+  {
+   "symbol": "ANAN",
+   "yahoo": "ANAN.BK",
+   "name": "Ananda Development Public Company Limited",
+   "industry": "",
+   "market_cap": 43180020
+  },
+  {
+   "symbol": "ANI",
+   "yahoo": "ANI.BK",
+   "name": "Asia Network International Public Company Limited",
+   "industry": "",
+   "market_cap": 168547229
+  },
+  {
+   "symbol": "AOT",
+   "yahoo": "AOT.BK",
+   "name": "Airports of Thailand Public Company Limited",
+   "industry": "Airports & Air Services",
+   "market_cap": 25276000599
+  },
+  {
+   "symbol": "AP",
+   "yahoo": "AP.BK",
+   "name": "AP (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 726621778
+  },
+  {
+   "symbol": "APCO",
+   "yahoo": "APCO.BK",
+   "name": "Asian Phytoceuticals Public Company Limited",
+   "industry": "",
+   "market_cap": 44062777
+  },
+  {
+   "symbol": "APCS",
+   "yahoo": "APCS.BK",
+   "name": "Asia Precision Public Company Limited",
+   "industry": "",
+   "market_cap": 24625405
+  },
+  {
+   "symbol": "APO",
+   "yahoo": "APO.BK",
+   "name": "Asian Palm Oil Public Company Limited",
+   "industry": "",
+   "market_cap": 16612378
+  },
+  {
+   "symbol": "APP",
+   "yahoo": "APP.BK",
+   "name": "Applicad Public Company Limited",
+   "industry": "",
+   "market_cap": 28190701
+  },
+  {
+   "symbol": "APURE",
+   "yahoo": "APURE.BK",
+   "name": "Agripure Holdings Public Company Limited",
+   "industry": "",
+   "market_cap": 55610617
+  },
+  {
+   "symbol": "AQUA",
+   "yahoo": "AQUA.BK",
+   "name": "Aqua Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 16915776
+  },
+  {
+   "symbol": "ARIN",
+   "yahoo": "ARIN.BK",
+   "name": "Arinsiri Land Public Company Limited",
+   "industry": "",
+   "market_cap": 7639917
+  },
+  {
+   "symbol": "ARIP",
+   "yahoo": "ARIP.BK",
+   "name": "ARIP Public Company Limited",
+   "industry": "",
+   "market_cap": 5657684
+  },
+  {
+   "symbol": "ARROW",
+   "yahoo": "ARROW.BK",
+   "name": "Arrow Syndicate Public Company Limited",
+   "industry": "",
+   "market_cap": 42600609
+  },
+  {
+   "symbol": "AS",
+   "yahoo": "AS.BK",
+   "name": "Asphere Innovations Public Company Limited",
+   "industry": "",
+   "market_cap": 29863144
+  },
+  {
+   "symbol": "ASAP",
+   "yahoo": "ASAP.BK",
+   "name": "Synergetic Auto Performance Public Company Limited",
+   "industry": "",
+   "market_cap": 42781757
+  },
+  {
+   "symbol": "ASEFA",
+   "yahoo": "ASEFA.BK",
+   "name": "Asefa Public Company Limited",
+   "industry": "",
+   "market_cap": 106163828
+  },
+  {
+   "symbol": "ASIA",
+   "yahoo": "ASIA.BK",
+   "name": "Asia Hotel Public Company Limited",
+   "industry": "",
+   "market_cap": 53538643
+  },
+  {
+   "symbol": "ASIAN",
+   "yahoo": "ASIAN.BK",
+   "name": "Asian Sea Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 169422253
+  },
+  {
+   "symbol": "ASIMAR",
+   "yahoo": "ASIMAR.BK",
+   "name": "Asian Marine Services Public Company Limited",
+   "industry": "",
+   "market_cap": 10860922
+  },
+  {
+   "symbol": "ASK",
+   "yahoo": "ASK.BK",
+   "name": "Asia Sermkij Leasing Public Company Limited",
+   "industry": "",
+   "market_cap": 201112991
+  },
+  {
+   "symbol": "ASN",
+   "yahoo": "ASN.BK",
+   "name": "ASN Broker Public Company Limited",
+   "industry": "",
+   "market_cap": 5377079
+  },
+  {
+   "symbol": "ASP",
+   "yahoo": "ASP.BK",
+   "name": "Asia Plus Group Holdings Public Company Limited",
+   "industry": "",
+   "market_cap": 137187313
+  },
+  {
+   "symbol": "ASTR",
+   "yahoo": "ASTR.BK",
+   "name": "Astra Enterprise Public Company Limited",
+   "industry": "",
+   "market_cap": 163297978
+  },
+  {
+   "symbol": "ASW",
+   "yahoo": "ASW.BK",
+   "name": "Assetwise Public Company Limited",
+   "industry": "",
+   "market_cap": 201156989
+  },
+  {
+   "symbol": "ATLAS",
+   "yahoo": "ATLAS.BK",
+   "name": "Atlas Energy Public Company Limited",
+   "industry": "",
+   "market_cap": 72244071
+  },
+  {
+   "symbol": "ATP30",
+   "yahoo": "ATP30.BK",
+   "name": "ATP 30 Public Company Limited",
+   "industry": "",
+   "market_cap": 15153466
+  },
+  {
+   "symbol": "AU",
+   "yahoo": "AU.BK",
+   "name": "After You Public Company Limited",
+   "industry": "",
+   "market_cap": 91778781
+  },
+  {
+   "symbol": "AUCT",
+   "yahoo": "AUCT.BK",
+   "name": "Union Auction Public Company Limited",
+   "industry": "",
+   "market_cap": 62214981
+  },
+  {
+   "symbol": "AURA",
+   "yahoo": "AURA.BK",
+   "name": "Aurora Design Public Company Limited",
+   "industry": "",
+   "market_cap": 530800718
+  },
+  {
+   "symbol": "AWC",
+   "yahoo": "AWC.BK",
+   "name": "Asset World Corp Public Company Limited",
+   "industry": "Lodging",
+   "market_cap": 3034792463
+  },
+  {
+   "symbol": "AXTRART",
+   "yahoo": "AXTRART.BK",
+   "name": "Axtra Future City Freehold And Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 823620503
+  },
+  {
+   "symbol": "AYUD",
+   "yahoo": "AYUD.BK",
+   "name": "Allianz Ayudhya Capital Public Company Limited",
+   "industry": "",
+   "market_cap": 484134185
+  },
+  {
+   "symbol": "B",
+   "yahoo": "B.BK",
+   "name": "Begistics Public Company Limited",
+   "industry": "",
+   "market_cap": 7172646
+  },
+  {
+   "symbol": "B52",
+   "yahoo": "B52.BK",
+   "name": "B-52 Capital Public Company Limited",
+   "industry": "",
+   "market_cap": 6555571
+  },
+  {
+   "symbol": "BA",
+   "yahoo": "BA.BK",
+   "name": "Bangkok Airways Public Company Limited",
+   "industry": "",
+   "market_cap": 1074925989
+  },
+  {
+   "symbol": "BAFS",
+   "yahoo": "BAFS.BK",
+   "name": "Bangkok Aviation Fuel Services Public Company Limited",
+   "industry": "",
+   "market_cap": 183112590
+  },
+  {
+   "symbol": "BAM",
+   "yahoo": "BAM.BK",
+   "name": "Bangkok Commercial Asset Management Public Company Limited",
+   "industry": "",
+   "market_cap": 598171851
+  },
+  {
+   "symbol": "BANPU",
+   "yahoo": "BANPU.BK",
+   "name": "Banpu Public Company Limited",
+   "industry": "Utilities - Independent Power Producers",
+   "market_cap": 1290570379
+  },
+  {
+   "symbol": "BAREIT",
+   "yahoo": "BAREIT.BK",
+   "name": "BA Airport Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 360953506
+  },
+  {
+   "symbol": "BAY",
+   "yahoo": "BAY.BK",
+   "name": "Bank of Ayudhya Public Company Limited",
+   "industry": "",
+   "market_cap": 8386047189
+  },
+  {
+   "symbol": "BBGI",
+   "yahoo": "BBGI.BK",
+   "name": "BBGI Public Company Limited",
+   "industry": "",
+   "market_cap": 269760137
+  },
+  {
+   "symbol": "BBIK",
+   "yahoo": "BBIK.BK",
+   "name": "Bluebik Group Public Company Limited",
+   "industry": "",
+   "market_cap": 98912008
+  },
+  {
+   "symbol": "BBL",
+   "yahoo": "BBL.BK",
+   "name": "Bangkok Bank Public Company Limited",
+   "industry": "Banks - Regional",
+   "market_cap": 10400565000
+  },
+  {
+   "symbol": "BC",
+   "yahoo": "BC.BK",
+   "name": "Boutique Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 8783958
+  },
+  {
+   "symbol": "BCH",
+   "yahoo": "BCH.BK",
+   "name": "Bangkok Chain Hospital Public Company Limited",
+   "industry": "Medical Care Facilities",
+   "market_cap": 790142223
+  },
+  {
+   "symbol": "BCP",
+   "yahoo": "BCP.BK",
+   "name": "Bangchak Corporation Public Company Limited",
+   "industry": "Oil & Gas Refining & Marketing",
+   "market_cap": 2046948136
+  },
+  {
+   "symbol": "BCPG",
+   "yahoo": "BCPG.BK",
+   "name": "BCPG Public Company Limited",
+   "industry": "",
+   "market_cap": 598797046
+  },
+  {
+   "symbol": "BCT",
+   "yahoo": "BCT.BK",
+   "name": "Birla Carbon (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 506366598
+  },
+  {
+   "symbol": "BDMS",
+   "yahoo": "BDMS.BK",
+   "name": "Bangkok Dusit Medical Services Public Company Limited",
+   "industry": "Medical Care Facilities",
+   "market_cap": 9176606956
+  },
+  {
+   "symbol": "BE8",
+   "yahoo": "BE8.BK",
+   "name": "Beryl 8 Plus Public Company Limited",
+   "industry": "",
+   "market_cap": 34489791
+  },
+  {
+   "symbol": "BEAUTY",
+   "yahoo": "BEAUTY.BK",
+   "name": "Beauty Community Public Company Limited",
+   "industry": "",
+   "market_cap": 24826003
+  },
+  {
+   "symbol": "BEC",
+   "yahoo": "BEC.BK",
+   "name": "BEC World Public Company Limited",
+   "industry": "",
+   "market_cap": 104234526
+  },
+  {
+   "symbol": "BEM",
+   "yahoo": "BEM.BK",
+   "name": "Bangkok Expressway and Metro Public Company Limited",
+   "industry": "Railroads",
+   "market_cap": 2749861752
+  },
+  {
+   "symbol": "BEYOND",
+   "yahoo": "BEYOND.BK",
+   "name": "Bound and Beyond Public Company Limited",
+   "industry": "",
+   "market_cap": 59247905
+  },
+  {
+   "symbol": "BGC",
+   "yahoo": "BGC.BK",
+   "name": "BG Container Glass Public Company Limited",
+   "industry": "",
+   "market_cap": 115433021
+  },
+  {
+   "symbol": "BGRIM",
+   "yahoo": "BGRIM.BK",
+   "name": "B.Grimm Power Public Company Limited",
+   "industry": "Utilities - Independent Power Producers",
+   "market_cap": 1443560283
+  },
+  {
+   "symbol": "BGT",
+   "yahoo": "BGT.BK",
+   "name": "BGT Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 3229374
+  },
+  {
+   "symbol": "BH",
+   "yahoo": "BH.BK",
+   "name": "Bumrungrad Hospital Public Company Limited",
+   "industry": "Medical Care Facilities",
+   "market_cap": 4708123060
+  },
+  {
+   "symbol": "BIG",
+   "yahoo": "BIG.BK",
+   "name": "Big Camera Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 30304259
+  },
+  {
+   "symbol": "BIOTEC",
+   "yahoo": "BIOTEC.BK",
+   "name": "Bio Green Energy Tech Public Company Limited",
+   "industry": "",
+   "market_cap": 25316595
+  },
+  {
+   "symbol": "BIS",
+   "yahoo": "BIS.BK",
+   "name": "Bioscience Animal Health Public Company Limited",
+   "industry": "",
+   "market_cap": 20641990
+  },
+  {
+   "symbol": "BIZ",
+   "yahoo": "BIZ.BK",
+   "name": "Business Alignment Public Company Limited",
+   "industry": "",
+   "market_cap": 104955177
+  },
+  {
+   "symbol": "BJC",
+   "yahoo": "BJC.BK",
+   "name": "Berli Jucker Public Company Limited",
+   "industry": "Conglomerates",
+   "market_cap": 2397319995
+  },
+  {
+   "symbol": "BJCHI",
+   "yahoo": "BJCHI.BK",
+   "name": "BJC Heavy Industries Public Company Limited",
+   "industry": "",
+   "market_cap": 35193018
+  },
+  {
+   "symbol": "BKA",
+   "yahoo": "BKA.BK",
+   "name": "Buakaew",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "BKD",
+   "yahoo": "BKD.BK",
+   "name": "Buakaew Income",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "BKGI",
+   "yahoo": "BKGI.BK",
+   "name": "Bangkok Genomics Innovation Public Company Limited",
+   "industry": "",
+   "market_cap": 40509327
+  },
+  {
+   "symbol": "BKIH",
+   "yahoo": "BKIH.BK",
+   "name": "BKI Holdings Public Company Limited",
+   "industry": "",
+   "market_cap": 1213899980
+  },
+  {
+   "symbol": "BLA",
+   "yahoo": "BLA.BK",
+   "name": "Bangkok Life Assurance Public Company Limited",
+   "industry": "",
+   "market_cap": 1142759605
+  },
+  {
+   "symbol": "BLAND",
+   "yahoo": "BLAND.BK",
+   "name": "Bangkok Land Public Company Limited",
+   "industry": "",
+   "market_cap": 256923689
+  },
+  {
+   "symbol": "BLC",
+   "yahoo": "BLC.BK",
+   "name": "Bangkok Lab And Cosmetic Public Company Limited",
+   "industry": "",
+   "market_cap": 69292270
+  },
+  {
+   "symbol": "BLESS",
+   "yahoo": "BLESS.BK",
+   "name": "Bless Asset Group Public Company Limited",
+   "industry": "",
+   "market_cap": 5448623
+  },
+  {
+   "symbol": "BM",
+   "yahoo": "BM.BK",
+   "name": "Bangkok Sheet Metal Public Company Limited",
+   "industry": "",
+   "market_cap": 26828155
+  },
+  {
+   "symbol": "BOFFICE",
+   "yahoo": "BOFFICE.BK",
+   "name": "Bhiraj Office Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 107938642
+  },
+  {
+   "symbol": "BOL",
+   "yahoo": "BOL.BK",
+   "name": "Business Online Public Company Limited",
+   "industry": "",
+   "market_cap": 120026565
+  },
+  {
+   "symbol": "BPS",
+   "yahoo": "BPS.BK",
+   "name": "BPS Technology Public Company Limited",
+   "industry": "",
+   "market_cap": 6633106
+  },
+  {
+   "symbol": "BR",
+   "yahoo": "BR.BK",
+   "name": "Bangkok Ranch Public Company Limited",
+   "industry": "",
+   "market_cap": 47876855
+  },
+  {
+   "symbol": "BRI",
+   "yahoo": "BRI.BK",
+   "name": "Britania Public Company Limited",
+   "industry": "",
+   "market_cap": 54221080
+  },
+  {
+   "symbol": "BROCK",
+   "yahoo": "BROCK.BK",
+   "name": "Baan Rock Garden Public Company Limited",
+   "industry": "",
+   "market_cap": 32780580
+  },
+  {
+   "symbol": "BRR",
+   "yahoo": "BRR.BK",
+   "name": "Buriram Sugar Public Company Limited",
+   "industry": "",
+   "market_cap": 89458498
+  },
+  {
+   "symbol": "BRRGIF",
+   "yahoo": "BRRGIF.BK",
+   "name": "Buriram Sugar Group Power Plant Infrastructure Fund",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "BSBM",
+   "yahoo": "BSBM.BK",
+   "name": "Bangsaphan Barmill Public Company Limited",
+   "industry": "",
+   "market_cap": 19920196
+  },
+  {
+   "symbol": "BSM",
+   "yahoo": "BSM.BK",
+   "name": "BuilderSmart Public Company Limited",
+   "industry": "",
+   "market_cap": 3974589
+  },
+  {
+   "symbol": "BTC",
+   "yahoo": "BTC.BK",
+   "name": "The Brooker Group Public Company Limited",
+   "industry": "",
+   "market_cap": 76760352
+  },
+  {
+   "symbol": "BTG",
+   "yahoo": "BTG.BK",
+   "name": "Betagro Public Company Limited",
+   "industry": "",
+   "market_cap": 1224793860
+  },
+  {
+   "symbol": "BTNC",
+   "yahoo": "BTNC.BK",
+   "name": "Boutique Newcity Public Company Limited",
+   "industry": "",
+   "market_cap": 4299674
+  },
+  {
+   "symbol": "BTS",
+   "yahoo": "BTS.BK",
+   "name": "BTS Group Holdings Public Company Limited",
+   "industry": "Railroads",
+   "market_cap": 876890699
+  },
+  {
+   "symbol": "BTSGIF",
+   "yahoo": "BTSGIF.BK",
+   "name": "BTS Rail Mass Transit Growth Infrastructure Fund",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "BTW",
+   "yahoo": "BTW.BK",
+   "name": "BT Wealth Industries Public Company Limited",
+   "industry": "",
+   "market_cap": 3581877
+  },
+  {
+   "symbol": "BUI",
+   "yahoo": "BUI.BK",
+   "name": "Bangkok Union Insurance Public Company Limited",
+   "industry": "",
+   "market_cap": 20153793
+  },
+  {
+   "symbol": "BVG",
+   "yahoo": "BVG.BK",
+   "name": "BlueVenture Group Public Company Limited",
+   "industry": "",
+   "market_cap": 19854901
+  },
+  {
+   "symbol": "BWG",
+   "yahoo": "BWG.BK",
+   "name": "Better World Green Public Company Limited",
+   "industry": "",
+   "market_cap": 37792172
+  },
+  {
+   "symbol": "BYD",
+   "yahoo": "BYD.BK",
+   "name": "BYDH SECURITIES Public Company Limited",
+   "industry": "",
+   "market_cap": 52461169
+  },
+  {
+   "symbol": "CAZ",
+   "yahoo": "CAZ.BK",
+   "name": "CAZ (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 18505241
+  },
+  {
+   "symbol": "CBG",
+   "yahoo": "CBG.BK",
+   "name": "Carabao Group Public Company Limited",
+   "industry": "Beverages - Non-Alcoholic",
+   "market_cap": 1532425167
+  },
+  {
+   "symbol": "CCET",
+   "yahoo": "CCET.BK",
+   "name": "Cal-Comp Electronics (Thailand) Public Company Limited",
+   "industry": "Computer Hardware",
+   "market_cap": 2491043072
+  },
+  {
+   "symbol": "CCP",
+   "yahoo": "CCP.BK",
+   "name": "Chonburi Concrete Product Public Company Limited",
+   "industry": "",
+   "market_cap": 22131128
+  },
+  {
+   "symbol": "CEN",
+   "yahoo": "CEN.BK",
+   "name": "Capital Engineering Network Public Company Limited",
+   "industry": "",
+   "market_cap": 10812250
+  },
+  {
+   "symbol": "CENTEL",
+   "yahoo": "CENTEL.BK",
+   "name": "Central Plaza Hotel Public Company Limited",
+   "industry": "Resorts & Casinos",
+   "market_cap": 1778945780
+  },
+  {
+   "symbol": "CEYE",
+   "yahoo": "CEYE.BK",
+   "name": "Chamni's Eye Public Company Limited",
+   "industry": "",
+   "market_cap": 9960132
+  },
+  {
+   "symbol": "CFARM",
+   "yahoo": "CFARM.BK",
+   "name": "Chuwit Farm (2019) Public Company Limited",
+   "industry": "",
+   "market_cap": 14598756
+  },
+  {
+   "symbol": "CFRESH",
+   "yahoo": "CFRESH.BK",
+   "name": "Seafresh Industry Public Company Limited",
+   "industry": "",
+   "market_cap": 37885604
+  },
+  {
+   "symbol": "CGD",
+   "yahoo": "CGD.BK",
+   "name": "Country Group Development Public Company Limited",
+   "industry": "",
+   "market_cap": 24477729
+  },
+  {
+   "symbol": "CGH",
+   "yahoo": "CGH.BK",
+   "name": "Country Group Holdings Public Company Limited",
+   "industry": "",
+   "market_cap": 83614617
+  },
+  {
+   "symbol": "CH",
+   "yahoo": "CH.BK",
+   "name": "Chin Huay Public Company Limited",
+   "industry": "",
+   "market_cap": 32454841
+  },
+  {
+   "symbol": "CHAO",
+   "yahoo": "CHAO.BK",
+   "name": "Chaosua Foods Industry Public Company Limited",
+   "industry": "",
+   "market_cap": 33460587
+  },
+  {
+   "symbol": "CHARAN",
+   "yahoo": "CHARAN.BK",
+   "name": "Charan Insurance Public Company Limited",
+   "industry": "",
+   "market_cap": 7320107
+  },
+  {
+   "symbol": "CHASE",
+   "yahoo": "CHASE.BK",
+   "name": "Chase Asia Public Company Limited",
+   "industry": "",
+   "market_cap": 25879917
+  },
+  {
+   "symbol": "CHAYO",
+   "yahoo": "CHAYO.BK",
+   "name": "Chayo Group Public Company Limited",
+   "industry": "",
+   "market_cap": 44180763
+  },
+  {
+   "symbol": "CHEWA",
+   "yahoo": "CHEWA.BK",
+   "name": "Chewathai Public Company Limited",
+   "industry": "",
+   "market_cap": 5285876
+  },
+  {
+   "symbol": "CHG",
+   "yahoo": "CHG.BK",
+   "name": "Chularat Hospital Public Company Limited",
+   "industry": "Medical Care Facilities",
+   "market_cap": 498371333
+  },
+  {
+   "symbol": "CHIC",
+   "yahoo": "CHIC.BK",
+   "name": "Chic Republic Public Company Limited",
+   "industry": "",
+   "market_cap": 11679005
+  },
+  {
+   "symbol": "CHOTI",
+   "yahoo": "CHOTI.BK",
+   "name": "Kiang Huat Sea Gull Trading Frozen Food Public Company Limited",
+   "industry": "",
+   "market_cap": 15324252
+  },
+  {
+   "symbol": "CHOW",
+   "yahoo": "CHOW.BK",
+   "name": "Chow Bright Ventures Holdings Public Company",
+   "industry": "",
+   "market_cap": 30322771
+  },
+  {
+   "symbol": "CI",
+   "yahoo": "CI.BK",
+   "name": "Charn Issara Development Public Company Limited",
+   "industry": "",
+   "market_cap": 10425311
+  },
+  {
+   "symbol": "CIG",
+   "yahoo": "CIG.BK",
+   "name": "C.I. Group Public Company Limited",
+   "industry": "",
+   "market_cap": 3319435
+  },
+  {
+   "symbol": "CIVIL",
+   "yahoo": "CIVIL.BK",
+   "name": "Civil Engineering Public Company Limited",
+   "industry": "",
+   "market_cap": 16790050
+  },
+  {
+   "symbol": "CK",
+   "yahoo": "CK.BK",
+   "name": "CH. Karnchang Public Company Limited",
+   "industry": "",
+   "market_cap": 855851911
+  },
+  {
+   "symbol": "CKP",
+   "yahoo": "CKP.BK",
+   "name": "CK Power Public Company Limited",
+   "industry": "",
+   "market_cap": 553674276
+  },
+  {
+   "symbol": "CM",
+   "yahoo": "CM.BK",
+   "name": "Chiangmai Frozen Foods Public Company Limited",
+   "industry": "",
+   "market_cap": 16591182
+  },
+  {
+   "symbol": "CMAN",
+   "yahoo": "CMAN.BK",
+   "name": "Chememan Public Company Limited",
+   "industry": "",
+   "market_cap": 72206099
+  },
+  {
+   "symbol": "CMC",
+   "yahoo": "CMC.BK",
+   "name": "Chaoprayamahanakorn Public Company Limited",
+   "industry": "",
+   "market_cap": 12402754
+  },
+  {
+   "symbol": "CMO",
+   "yahoo": "CMO.BK",
+   "name": "CMO Public Company Limited",
+   "industry": "",
+   "market_cap": 7193357
+  },
+  {
+   "symbol": "CMR",
+   "yahoo": "CMR.BK",
+   "name": "Chiang Mai Ram Medical Business Public Company Limited",
+   "industry": "",
+   "market_cap": 150693105
+  },
+  {
+   "symbol": "CNT",
+   "yahoo": "CNT.BK",
+   "name": "Christiani & Nielsen (Thai) Public Company Limited",
+   "industry": "",
+   "market_cap": 93141441
+  },
+  {
+   "symbol": "COCOCO",
+   "yahoo": "COCOCO.BK",
+   "name": "Thai Coconut Public Company Limited",
+   "industry": "",
+   "market_cap": 219825294
+  },
+  {
+   "symbol": "COLOUR",
+   "yahoo": "COLOUR.BK",
+   "name": "Salee Colour Public Company Limited",
+   "industry": "",
+   "market_cap": 16917267
+  },
+  {
+   "symbol": "COM7",
+   "yahoo": "COM7.BK",
+   "name": "Com7 Public Company Limited",
+   "industry": "Specialty Retail",
+   "market_cap": 2303940172
+  },
+  {
+   "symbol": "COMAN",
+   "yahoo": "COMAN.BK",
+   "name": "Comanche International Public Company Limited",
+   "industry": "",
+   "market_cap": 2478645
+  },
+  {
+   "symbol": "CPALL",
+   "yahoo": "CPALL.BK",
+   "name": "CP ALL Public Company Limited",
+   "industry": "Grocery Stores",
+   "market_cap": 11610555162
+  },
+  {
+   "symbol": "CPANEL",
+   "yahoo": "CPANEL.BK",
+   "name": "CPanel Public Company Limited",
+   "industry": "",
+   "market_cap": 6378316
+  },
+  {
+   "symbol": "CPAXT",
+   "yahoo": "CPAXT.BK",
+   "name": "CP Axtra Public Company Limited",
+   "industry": "",
+   "market_cap": 4353865277
+  },
+  {
+   "symbol": "CPF",
+   "yahoo": "CPF.BK",
+   "name": "Charoen Pokphand Foods Public Company Limited",
+   "industry": "Farm Products",
+   "market_cap": 4508244085
+  },
+  {
+   "symbol": "CPH",
+   "yahoo": "CPH.BK",
+   "name": "Castle Peak Holdings Public Company Limited",
+   "industry": "",
+   "market_cap": 12792419
+  },
+  {
+   "symbol": "CPI",
+   "yahoo": "CPI.BK",
+   "name": "Chumporn Palm Oil Industry Public Company Limited",
+   "industry": "",
+   "market_cap": 65579929
+  },
+  {
+   "symbol": "CPL",
+   "yahoo": "CPL.BK",
+   "name": "CPL Group Public Company Limited",
+   "industry": "",
+   "market_cap": 8726552
+  },
+  {
+   "symbol": "CPN",
+   "yahoo": "CPN.BK",
+   "name": "Central Pattana Public Company Limited",
+   "industry": "Real Estate - Diversified",
+   "market_cap": 8638436471
+  },
+  {
+   "symbol": "CPNCG",
+   "yahoo": "CPNCG.BK",
+   "name": "CPN Commercial Growth Leasehold Property Fund",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "CPNREIT",
+   "yahoo": "CPNREIT.BK",
+   "name": "CPN Retail Growth Leasehold REIT",
+   "industry": "",
+   "market_cap": 1383235192
+  },
+  {
+   "symbol": "CPR",
+   "yahoo": "CPR.BK",
+   "name": "CPR Gomu Industrial Public Company Limited",
+   "industry": "",
+   "market_cap": 14378442
+  },
+  {
+   "symbol": "CPT",
+   "yahoo": "CPT.BK",
+   "name": "CPT Drives and Power Public Company Limited",
+   "industry": "",
+   "market_cap": 27183891
+  },
+  {
+   "symbol": "CPTREIT",
+   "yahoo": "CPTREIT.BK",
+   "name": "C.P. Tower Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "CPW",
+   "yahoo": "CPW.BK",
+   "name": "Copperwired Public Company Limited",
+   "industry": "",
+   "market_cap": 41575362
+  },
+  {
+   "symbol": "CRANE",
+   "yahoo": "CRANE.BK",
+   "name": "Chukai Public Company Limited",
+   "industry": "",
+   "market_cap": 5837396
+  },
+  {
+   "symbol": "CRC",
+   "yahoo": "CRC.BK",
+   "name": "Central Retail Corporation Public Company Limited",
+   "industry": "Department Stores",
+   "market_cap": 5804190327
+  },
+  {
+   "symbol": "CRD",
+   "yahoo": "CRD.BK",
+   "name": "Chiangmai Rimdoi Public Company Limited",
+   "industry": "",
+   "market_cap": 6366597
+  },
+  {
+   "symbol": "CREDIT",
+   "yahoo": "CREDIT.BK",
+   "name": "Thai Credit Bank Public Company Limited",
+   "industry": "",
+   "market_cap": 877587819
+  },
+  {
+   "symbol": "CSC",
+   "yahoo": "CSC.BK",
+   "name": "Crown Seal Public Company Limited",
+   "industry": "",
+   "market_cap": 72758095
+  },
+  {
+   "symbol": "CSP",
+   "yahoo": "CSP.BK",
+   "name": "CSP Steel Center Public Company Limited",
+   "industry": "",
+   "market_cap": 11019444
+  },
+  {
+   "symbol": "CSR",
+   "yahoo": "CSR.BK",
+   "name": "City Sports and Recreation Public Company Limited",
+   "industry": "",
+   "market_cap": 50992004
+  },
+  {
+   "symbol": "CSS",
+   "yahoo": "CSS.BK",
+   "name": "Communication & System Solution Public Company Limited",
+   "industry": "",
+   "market_cap": 32030796
+  },
+  {
+   "symbol": "CTARAF",
+   "yahoo": "CTARAF.BK",
+   "name": "Centara Hotels and Resorts Leasehold Property Fund",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "CTW",
+   "yahoo": "CTW.BK",
+   "name": "Charoong Thai Wire and Cable Public Company Limited",
+   "industry": "",
+   "market_cap": 70696995
+  },
+  {
+   "symbol": "CWT",
+   "yahoo": "CWT.BK",
+   "name": "Chai Watana Tannery Group Public Company Limited",
+   "industry": "",
+   "market_cap": 13998737
+  },
+  {
+   "symbol": "D",
+   "yahoo": "D.BK",
+   "name": "Dental Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 29386059
+  },
+  {
+   "symbol": "DCC",
+   "yahoo": "DCC.BK",
+   "name": "Dynasty Ceramic Public Company Limited",
+   "industry": "",
+   "market_cap": 352059534
+  },
+  {
+   "symbol": "DCON",
+   "yahoo": "DCON.BK",
+   "name": "Dcon Products Public Company Limited",
+   "industry": "",
+   "market_cap": 23925114
+  },
+  {
+   "symbol": "DDD",
+   "yahoo": "DDD.BK",
+   "name": "Do Day Dream Public Company Limited",
+   "industry": "",
+   "market_cap": 44781199
+  },
+  {
+   "symbol": "DELTA",
+   "yahoo": "DELTA.BK",
+   "name": "Delta Electronics (Thailand) Public Company Limited",
+   "industry": "Electrical Equipment & Parts",
+   "market_cap": 76460758953
+  },
+  {
+   "symbol": "DEMCO",
+   "yahoo": "DEMCO.BK",
+   "name": "Demco Public Company Limited",
+   "industry": "",
+   "market_cap": 80801976
+  },
+  {
+   "symbol": "DEXON",
+   "yahoo": "DEXON.BK",
+   "name": "Dexon Technology Public Company Limited",
+   "industry": "",
+   "market_cap": 11852532
+  },
+  {
+   "symbol": "DHOUSE",
+   "yahoo": "DHOUSE.BK",
+   "name": "Dhouse Pattana Public Company Limited",
+   "industry": "",
+   "market_cap": 6980554
+  },
+  {
+   "symbol": "DIF",
+   "yahoo": "DIF.BK",
+   "name": "Digital Telecommunications Infrastructure Fund",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "DIMET",
+   "yahoo": "DIMET.BK",
+   "name": "Dimet (Siam) Public Company Limited",
+   "industry": "",
+   "market_cap": 3984309
+  },
+  {
+   "symbol": "DITTO",
+   "yahoo": "DITTO.BK",
+   "name": "Ditto (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 240414244
+  },
+  {
+   "symbol": "DMT",
+   "yahoo": "DMT.BK",
+   "name": "Don Muang Tollway Public Company Limited",
+   "industry": "",
+   "market_cap": 419745145
+  },
+  {
+   "symbol": "DOD",
+   "yahoo": "DOD.BK",
+   "name": "DOD Biotech Public Company Limited",
+   "industry": "",
+   "market_cap": 9336393
+  },
+  {
+   "symbol": "DOHOME",
+   "yahoo": "DOHOME.BK",
+   "name": "Dohome Public Company Limited",
+   "industry": "",
+   "market_cap": 364676415
+  },
+  {
+   "symbol": "DPAINT",
+   "yahoo": "DPAINT.BK",
+   "name": "Delta Paint Public Company Limited",
+   "industry": "",
+   "market_cap": 4764120
+  },
+  {
+   "symbol": "DREIT",
+   "yahoo": "DREIT.BK",
+   "name": "Dusit Thani Freehold and Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 100709807
+  },
+  {
+   "symbol": "DRT",
+   "yahoo": "DRT.BK",
+   "name": "Diamond Building Products Public Company Limited",
+   "industry": "",
+   "market_cap": 126241459
+  },
+  {
+   "symbol": "DTCENT",
+   "yahoo": "DTCENT.BK",
+   "name": "D.T.C. Enterprise Public Company Limited",
+   "industry": "",
+   "market_cap": 34676905
+  },
+  {
+   "symbol": "DTCI",
+   "yahoo": "DTCI.BK",
+   "name": "D.T.C. Industries Public Company Limited",
+   "industry": "",
+   "market_cap": 4589873
+  },
+  {
+   "symbol": "DUSIT",
+   "yahoo": "DUSIT.BK",
+   "name": "Dusit Thani Public Company Limited",
+   "industry": "",
+   "market_cap": 250306472
+  },
+  {
+   "symbol": "EA",
+   "yahoo": "EA.BK",
+   "name": "Energy Absolute Public Company Limited",
+   "industry": "",
+   "market_cap": 541010637
+  },
+  {
+   "symbol": "EASON",
+   "yahoo": "EASON.BK",
+   "name": "Eason & Co Public Company Limited",
+   "industry": "",
+   "market_cap": 19098739
+  },
+  {
+   "symbol": "EAST",
+   "yahoo": "EAST.BK",
+   "name": "Eastern Commercial Leasing Public Company Limited",
+   "industry": "",
+   "market_cap": 35487463
+  },
+  {
+   "symbol": "EASTW",
+   "yahoo": "EASTW.BK",
+   "name": "Eastern Water Resources Development and Management Public Company Limited",
+   "industry": "",
+   "market_cap": 204948078
+  },
+  {
+   "symbol": "EFORL",
+   "yahoo": "EFORL.BK",
+   "name": "E for L Aim Public Company Limited",
+   "industry": "",
+   "market_cap": 13024356
+  },
+  {
+   "symbol": "EGATIF",
+   "yahoo": "EGATIF.BK",
+   "name": "Electricity Generating Authority Of Thailand- North Bangkok Power Plant Block 1 Infrastructure Fund",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "EGCO",
+   "yahoo": "EGCO.BK",
+   "name": "Electricity Generating Public Company Limited",
+   "industry": "Utilities - Independent Power Producers",
+   "market_cap": 2050048821
+  },
+  {
+   "symbol": "EKH",
+   "yahoo": "EKH.BK",
+   "name": "Ekachai Medical Care Public Company Limited",
+   "industry": "",
+   "market_cap": 120817292
+  },
+  {
+   "symbol": "EMC",
+   "yahoo": "EMC.BK",
+   "name": "EMC Public Company Limited",
+   "industry": "",
+   "market_cap": 7444852
+  },
+  {
+   "symbol": "EP",
+   "yahoo": "EP.BK",
+   "name": "Eastern Power Group Public Company Limited",
+   "industry": "",
+   "market_cap": 28994147
+  },
+  {
+   "symbol": "EPG",
+   "yahoo": "EPG.BK",
+   "name": "Eastern Polymer Group Public Company Limited",
+   "industry": "",
+   "market_cap": 509920033
+  },
+  {
+   "symbol": "ERW",
+   "yahoo": "ERW.BK",
+   "name": "The Erawan Group Public Company Limited",
+   "industry": "Lodging",
+   "market_cap": 509386777
+  },
+  {
+   "symbol": "ESTAR",
+   "yahoo": "ESTAR.BK",
+   "name": "Eastern Star Real Estate Public Company Limited",
+   "industry": "",
+   "market_cap": 35692601
+  },
+  {
+   "symbol": "ETC",
+   "yahoo": "ETC.BK",
+   "name": "Earth Tech Environment Public Company Limited",
+   "industry": "",
+   "market_cap": 43778501
+  },
+  {
+   "symbol": "ETE",
+   "yahoo": "ETE.BK",
+   "name": "Eastern Technical Engineering Public Company Limited",
+   "industry": "",
+   "market_cap": 11110453
+  },
+  {
+   "symbol": "ETL",
+   "yahoo": "ETL.BK",
+   "name": "Euroasia Total Logistics Public Company Limited",
+   "industry": "",
+   "market_cap": 6976606
+  },
+  {
+   "symbol": "EURO",
+   "yahoo": "EURO.BK",
+   "name": "Euro Creations Public Company Limited",
+   "industry": "",
+   "market_cap": 74964554
+  },
+  {
+   "symbol": "EVER",
+   "yahoo": "EVER.BK",
+   "name": "Everland Public Company Limited",
+   "industry": "",
+   "market_cap": 8625620
+  },
+  {
+   "symbol": "F&D",
+   "yahoo": "F&D.BK",
+   "name": "Food and Drinks Public Company Limited",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "FANCY",
+   "yahoo": "FANCY.BK",
+   "name": "Fancy Wood Industries Public Company Limited",
+   "industry": "",
+   "market_cap": 3278058
+  },
+  {
+   "symbol": "FE",
+   "yahoo": "FE.BK",
+   "name": "Far East Fame Line Public Company Limited",
+   "industry": "",
+   "market_cap": 41948476
+  },
+  {
+   "symbol": "FLE",
+   "yahoo": "FLE.BK",
+   "name": "Frontline Engineering Public Company Limited",
+   "industry": "",
+   "market_cap": 9683151
+  },
+  {
+   "symbol": "FLOYD",
+   "yahoo": "FLOYD.BK",
+   "name": "Floyd Public Company Limited",
+   "industry": "",
+   "market_cap": 14345358
+  },
+  {
+   "symbol": "FM",
+   "yahoo": "FM.BK",
+   "name": "Food Moments Public Company Limited",
+   "industry": "",
+   "market_cap": 121686812
+  },
+  {
+   "symbol": "FMT",
+   "yahoo": "FMT.BK",
+   "name": "Fine Metal Technologies Public Company Limited",
+   "industry": "",
+   "market_cap": 30417530
+  },
+  {
+   "symbol": "FN",
+   "yahoo": "FN.BK",
+   "name": "FN Factory Outlet Public Company Limited",
+   "industry": "",
+   "market_cap": 12140953
+  },
+  {
+   "symbol": "FNS",
+   "yahoo": "FNS.BK",
+   "name": "FNS Holdings Public Company Limited",
+   "industry": "",
+   "market_cap": 7857419
+  },
+  {
+   "symbol": "FORTH",
+   "yahoo": "FORTH.BK",
+   "name": "Forth Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 371158453
+  },
+  {
+   "symbol": "FPI",
+   "yahoo": "FPI.BK",
+   "name": "Fortune Parts Industry Public Company Limited",
+   "industry": "",
+   "market_cap": 71686344
+  },
+  {
+   "symbol": "FPT",
+   "yahoo": "FPT.BK",
+   "name": "Frasers Property (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 473882481
+  },
+  {
+   "symbol": "FSMART",
+   "yahoo": "FSMART.BK",
+   "name": "Forth Smart Service Public Company Limited",
+   "industry": "",
+   "market_cap": 137157809
+  },
+  {
+   "symbol": "FSX",
+   "yahoo": "FSX.BK",
+   "name": "Finansia X Public Company Limited",
+   "industry": "",
+   "market_cap": 32386327
+  },
+  {
+   "symbol": "FTE",
+   "yahoo": "FTE.BK",
+   "name": "Firetrade Engineering Public Company Limited",
+   "industry": "",
+   "market_cap": 48078171
+  },
+  {
+   "symbol": "FTI",
+   "yahoo": "FTI.BK",
+   "name": "Function International Public Company Limited",
+   "industry": "",
+   "market_cap": 26117856
+  },
+  {
+   "symbol": "FTREIT",
+   "yahoo": "FTREIT.BK",
+   "name": "Frasers Property Thailand Industrial Freehold & Leasehold REIT",
+   "industry": "",
+   "market_cap": 1254240182
+  },
+  {
+   "symbol": "FUTURERT",
+   "yahoo": "FUTURERT.BK",
+   "name": "Future City Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 288540606
+  },
+  {
+   "symbol": "FVC",
+   "yahoo": "FVC.BK",
+   "name": "Filter Vision Public Company Limited",
+   "industry": "",
+   "market_cap": 21409192
+  },
+  {
+   "symbol": "GABLE",
+   "yahoo": "GABLE.BK",
+   "name": "G-Able Public Company Limited",
+   "industry": "",
+   "market_cap": 81258045
+  },
+  {
+   "symbol": "GAHREIT",
+   "yahoo": "GAHREIT.BK",
+   "name": "Grande Hospitality Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 18708913
+  },
+  {
+   "symbol": "GBX",
+   "yahoo": "GBX.BK",
+   "name": "Globlex Holding Management Public Company Limited",
+   "industry": "",
+   "market_cap": 20317384
+  },
+  {
+   "symbol": "GC",
+   "yahoo": "GC.BK",
+   "name": "Global Connections Public Company Limited",
+   "industry": "",
+   "market_cap": 69706820
+  },
+  {
+   "symbol": "GCAP",
+   "yahoo": "GCAP.BK",
+   "name": "G Capital Public Company Limited",
+   "industry": "",
+   "market_cap": 4493079
+  },
+  {
+   "symbol": "GEL",
+   "yahoo": "GEL.BK",
+   "name": "General Engineering Public Company Limited",
+   "industry": "",
+   "market_cap": 7650620
+  },
+  {
+   "symbol": "GENCO",
+   "yahoo": "GENCO.BK",
+   "name": "General Environmental Conservation Public Company Limited",
+   "industry": "",
+   "market_cap": 9849353
+  },
+  {
+   "symbol": "GFC",
+   "yahoo": "GFC.BK",
+   "name": "Genesis Fertility Center Public Company Limited",
+   "industry": "",
+   "market_cap": 12768729
+  },
+  {
+   "symbol": "GFPT",
+   "yahoo": "GFPT.BK",
+   "name": "GFPT Public Company Limited",
+   "industry": "",
+   "market_cap": 365713302
+  },
+  {
+   "symbol": "GGC",
+   "yahoo": "GGC.BK",
+   "name": "Global Green Chemicals Public Company Limited",
+   "industry": "",
+   "market_cap": 178846116
+  },
+  {
+   "symbol": "GJS",
+   "yahoo": "GJS.BK",
+   "name": "G J Steel Public Company Limited",
+   "industry": "",
+   "market_cap": 67925441
+  },
+  {
+   "symbol": "GLOBAL",
+   "yahoo": "GLOBAL.BK",
+   "name": "Siam Global House Public Company Limited",
+   "industry": "Home Improvement Retail",
+   "market_cap": 1177794778
+  },
+  {
+   "symbol": "GLORY",
+   "yahoo": "GLORY.BK",
+   "name": "Glory Forever Public Company Limited",
+   "industry": "",
+   "market_cap": 6327559
+  },
+  {
+   "symbol": "GPI",
+   "yahoo": "GPI.BK",
+   "name": "Grand Prix International Public Company Limited",
+   "industry": "",
+   "market_cap": 31625703
+  },
+  {
+   "symbol": "GPSC",
+   "yahoo": "GPSC.BK",
+   "name": "Global Power Synergy Public Company Limited",
+   "industry": "Utilities - Regulated Electric",
+   "market_cap": 4070530272
+  },
+  {
+   "symbol": "GRAMMY",
+   "yahoo": "GRAMMY.BK",
+   "name": "GMM Grammy Public Company Limited",
+   "industry": "",
+   "market_cap": 104891416
+  },
+  {
+   "symbol": "GREEN",
+   "yahoo": "GREEN.BK",
+   "name": "Green Resources Public Company Limited",
+   "industry": "",
+   "market_cap": 20347667
+  },
+  {
+   "symbol": "GROREIT",
+   "yahoo": "GROREIT.BK",
+   "name": "Grande Royal Orchid Hospitality Real Estate Investment Trust with Buy-Back Condition",
+   "industry": "",
+   "market_cap": 100740304
+  },
+  {
+   "symbol": "GST",
+   "yahoo": "GST.BK",
+   "name": "Gulf Space Technology Public Company Limited",
+   "industry": "",
+   "market_cap": 287252100
+  },
+  {
+   "symbol": "GTB",
+   "yahoo": "GTB.BK",
+   "name": "Getabec Public Company Limited",
+   "industry": "",
+   "market_cap": 21889251
+  },
+  {
+   "symbol": "GTV",
+   "yahoo": "GTV.BK",
+   "name": "Green Tech Ventures Public Company Limited",
+   "industry": "",
+   "market_cap": 11665048
+  },
+  {
+   "symbol": "GULF",
+   "yahoo": "GULF.BK",
+   "name": "Gulf Development Public Company Limited",
+   "industry": "Utilities - Independent Power Producers",
+   "market_cap": 26875781496
+  },
+  {
+   "symbol": "GUNKUL",
+   "yahoo": "GUNKUL.BK",
+   "name": "Gunkul Engineering Public Company Limited",
+   "industry": "",
+   "market_cap": 1199417824
+  },
+  {
+   "symbol": "GVREIT",
+   "yahoo": "GVREIT.BK",
+   "name": "Golden Ventures Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 171308254
+  },
+  {
+   "symbol": "GYT",
+   "yahoo": "GYT.BK",
+   "name": "Goodyear (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 40100682
+  },
+  {
+   "symbol": "HANA",
+   "yahoo": "HANA.BK",
+   "name": "Hana Microelectronics Public Company Limited",
+   "industry": "Electronic Components",
+   "market_cap": 1206007327
+  },
+  {
+   "symbol": "HANN",
+   "yahoo": "HANN.BK",
+   "name": "Mukdahan International Hospital Public Company Limited",
+   "industry": "",
+   "market_cap": 12768729
+  },
+  {
+   "symbol": "HARN",
+   "yahoo": "HARN.BK",
+   "name": "Harn Engineering Solutions Public Company Limited",
+   "industry": "",
+   "market_cap": 34270356
+  },
+  {
+   "symbol": "HENG",
+   "yahoo": "HENG.BK",
+   "name": "Heng Leasing and Capital Public Company Limited",
+   "industry": "",
+   "market_cap": 97026948
+  },
+  {
+   "symbol": "HFT",
+   "yahoo": "HFT.BK",
+   "name": "Hwa Fong Rubber (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 78380391
+  },
+  {
+   "symbol": "HL",
+   "yahoo": "HL.BK",
+   "name": "Healthlead Public Company Limited",
+   "industry": "",
+   "market_cap": 33034328
+  },
+  {
+   "symbol": "HMPRO",
+   "yahoo": "HMPRO.BK",
+   "name": "Home Product Center Public Company Limited",
+   "industry": "Home Improvement Retail",
+   "market_cap": 2423417228
+  },
+  {
+   "symbol": "HPF",
+   "yahoo": "HPF.BK",
+   "name": "Hemaraj Industrial Property and Leasehold Fund",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "HPT",
+   "yahoo": "HPT.BK",
+   "name": "Home Pottery Public Company Limited",
+   "industry": "",
+   "market_cap": 4901387
+  },
+  {
+   "symbol": "HTC",
+   "yahoo": "HTC.BK",
+   "name": "Haad Thip Public Company Limited",
+   "industry": "",
+   "market_cap": 182096277
+  },
+  {
+   "symbol": "HTECH",
+   "yahoo": "HTECH.BK",
+   "name": "Halcyon Technology Public Company Limited",
+   "industry": "",
+   "market_cap": 42688595
+  },
+  {
+   "symbol": "HUMAN",
+   "yahoo": "HUMAN.BK",
+   "name": "Humanica Public Company Limited",
+   "industry": "",
+   "market_cap": 104988472
+  },
+  {
+   "symbol": "HYDRO",
+   "yahoo": "HYDRO.BK",
+   "name": "Hydrotek Public Company Limited",
+   "industry": "",
+   "market_cap": 357695
+  },
+  {
+   "symbol": "HYDROGEN",
+   "yahoo": "HYDROGEN.BK",
+   "name": "Hydrogen Freehold and Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 54128989
+  },
+  {
+   "symbol": "I2",
+   "yahoo": "I2.BK",
+   "name": "I2 Enterprise Public Company Limited",
+   "industry": "",
+   "market_cap": 8581581
+  },
+  {
+   "symbol": "ICC",
+   "yahoo": "ICC.BK",
+   "name": "I.C.C. International Public Company Limited",
+   "industry": "",
+   "market_cap": 353864376
+  },
+  {
+   "symbol": "ICHI",
+   "yahoo": "ICHI.BK",
+   "name": "Ichitan Group Public Company Limited",
+   "industry": "",
+   "market_cap": 538939895
+  },
+  {
+   "symbol": "ICN",
+   "yahoo": "ICN.BK",
+   "name": "Information and Communication Networks Public Company Limited",
+   "industry": "",
+   "market_cap": 40600675
+  },
+  {
+   "symbol": "IDG",
+   "yahoo": "IDG.BK",
+   "name": "Indigy Public Company Limited",
+   "industry": "",
+   "market_cap": 3879182
+  },
+  {
+   "symbol": "IFS",
+   "yahoo": "IFS.BK",
+   "name": "IFS Capital (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 25866002
+  },
+  {
+   "symbol": "IHL",
+   "yahoo": "IHL.BK",
+   "name": "Interhides Public Company Limited",
+   "industry": "",
+   "market_cap": 21942761
+  },
+  {
+   "symbol": "IIG",
+   "yahoo": "IIG.BK",
+   "name": "I&I Group Public Company Limited",
+   "industry": "",
+   "market_cap": 4676401
+  },
+  {
+   "symbol": "III",
+   "yahoo": "III.BK",
+   "name": "Triple i Logistics Public Company Limited",
+   "industry": "",
+   "market_cap": 99222574
+  },
+  {
+   "symbol": "ILINK",
+   "yahoo": "ILINK.BK",
+   "name": "Interlink Communication Public Company Limited",
+   "industry": "",
+   "market_cap": 75982952
+  },
+  {
+   "symbol": "ILM",
+   "yahoo": "ILM.BK",
+   "name": "Index Living Mall Public Company Limited",
+   "industry": "",
+   "market_cap": 201880369
+  },
+  {
+   "symbol": "IMH",
+   "yahoo": "IMH.BK",
+   "name": "Intermedical Care and Lab Hospital Public Company Limited",
+   "industry": "",
+   "market_cap": 23721297
+  },
+  {
+   "symbol": "IMPACT",
+   "yahoo": "IMPACT.BK",
+   "name": "IMPACT Growth Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 548748887
+  },
+  {
+   "symbol": "IND",
+   "yahoo": "IND.BK",
+   "name": "Index International Group Public Company Limited",
+   "industry": "",
+   "market_cap": 8602310
+  },
+  {
+   "symbol": "INET",
+   "yahoo": "INET.BK",
+   "name": "Internet Thailand Public Company Limited",
+   "industry": "",
+   "market_cap": 64321428
+  },
+  {
+   "symbol": "INETREIT",
+   "yahoo": "INETREIT.BK",
+   "name": "INET Freehold and Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 276216916
+  },
+  {
+   "symbol": "INOX",
+   "yahoo": "INOX.BK",
+   "name": "POSCO-Thainox Public Company Limited",
+   "industry": "",
+   "market_cap": 86798531
+  },
+  {
+   "symbol": "INSET",
+   "yahoo": "INSET.BK",
+   "name": "Infraset Public Company Limited",
+   "industry": "",
+   "market_cap": 103138305
+  },
+  {
+   "symbol": "IP",
+   "yahoo": "IP.BK",
+   "name": "Inter Pharma Public Company Limited",
+   "industry": "",
+   "market_cap": 87117974
+  },
+  {
+   "symbol": "IRC",
+   "yahoo": "IRC.BK",
+   "name": "Inoue Rubber (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 70576705
+  },
+  {
+   "symbol": "IRCP",
+   "yahoo": "IRCP.BK",
+   "name": "International Research Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 5538775
+  },
+  {
+   "symbol": "IROYAL",
+   "yahoo": "IROYAL.BK",
+   "name": "Interroyal Engineering Public Company Limited",
+   "industry": "",
+   "market_cap": 25608528
+  },
+  {
+   "symbol": "IRPC",
+   "yahoo": "IRPC.BK",
+   "name": "IRPC Public Company Limited",
+   "industry": "Oil & Gas Refining & Marketing",
+   "market_cap": 1595616246
+  },
+  {
+   "symbol": "ISSARA",
+   "yahoo": "ISSARA.BK",
+   "name": "Issara Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 14853562
+  },
+  {
+   "symbol": "IT",
+   "yahoo": "IT.BK",
+   "name": "IT City Public Company Limited",
+   "industry": "",
+   "market_cap": 70523913
+  },
+  {
+   "symbol": "ITC",
+   "yahoo": "ITC.BK",
+   "name": "i-Tail Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 1519099765
+  },
+  {
+   "symbol": "ITD",
+   "yahoo": "ITD.BK",
+   "name": "Italian-Thai Development Public Company Limited",
+   "industry": "",
+   "market_cap": 53158289
+  },
+  {
+   "symbol": "ITEL",
+   "yahoo": "ITEL.BK",
+   "name": "Interlink Telecom Public Company Limited",
+   "industry": "",
+   "market_cap": 94470768
+  },
+  {
+   "symbol": "ITNS",
+   "yahoo": "ITNS.BK",
+   "name": "International Network System Public Company Limited",
+   "industry": "",
+   "market_cap": 12315961
+  },
+  {
+   "symbol": "ITTHI",
+   "yahoo": "ITTHI.BK",
+   "name": "Itthirit Nice Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 9201362
+  },
+  {
+   "symbol": "IVF",
+   "yahoo": "IVF.BK",
+   "name": "Inspire IVF Public Company Limited",
+   "industry": "",
+   "market_cap": 8208484
+  },
+  {
+   "symbol": "IVL",
+   "yahoo": "IVL.BK",
+   "name": "Indorama Ventures Public Company Limited",
+   "industry": "Chemicals",
+   "market_cap": 4281158063
+  },
+  {
+   "symbol": "J",
+   "yahoo": "J.BK",
+   "name": "JAS Asset Public Company Limited",
+   "industry": "",
+   "market_cap": 30711257
+  },
+  {
+   "symbol": "JAK",
+   "yahoo": "JAK.BK",
+   "name": "Jakpaisan Estate Public Company Limited",
+   "industry": "",
+   "market_cap": 9002073
+  },
+  {
+   "symbol": "JAS",
+   "yahoo": "JAS.BK",
+   "name": "Jasmine International Public Company Limited",
+   "industry": "",
+   "market_cap": 164515544
+  },
+  {
+   "symbol": "JCK",
+   "yahoo": "JCK.BK",
+   "name": "JCK International Public Company Limited",
+   "industry": "",
+   "market_cap": 20269308
+  },
+  {
+   "symbol": "JCT",
+   "yahoo": "JCT.BK",
+   "name": "Jack Chia Industries (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 33280276
+  },
+  {
+   "symbol": "JDF",
+   "yahoo": "JDF.BK",
+   "name": "JD Food Public Company Limited",
+   "industry": "",
+   "market_cap": 36955877
+  },
+  {
+   "symbol": "JMART",
+   "yahoo": "JMART.BK",
+   "name": "Jaymart Group Holdings Public Company Limited",
+   "industry": "",
+   "market_cap": 437847839
+  },
+  {
+   "symbol": "JMT",
+   "yahoo": "JMT.BK",
+   "name": "JMT Network Services Public Company Limited",
+   "industry": "",
+   "market_cap": 445227037
+  },
+  {
+   "symbol": "JPARK",
+   "yahoo": "JPARK.BK",
+   "name": "Jenkongklai Public Company Limited",
+   "industry": "",
+   "market_cap": 33165531
+  },
+  {
+   "symbol": "JR",
+   "yahoo": "JR.BK",
+   "name": "J.R.W. Utility Public Company Limited",
+   "industry": "",
+   "market_cap": 41409535
+  },
+  {
+   "symbol": "JSP",
+   "yahoo": "JSP.BK",
+   "name": "JSP Pharmaceutical Manufacturing (Thailand) Public Co., Ltd.",
+   "industry": "",
+   "market_cap": 23890358
+  },
+  {
+   "symbol": "JTS",
+   "yahoo": "JTS.BK",
+   "name": "Jasmine Technology Solution Public Company Limited",
+   "industry": "",
+   "market_cap": 415886724
+  },
+  {
+   "symbol": "JUBILE",
+   "yahoo": "JUBILE.BK",
+   "name": "Jubilee Enterprise Public Company Limited",
+   "industry": "",
+   "market_cap": 37930334
+  },
+  {
+   "symbol": "K",
+   "yahoo": "K.BK",
+   "name": "Kingsmen C.M.T.I. Public Company Limited",
+   "industry": "",
+   "market_cap": 13913053
+  },
+  {
+   "symbol": "KAMART",
+   "yahoo": "KAMART.BK",
+   "name": "Karmarts Public Company Limited",
+   "industry": "",
+   "market_cap": 248315554
+  },
+  {
+   "symbol": "KASET",
+   "yahoo": "KASET.BK",
+   "name": "Thai Ha Public Company Limited",
+   "industry": "",
+   "market_cap": 4932511
+  },
+  {
+   "symbol": "KBANK",
+   "yahoo": "KBANK.BK",
+   "name": "Kasikornbank Public Company Limited",
+   "industry": "Banks - Regional",
+   "market_cap": 17119215879
+  },
+  {
+   "symbol": "KBS",
+   "yahoo": "KBS.BK",
+   "name": "Khonburi Sugar Public Company Limited",
+   "industry": "",
+   "market_cap": 112508640
+  },
+  {
+   "symbol": "KBSPIF",
+   "yahoo": "KBSPIF.BK",
+   "name": "Khonburi Sugar Power Plant Infrastructure Fund",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "KC",
+   "yahoo": "KC.BK",
+   "name": "K.C. Property Public Company Limited",
+   "industry": "",
+   "market_cap": 3065139
+  },
+  {
+   "symbol": "KCAR",
+   "yahoo": "KCAR.BK",
+   "name": "Krungthai Car Rent and Lease Public Company Limited",
+   "industry": "",
+   "market_cap": 35386439
+  },
+  {
+   "symbol": "KCC",
+   "yahoo": "KCC.BK",
+   "name": "Knight Club Capital Holding Public Company Limited",
+   "industry": "",
+   "market_cap": 43944401
+  },
+  {
+   "symbol": "KCE",
+   "yahoo": "KCE.BK",
+   "name": "KCE Electronics Public Company Limited",
+   "industry": "Electronic Components",
+   "market_cap": 2459038236
+  },
+  {
+   "symbol": "KCG",
+   "yahoo": "KCG.BK",
+   "name": "KCG Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 167841269
+  },
+  {
+   "symbol": "KCM",
+   "yahoo": "KCM.BK",
+   "name": "K.C. Metalsheet Public Company Limited",
+   "industry": "",
+   "market_cap": 5034054
+  },
+  {
+   "symbol": "KDH",
+   "yahoo": "KDH.BK",
+   "name": "Thonburi Medical Centre Public Company Limited",
+   "industry": "",
+   "market_cap": 49795130
+  },
+  {
+   "symbol": "KGEN",
+   "yahoo": "KGEN.BK",
+   "name": "King Gen Public Company Limited",
+   "industry": "",
+   "market_cap": 101498912
+  },
+  {
+   "symbol": "KGI",
+   "yahoo": "KGI.BK",
+   "name": "KGI Securities (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 281925602
+  },
+  {
+   "symbol": "KIAT",
+   "yahoo": "KIAT.BK",
+   "name": "Kiattana Transport Public Company Limited",
+   "industry": "",
+   "market_cap": 27716893
+  },
+  {
+   "symbol": "KISS",
+   "yahoo": "KISS.BK",
+   "name": "Rojukiss International Public Company Limited",
+   "industry": "",
+   "market_cap": 63403512
+  },
+  {
+   "symbol": "KJL",
+   "yahoo": "KJL.BK",
+   "name": "Kijcharoen Engineering Electric Public Company Limited",
+   "industry": "",
+   "market_cap": 41906620
+  },
+  {
+   "symbol": "KK",
+   "yahoo": "KK.BK",
+   "name": "K&K Superstore Southern Public Company Limited",
+   "industry": "",
+   "market_cap": 6436185
+  },
+  {
+   "symbol": "KKP",
+   "yahoo": "KKP.BK",
+   "name": "Kiatnakin Phatra Bank Public Company Limited",
+   "industry": "Banks - Regional",
+   "market_cap": 2930429732
+  },
+  {
+   "symbol": "KLINIQ",
+   "yahoo": "KLINIQ.BK",
+   "name": "The Klinique Medical Clinic Public Company Limited",
+   "industry": "",
+   "market_cap": 208469053
+  },
+  {
+   "symbol": "KOOL",
+   "yahoo": "KOOL.BK",
+   "name": "CL Venture Public Company Limited",
+   "industry": "",
+   "market_cap": 17989338
+  },
+  {
+   "symbol": "KPNREIT",
+   "yahoo": "KPNREIT.BK",
+   "name": "KPN Freehold and Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 10660349
+  },
+  {
+   "symbol": "KSL",
+   "yahoo": "KSL.BK",
+   "name": "Khon Kaen Sugar Industry Public Company Limited",
+   "industry": "",
+   "market_cap": 219401564
+  },
+  {
+   "symbol": "KTB",
+   "yahoo": "KTB.BK",
+   "name": "Krung Thai Bank Public Company Limited",
+   "industry": "Banks - Regional",
+   "market_cap": 17899455231
+  },
+  {
+   "symbol": "KTBSTMR",
+   "yahoo": "KTBSTMR.BK",
+   "name": "KTBST Mixed Freehold and Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 58478681
+  },
+  {
+   "symbol": "KTC",
+   "yahoo": "KTC.BK",
+   "name": "Krungthai Card Public Company Limited",
+   "industry": "Credit Services",
+   "market_cap": 2653156855
+  },
+  {
+   "symbol": "KTIS",
+   "yahoo": "KTIS.BK",
+   "name": "Kaset Thai International Sugar Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 212602895
+  },
+  {
+   "symbol": "KTMS",
+   "yahoo": "KTMS.BK",
+   "name": "KT Medical Service Public Company Limited",
+   "industry": "",
+   "market_cap": 11371039
+  },
+  {
+   "symbol": "KUMWEL",
+   "yahoo": "KUMWEL.BK",
+   "name": "Kumwell Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 24957062
+  },
+  {
+   "symbol": "KUN",
+   "yahoo": "KUN.BK",
+   "name": "Villa Kunalai Public Company Limited",
+   "industry": "",
+   "market_cap": 11646563
+  },
+  {
+   "symbol": "KWM",
+   "yahoo": "KWM.BK",
+   "name": "K.W. Metal Work Public Company Limited",
+   "industry": "",
+   "market_cap": 10416132
+  },
+  {
+   "symbol": "KYE",
+   "yahoo": "KYE.BK",
+   "name": "Kang Yong Electric Public Company Limited",
+   "industry": "",
+   "market_cap": 164169379
+  },
+  {
+   "symbol": "L&E",
+   "yahoo": "L&E.BK",
+   "name": "Lighting and Equipment Public Company Limited",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "LALIN",
+   "yahoo": "LALIN.BK",
+   "name": "Lalin Property Public Company Limited",
+   "industry": "",
+   "market_cap": 114495039
+  },
+  {
+   "symbol": "LANNA",
+   "yahoo": "LANNA.BK",
+   "name": "Lanna Resources Public Company Limited",
+   "industry": "",
+   "market_cap": 226976465
+  },
+  {
+   "symbol": "LDC",
+   "yahoo": "LDC.BK",
+   "name": "LDC Dental Public Company Limited",
+   "industry": "",
+   "market_cap": 4086467
+  },
+  {
+   "symbol": "LEE",
+   "yahoo": "LEE.BK",
+   "name": "Lee Feed Mill Public Company Limited",
+   "industry": "",
+   "market_cap": 64377131
+  },
+  {
+   "symbol": "LEO",
+   "yahoo": "LEO.BK",
+   "name": "Leo Global Logistics Public Company Limited",
+   "industry": "",
+   "market_cap": 16677534
+  },
+  {
+   "symbol": "LH",
+   "yahoo": "LH.BK",
+   "name": "Land and Houses Public Company Limited",
+   "industry": "Real Estate - Development",
+   "market_cap": 1259726906
+  },
+  {
+   "symbol": "LHFG",
+   "yahoo": "LHFG.BK",
+   "name": "LH Financial Group Public Company Limited",
+   "industry": "",
+   "market_cap": 771569526
+  },
+  {
+   "symbol": "LHHOTEL",
+   "yahoo": "LHHOTEL.BK",
+   "name": "LH Hotel Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 484268363
+  },
+  {
+   "symbol": "LHK",
+   "yahoo": "LHK.BK",
+   "name": "Lohakit Metal Public Company Limited",
+   "industry": "",
+   "market_cap": 40148653
+  },
+  {
+   "symbol": "LHRREIT",
+   "yahoo": "LHRREIT.BK",
+   "name": "Land And Houses Residential Freehold And Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 42019545
+  },
+  {
+   "symbol": "LHSC",
+   "yahoo": "LHSC.BK",
+   "name": "LH Shopping Centers Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 347905739
+  },
+  {
+   "symbol": "LIT",
+   "yahoo": "LIT.BK",
+   "name": "Lease IT Public Company Limited",
+   "industry": "",
+   "market_cap": 9312442
+  },
+  {
+   "symbol": "LOXLEY",
+   "yahoo": "LOXLEY.BK",
+   "name": "Loxley Public Company Limited",
+   "industry": "",
+   "market_cap": 116031153
+  },
+  {
+   "symbol": "LPH",
+   "yahoo": "LPH.BK",
+   "name": "Ladprao General Hospital Public Company Limited",
+   "industry": "",
+   "market_cap": 76754515
+  },
+  {
+   "symbol": "LPN",
+   "yahoo": "LPN.BK",
+   "name": "L.P.N. Development Public Company Limited",
+   "industry": "",
+   "market_cap": 64034340
+  },
+  {
+   "symbol": "LST",
+   "yahoo": "LST.BK",
+   "name": "Lam Soon (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 111696771
+  },
+  {
+   "symbol": "LTMH",
+   "yahoo": "LTMH.BK",
+   "name": "LTMH Public Company Limited",
+   "industry": "",
+   "market_cap": 67613427
+  },
+  {
+   "symbol": "LTS",
+   "yahoo": "LTS.BK",
+   "name": "Light Up Total Solution Public Company Limited",
+   "industry": "",
+   "market_cap": 15826591
+  },
+  {
+   "symbol": "LUXF",
+   "yahoo": "LUXF.BK",
+   "name": "Luxury Real Estate Investment Fund",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "M",
+   "yahoo": "M.BK",
+   "name": "MK Restaurant Group Public Company Limited",
+   "industry": "",
+   "market_cap": 548545300
+  },
+  {
+   "symbol": "MADAME",
+   "yahoo": "MADAME.BK",
+   "name": "Madame Bioscience Public Company Limited",
+   "industry": "",
+   "market_cap": 25356153
+  },
+  {
+   "symbol": "MAGURO",
+   "yahoo": "MAGURO.BK",
+   "name": "Maguro Group Public Company Limited",
+   "industry": "",
+   "market_cap": 63055964
+  },
+  {
+   "symbol": "MAJOR",
+   "yahoo": "MAJOR.BK",
+   "name": "Major Cineplex Group Public Company Limited",
+   "industry": "",
+   "market_cap": 149629792
+  },
+  {
+   "symbol": "MALEE",
+   "yahoo": "MALEE.BK",
+   "name": "Malee Group Public Company Limited",
+   "industry": "",
+   "market_cap": 58500062
+  },
+  {
+   "symbol": "MANRIN",
+   "yahoo": "MANRIN.BK",
+   "name": "Mandarin Hotel Public Company Limited",
+   "industry": "",
+   "market_cap": 16173622
+  },
+  {
+   "symbol": "MASTEC",
+   "yahoo": "MASTEC.BK",
+   "name": "Masstec Link Public Company Limited",
+   "industry": "",
+   "market_cap": 14835653
+  },
+  {
+   "symbol": "MASTER",
+   "yahoo": "MASTER.BK",
+   "name": "Master Style Public Company Limited",
+   "industry": "",
+   "market_cap": 70581071
+  },
+  {
+   "symbol": "MATCH",
+   "yahoo": "MATCH.BK",
+   "name": "Matching Maximize Solution Public Company Limited",
+   "industry": "",
+   "market_cap": 15739045
+  },
+  {
+   "symbol": "MATI",
+   "yahoo": "MATI.BK",
+   "name": "Matichon Public Company Limited",
+   "industry": "",
+   "market_cap": 16465727
+  },
+  {
+   "symbol": "MBAX",
+   "yahoo": "MBAX.BK",
+   "name": "Multibax Public Company Limited",
+   "industry": "",
+   "market_cap": 11772436
+  },
+  {
+   "symbol": "MBK",
+   "yahoo": "MBK.BK",
+   "name": "MBK Public Company Limited",
+   "industry": "",
+   "market_cap": 815300359
+  },
+  {
+   "symbol": "MC",
+   "yahoo": "MC.BK",
+   "name": "MC Group Public Company Limited",
+   "industry": "",
+   "market_cap": 265016291
+  },
+  {
+   "symbol": "MCA",
+   "yahoo": "MCA.BK",
+   "name": "Market Connections Asia Public Company Limited",
+   "industry": "",
+   "market_cap": 8649689
+  },
+  {
+   "symbol": "MCOT",
+   "yahoo": "MCOT.BK",
+   "name": "MCOT Public Company Limited",
+   "industry": "",
+   "market_cap": 97255975
+  },
+  {
+   "symbol": "MCS",
+   "yahoo": "MCS.BK",
+   "name": "M.C.S. Steel Public Company Limited",
+   "industry": "",
+   "market_cap": 109468464
+  },
+  {
+   "symbol": "MDX",
+   "yahoo": "MDX.BK",
+   "name": "MDX Public Company Limited",
+   "industry": "",
+   "market_cap": 44221574
+  },
+  {
+   "symbol": "MEB",
+   "yahoo": "MEB.BK",
+   "name": "MEB Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 93278060
+  },
+  {
+   "symbol": "MEDEZE",
+   "yahoo": "MEDEZE.BK",
+   "name": "Medeze Group Public Company Limited",
+   "industry": "",
+   "market_cap": 191335504
+  },
+  {
+   "symbol": "MEGA",
+   "yahoo": "MEGA.BK",
+   "name": "Mega Lifesciences Public Company Limited",
+   "industry": "",
+   "market_cap": 877807599
+  },
+  {
+   "symbol": "MENA",
+   "yahoo": "MENA.BK",
+   "name": "Mena Transport Public Company Limited",
+   "industry": "",
+   "market_cap": 16953509
+  },
+  {
+   "symbol": "META",
+   "yahoo": "META.BK",
+   "name": "Meta Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 3635760
+  },
+  {
+   "symbol": "METCO",
+   "yahoo": "METCO.BK",
+   "name": "Muramoto Electron (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 186887654
+  },
+  {
+   "symbol": "MFC",
+   "yahoo": "MFC.BK",
+   "name": "MFC Asset Management Public Company Limited",
+   "industry": "",
+   "market_cap": 85926054
+  },
+  {
+   "symbol": "MFEC",
+   "yahoo": "MFEC.BK",
+   "name": "MFEC Public Company Limited",
+   "industry": "",
+   "market_cap": 81048621
+  },
+  {
+   "symbol": "MGC",
+   "yahoo": "MGC.BK",
+   "name": "Millennium Group Corporation (Asia) Public Company Limited",
+   "industry": "",
+   "market_cap": 206137095
+  },
+  {
+   "symbol": "MGI",
+   "yahoo": "MGI.BK",
+   "name": "Miss Grand International Public Company Limited",
+   "industry": "",
+   "market_cap": 25260508
+  },
+  {
+   "symbol": "MGT",
+   "yahoo": "MGT.BK",
+   "name": "Megachem (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 25111043
+  },
+  {
+   "symbol": "MICRO",
+   "yahoo": "MICRO.BK",
+   "name": "Micro Leasing Public Company Limited",
+   "industry": "",
+   "market_cap": 38485343
+  },
+  {
+   "symbol": "MIDA",
+   "yahoo": "MIDA.BK",
+   "name": "Mida Assets Public Company Limited",
+   "industry": "",
+   "market_cap": 29660626
+  },
+  {
+   "symbol": "MII",
+   "yahoo": "MII.BK",
+   "name": "MFC Industrial Investment Property and Leasehold Fund",
+   "industry": "",
+   "market_cap": 43892507
+  },
+  {
+   "symbol": "MINT",
+   "yahoo": "MINT.BK",
+   "name": "Minor International Public Company Limited",
+   "industry": "Lodging",
+   "market_cap": 3414384800
+  },
+  {
+   "symbol": "MITSIB",
+   "yahoo": "MITSIB.BK",
+   "name": "Mitsib Leasing Public Company Limited",
+   "industry": "",
+   "market_cap": 25607417
+  },
+  {
+   "symbol": "MJD",
+   "yahoo": "MJD.BK",
+   "name": "Major Development Public Company Limited",
+   "industry": "",
+   "market_cap": 7388790
+  },
+  {
+   "symbol": "MJLF",
+   "yahoo": "MJLF.BK",
+   "name": "Major Cineplex Lifestyle Leasehold Property Fund.",
+   "industry": "",
+   "market_cap": 58631921
+  },
+  {
+   "symbol": "MK",
+   "yahoo": "MK.BK",
+   "name": "M.K. Real Estate Development Public Company Limited",
+   "industry": "",
+   "market_cap": 24039042
+  },
+  {
+   "symbol": "ML",
+   "yahoo": "ML.BK",
+   "name": "Mida Leasing Public Company Limited",
+   "industry": "",
+   "market_cap": 37284527
+  },
+  {
+   "symbol": "MMM",
+   "yahoo": "MMM.BK",
+   "name": "MFC Short Maturity Management",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "MNIT",
+   "yahoo": "MNIT.BK",
+   "name": "MFC-Nichada Thani Property Fund 2",
+   "industry": "",
+   "market_cap": 7927746
+  },
+  {
+   "symbol": "MNIT2",
+   "yahoo": "MNIT2.BK",
+   "name": "MFC-Nichada Thani Property Fund 2",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "MNRF",
+   "yahoo": "MNRF.BK",
+   "name": "MFC Multi-National Residence Fund",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "MODERN",
+   "yahoo": "MODERN.BK",
+   "name": "Modernform Group Public Company Limited",
+   "industry": "",
+   "market_cap": 38577138
+  },
+  {
+   "symbol": "MONO",
+   "yahoo": "MONO.BK",
+   "name": "Mono Next Public Company Limited",
+   "industry": "",
+   "market_cap": 38030501
+  },
+  {
+   "symbol": "MOONG",
+   "yahoo": "MOONG.BK",
+   "name": "Moong Pattana International Public Company Limited",
+   "industry": "",
+   "market_cap": 22444906
+  },
+  {
+   "symbol": "MORE",
+   "yahoo": "MORE.BK",
+   "name": "More Return Public Company Limited",
+   "industry": "",
+   "market_cap": 19126662
+  },
+  {
+   "symbol": "MOSHI",
+   "yahoo": "MOSHI.BK",
+   "name": "Moshi Moshi Retail Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 334690529
+  },
+  {
+   "symbol": "MOTHER",
+   "yahoo": "MOTHER.BK",
+   "name": "Mother Marketing Public Company Limited",
+   "industry": "",
+   "market_cap": 7622150
+  },
+  {
+   "symbol": "MPJ",
+   "yahoo": "MPJ.BK",
+   "name": "MPJ Logistics Public Company Limited",
+   "industry": "",
+   "market_cap": 26532425
+  },
+  {
+   "symbol": "MRDIYT",
+   "yahoo": "MRDIYT.BK",
+   "name": "MR. D.I.Y. Holding (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 1532337474
+  },
+  {
+   "symbol": "MSC",
+   "yahoo": "MSC.BK",
+   "name": "Metro Systems Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 61297008
+  },
+  {
+   "symbol": "MST",
+   "yahoo": "MST.BK",
+   "name": "Maybank Securities (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 126772548
+  },
+  {
+   "symbol": "MTC",
+   "yahoo": "MTC.BK",
+   "name": "Muangthai Capital Public Company Limited",
+   "industry": "Credit Services",
+   "market_cap": 1804856346
+  },
+  {
+   "symbol": "MTI",
+   "yahoo": "MTI.BK",
+   "name": "Muang Thai Insurance Public Company Limited",
+   "industry": "",
+   "market_cap": 354663896
+  },
+  {
+   "symbol": "MTW",
+   "yahoo": "MTW.BK",
+   "name": "Make To Win Holding Public Company Limited",
+   "industry": "",
+   "market_cap": 22391570
+  },
+  {
+   "symbol": "MUD",
+   "yahoo": "MUD.BK",
+   "name": "Mud & Hound Public Company Limited",
+   "industry": "",
+   "market_cap": 20275433
+  },
+  {
+   "symbol": "NAM",
+   "yahoo": "NAM.BK",
+   "name": "Namwiwat Medical Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 67989339
+  },
+  {
+   "symbol": "NAT",
+   "yahoo": "NAT.BK",
+   "name": "NAT Absolute Technologies Public Company Limited",
+   "industry": "",
+   "market_cap": 30951258
+  },
+  {
+   "symbol": "NATION",
+   "yahoo": "NATION.BK",
+   "name": "Nation Group (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 15718496
+  },
+  {
+   "symbol": "NC",
+   "yahoo": "NC.BK",
+   "name": "Newcity (Bangkok) Public Company Limited",
+   "industry": "",
+   "market_cap": 7857561
+  },
+  {
+   "symbol": "NCAP",
+   "yahoo": "NCAP.BK",
+   "name": "Next Capital Public Company Limited",
+   "industry": "",
+   "market_cap": 131122289
+  },
+  {
+   "symbol": "NCH",
+   "yahoo": "NCH.BK",
+   "name": "N.C. Housing Public Company Limited",
+   "industry": "",
+   "market_cap": 14750178
+  },
+  {
+   "symbol": "NCL",
+   "yahoo": "NCL.BK",
+   "name": "NCL International Logistics Public Company Limited",
+   "industry": "",
+   "market_cap": 1064901
+  },
+  {
+   "symbol": "NCP",
+   "yahoo": "NCP.BK",
+   "name": "Nice Call Public Company Limited",
+   "industry": "",
+   "market_cap": 4950651
+  },
+  {
+   "symbol": "NDR",
+   "yahoo": "NDR.BK",
+   "name": "N.D. Rubber Public Company Limited",
+   "industry": "",
+   "market_cap": 22729580
+  },
+  {
+   "symbol": "NEO",
+   "yahoo": "NEO.BK",
+   "name": "Neo Corporate Public Company Limited",
+   "industry": "",
+   "market_cap": 222090618
+  },
+  {
+   "symbol": "NEP",
+   "yahoo": "NEP.BK",
+   "name": "NEP Realty and Industry Public Company Limited",
+   "industry": "",
+   "market_cap": 13083278
+  },
+  {
+   "symbol": "NER",
+   "yahoo": "NER.BK",
+   "name": "North East Rubber Public Company Limited",
+   "industry": "",
+   "market_cap": 252795592
+  },
+  {
+   "symbol": "NETBAY",
+   "yahoo": "NETBAY.BK",
+   "name": "Netbay Public Company Limited",
+   "industry": "",
+   "market_cap": 66331062
+  },
+  {
+   "symbol": "NEX",
+   "yahoo": "NEX.BK",
+   "name": "Nex Point Public Company Limited",
+   "industry": "",
+   "market_cap": 152326442
+  },
+  {
+   "symbol": "NKI",
+   "yahoo": "NKI.BK",
+   "name": "The Navakij Insurance Public Company Limited",
+   "industry": "",
+   "market_cap": 24133607
+  },
+  {
+   "symbol": "NKT",
+   "yahoo": "NKT.BK",
+   "name": "Nakornthon Hospital Public Company Limited",
+   "industry": "",
+   "market_cap": 58617116
+  },
+  {
+   "symbol": "NL",
+   "yahoo": "NL.BK",
+   "name": "NL Development Public Company Limited",
+   "industry": "",
+   "market_cap": 9771987
+  },
+  {
+   "symbol": "NNCL",
+   "yahoo": "NNCL.BK",
+   "name": "Nava Nakorn Public Company Limited",
+   "industry": "",
+   "market_cap": 109782085
+  },
+  {
+   "symbol": "NOBLE",
+   "yahoo": "NOBLE.BK",
+   "name": "Noble Development Public Company Limited",
+   "industry": "",
+   "market_cap": 55960640
+  },
+  {
+   "symbol": "NOVA",
+   "yahoo": "NOVA.BK",
+   "name": "Nova Empire Public Company Limited",
+   "industry": "",
+   "market_cap": 19093032
+  },
+  {
+   "symbol": "NPK",
+   "yahoo": "NPK.BK",
+   "name": "New Plus Knitting Public Company Limited",
+   "industry": "",
+   "market_cap": 3553450
+  },
+  {
+   "symbol": "NRF",
+   "yahoo": "NRF.BK",
+   "name": "NR Instant Produce Public Company Limited",
+   "industry": "",
+   "market_cap": 8906292
+  },
+  {
+   "symbol": "NSL",
+   "yahoo": "NSL.BK",
+   "name": "NSL Foods Public Company Limited",
+   "industry": "",
+   "market_cap": 198104820
+  },
+  {
+   "symbol": "NTF",
+   "yahoo": "NTF.BK",
+   "name": "NTF Intergroup (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 71068995
+  },
+  {
+   "symbol": "NTSC",
+   "yahoo": "NTSC.BK",
+   "name": "Nutrition SC Public Company Limited",
+   "industry": "",
+   "market_cap": 27637878
+  },
+  {
+   "symbol": "NTV",
+   "yahoo": "NTV.BK",
+   "name": "Nonthavej Hospital Public Company Limited",
+   "industry": "",
+   "market_cap": 89073141
+  },
+  {
+   "symbol": "NUT",
+   "yahoo": "NUT.BK",
+   "name": "Nutrition Profess Public Company Limited",
+   "industry": "",
+   "market_cap": 16669773
+  },
+  {
+   "symbol": "NV",
+   "yahoo": "NV.BK",
+   "name": "Nova Organic Public Company Limited",
+   "industry": "",
+   "market_cap": 10915896
+  },
+  {
+   "symbol": "NVD",
+   "yahoo": "NVD.BK",
+   "name": "Nirvana Development Public Company Limited",
+   "industry": "",
+   "market_cap": 43322541
+  },
+  {
+   "symbol": "NYT",
+   "yahoo": "NYT.BK",
+   "name": "Namyong Terminal Public Company Limited",
+   "industry": "",
+   "market_cap": 142469646
+  },
+  {
+   "symbol": "OCC",
+   "yahoo": "OCC.BK",
+   "name": "O.C.C. Public Company Limited",
+   "industry": "",
+   "market_cap": 17323068
+  },
+  {
+   "symbol": "OGC",
+   "yahoo": "OGC.BK",
+   "name": "Ocean Glass Public Company Limited",
+   "industry": "",
+   "market_cap": 5368999
+  },
+  {
+   "symbol": "OKJ",
+   "yahoo": "OKJ.BK",
+   "name": "Pluk Phak Praw Rak Mae Public Company Limited",
+   "industry": "",
+   "market_cap": 60593425
+  },
+  {
+   "symbol": "ONEE",
+   "yahoo": "ONEE.BK",
+   "name": "The ONE Enterprise Public Company Limited",
+   "industry": "",
+   "market_cap": 201669368
+  },
+  {
+   "symbol": "ONSENS",
+   "yahoo": "ONSENS.BK",
+   "name": "Onsen Retreat and Spa Group Public Company Limited",
+   "industry": "",
+   "market_cap": 7373408
+  },
+  {
+   "symbol": "OR",
+   "yahoo": "OR.BK",
+   "name": "PTT Oil and Retail Business Public Company Limited",
+   "industry": "Oil & Gas Refining & Marketing",
+   "market_cap": 4441811987
+  },
+  {
+   "symbol": "ORI",
+   "yahoo": "ORI.BK",
+   "name": "Origin Property Public Company Limited",
+   "industry": "",
+   "market_cap": 125722000
+  },
+  {
+   "symbol": "ORN",
+   "yahoo": "ORN.BK",
+   "name": "Ornsirin Holding Public Company Limited",
+   "industry": "",
+   "market_cap": 30648504
+  },
+  {
+   "symbol": "OSP",
+   "yahoo": "OSP.BK",
+   "name": "Osotspa Public Company Limited",
+   "industry": "Beverages - Non-Alcoholic",
+   "market_cap": 1601051178
+  },
+  {
+   "symbol": "PACO",
+   "yahoo": "PACO.BK",
+   "name": "President Automobile Industries Public Company Limited",
+   "industry": "",
+   "market_cap": 39680197
+  },
+  {
+   "symbol": "PAF",
+   "yahoo": "PAF.BK",
+   "name": "Pan Asia Footwear Public Company Limited",
+   "industry": "",
+   "market_cap": 12152798
+  },
+  {
+   "symbol": "PANEL",
+   "yahoo": "PANEL.BK",
+   "name": "Panelesmatic Solutions Public Company Limited",
+   "industry": "",
+   "market_cap": 6470240
+  },
+  {
+   "symbol": "PAP",
+   "yahoo": "PAP.BK",
+   "name": "Pacific Pipe Public Company Limited",
+   "industry": "",
+   "market_cap": 64104234
+  },
+  {
+   "symbol": "PATO",
+   "yahoo": "PATO.BK",
+   "name": "Pato Chemical Industry Public Company Limited",
+   "industry": "",
+   "market_cap": 25717180
+  },
+  {
+   "symbol": "PB",
+   "yahoo": "PB.BK",
+   "name": "President Bakery Public Company Limited",
+   "industry": "",
+   "market_cap": 596313308
+  },
+  {
+   "symbol": "PCC",
+   "yahoo": "PCC.BK",
+   "name": "Precise Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 120591516
+  },
+  {
+   "symbol": "PCE",
+   "yahoo": "PCE.BK",
+   "name": "Petchsrivichai Enterprise Public Company Limited",
+   "industry": "",
+   "market_cap": 172638438
+  },
+  {
+   "symbol": "PCSGH",
+   "yahoo": "PCSGH.BK",
+   "name": "P.C.S. Machine Group Holding Public Company Limited",
+   "industry": "",
+   "market_cap": 123660059
+  },
+  {
+   "symbol": "PDG",
+   "yahoo": "PDG.BK",
+   "name": "Prodigy Public Company Limited",
+   "industry": "",
+   "market_cap": 28846899
+  },
+  {
+   "symbol": "PDJ",
+   "yahoo": "PDJ.BK",
+   "name": "Pranda Jewelry Public Company Limited",
+   "industry": "",
+   "market_cap": 27565832
+  },
+  {
+   "symbol": "PEACE",
+   "yahoo": "PEACE.BK",
+   "name": "Peace & Living Public Company Limited",
+   "industry": "",
+   "market_cap": 23580585
+  },
+  {
+   "symbol": "PEER",
+   "yahoo": "PEER.BK",
+   "name": "Peer For You Public Company Limited",
+   "industry": "",
+   "market_cap": 3748628
+  },
+  {
+   "symbol": "PERM",
+   "yahoo": "PERM.BK",
+   "name": "Permsin Steel Works Public Company Limited",
+   "industry": "",
+   "market_cap": 6129637
+  },
+  {
+   "symbol": "PG",
+   "yahoo": "PG.BK",
+   "name": "People's Garment Public Company Limited",
+   "industry": "",
+   "market_cap": 18762215
+  },
+  {
+   "symbol": "PHAT",
+   "yahoo": "PHAT.BK",
+   "name": "PHATRA GROUP Public Company Limited",
+   "industry": "",
+   "market_cap": 19823301
+  },
+  {
+   "symbol": "PHG",
+   "yahoo": "PHG.BK",
+   "name": "Patrangsit Healthcare Group Public Company Limited",
+   "industry": "",
+   "market_cap": 86615336
+  },
+  {
+   "symbol": "PHOL",
+   "yahoo": "PHOL.BK",
+   "name": "Phol Dhanya Public Company Limited",
+   "industry": "",
+   "market_cap": 19788296
+  },
+  {
+   "symbol": "PIMO",
+   "yahoo": "PIMO.BK",
+   "name": "Pioneer Motor Public Company Limited",
+   "industry": "",
+   "market_cap": 24663028
+  },
+  {
+   "symbol": "PIN",
+   "yahoo": "PIN.BK",
+   "name": "Pinthong Industrial Park Public Company Limited",
+   "industry": "",
+   "market_cap": 142209052
+  },
+  {
+   "symbol": "PIS",
+   "yahoo": "PIS.BK",
+   "name": "Pro Inside Public Company Limited",
+   "industry": "",
+   "market_cap": 82351196
+  },
+  {
+   "symbol": "PJW",
+   "yahoo": "PJW.BK",
+   "name": "Panjawattana Plastic Public Company Limited",
+   "industry": "",
+   "market_cap": 33784260
+  },
+  {
+   "symbol": "PK",
+   "yahoo": "PK.BK",
+   "name": "Patkol Public Company Limited",
+   "industry": "",
+   "market_cap": 6630891
+  },
+  {
+   "symbol": "PL",
+   "yahoo": "PL.BK",
+   "name": "Phatra Leasing Public Company Limited",
+   "industry": "",
+   "market_cap": 22609788
+  },
+  {
+   "symbol": "PLANB",
+   "yahoo": "PLANB.BK",
+   "name": "Plan B Media Public Company Limited",
+   "industry": "",
+   "market_cap": 1157902797
+  },
+  {
+   "symbol": "PLANET",
+   "yahoo": "PLANET.BK",
+   "name": "Planet Communications Asia Public Company Limited",
+   "industry": "",
+   "market_cap": 8590086
+  },
+  {
+   "symbol": "PLAT",
+   "yahoo": "PLAT.BK",
+   "name": "The Platinum Group Public Company Limited",
+   "industry": "",
+   "market_cap": 106958838
+  },
+  {
+   "symbol": "PLE",
+   "yahoo": "PLE.BK",
+   "name": "Power Line Engineering Public Company Limited",
+   "industry": "",
+   "market_cap": 3910208
+  },
+  {
+   "symbol": "PLT",
+   "yahoo": "PLT.BK",
+   "name": "Pilatus Marine Public Company Limited",
+   "industry": "",
+   "market_cap": 14498075
+  },
+  {
+   "symbol": "PLUS",
+   "yahoo": "PLUS.BK",
+   "name": "Royal Plus Public Company Limited",
+   "industry": "",
+   "market_cap": 20038494
+  },
+  {
+   "symbol": "PM",
+   "yahoo": "PM.BK",
+   "name": "Premier Marketing Public Company Limited",
+   "industry": "",
+   "market_cap": 180145325
+  },
+  {
+   "symbol": "PMC",
+   "yahoo": "PMC.BK",
+   "name": "PMC Label Materials Public Company Limited",
+   "industry": "",
+   "market_cap": 11446835
+  },
+  {
+   "symbol": "PMTA",
+   "yahoo": "PMTA.BK",
+   "name": "PM Thoresen Asia Holdings Public Company Limited",
+   "industry": "",
+   "market_cap": 25771989
+  },
+  {
+   "symbol": "POLY",
+   "yahoo": "POLY.BK",
+   "name": "Polynet Public Company Limited",
+   "industry": "",
+   "market_cap": 92611785
+  },
+  {
+   "symbol": "POPF",
+   "yahoo": "POPF.BK",
+   "name": "Prime Office Leasehold Property Fund",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "PORT",
+   "yahoo": "PORT.BK",
+   "name": "Sahathai Terminal Public Company Limited",
+   "industry": "",
+   "market_cap": 15643066
+  },
+  {
+   "symbol": "POWER",
+   "yahoo": "POWER.BK",
+   "name": "Power Solution Technologies Public Company Limited",
+   "industry": "",
+   "market_cap": 40012587
+  },
+  {
+   "symbol": "PPM",
+   "yahoo": "PPM.BK",
+   "name": "Porn Prom Metal Public Company Limited",
+   "industry": "",
+   "market_cap": 24242860
+  },
+  {
+   "symbol": "PPP",
+   "yahoo": "PPP.BK",
+   "name": "Premier Products Public Company Limited",
+   "industry": "",
+   "market_cap": 5507847
+  },
+  {
+   "symbol": "PPPM",
+   "yahoo": "PPPM.BK",
+   "name": "PP Prime Public Company Limited",
+   "industry": "",
+   "market_cap": 8566088
+  },
+  {
+   "symbol": "PPS",
+   "yahoo": "PPS.BK",
+   "name": "Project Planning Service Public Company Limited",
+   "industry": "",
+   "market_cap": 3819315
+  },
+  {
+   "symbol": "PQS",
+   "yahoo": "PQS.BK",
+   "name": "Premier Quality Starch Public Company Limited",
+   "industry": "",
+   "market_cap": 24800119
+  },
+  {
+   "symbol": "PR9",
+   "yahoo": "PR9.BK",
+   "name": "Praram 9 Hospital Public Company Limited",
+   "industry": "",
+   "market_cap": 428425220
+  },
+  {
+   "symbol": "PRAKIT",
+   "yahoo": "PRAKIT.BK",
+   "name": "Prakit Holdings Public Company Limited",
+   "industry": "",
+   "market_cap": 18437600
+  },
+  {
+   "symbol": "PRAPAT",
+   "yahoo": "PRAPAT.BK",
+   "name": "Peerapat Technology Public Company Limited",
+   "industry": "",
+   "market_cap": 10389131
+  },
+  {
+   "symbol": "PREB",
+   "yahoo": "PREB.BK",
+   "name": "Pre-Built Public Company Limited",
+   "industry": "",
+   "market_cap": 31077878
+  },
+  {
+   "symbol": "PRECHA",
+   "yahoo": "PRECHA.BK",
+   "name": "Preecha Group Public Company Limited",
+   "industry": "",
+   "market_cap": 4272764
+  },
+  {
+   "symbol": "PRG",
+   "yahoo": "PRG.BK",
+   "name": "PRG Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 237716442
+  },
+  {
+   "symbol": "PRI",
+   "yahoo": "PRI.BK",
+   "name": "Primo Service Solutions Public Company Limited",
+   "industry": "",
+   "market_cap": 31080841
+  },
+  {
+   "symbol": "PRIME",
+   "yahoo": "PRIME.BK",
+   "name": "Prime Road Power Public Company Limited",
+   "industry": "",
+   "market_cap": 6299208
+  },
+  {
+   "symbol": "PRIN",
+   "yahoo": "PRIN.BK",
+   "name": "Prinsiri Public Company Limited",
+   "industry": "",
+   "market_cap": 49132839
+  },
+  {
+   "symbol": "PRINC",
+   "yahoo": "PRINC.BK",
+   "name": "Principal Capital Public Company Limited",
+   "industry": "",
+   "market_cap": 184958716
+  },
+  {
+   "symbol": "PRM",
+   "yahoo": "PRM.BK",
+   "name": "Prima Marine Public Company Limited",
+   "industry": "",
+   "market_cap": 558357992
+  },
+  {
+   "symbol": "PROEN",
+   "yahoo": "PROEN.BK",
+   "name": "PROEN Corp Public Company Limited",
+   "industry": "",
+   "market_cap": 8486362
+  },
+  {
+   "symbol": "PROS",
+   "yahoo": "PROS.BK",
+   "name": "Prosper Engineering Public Company Limited",
+   "industry": "",
+   "market_cap": 3020432
+  },
+  {
+   "symbol": "PROSPECT",
+   "yahoo": "PROSPECT.BK",
+   "name": "Prospect Logistics and Industrial Freehold and Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 270278353
+  },
+  {
+   "symbol": "PROUD",
+   "yahoo": "PROUD.BK",
+   "name": "Proud Real Estate Public Company Limited",
+   "industry": "",
+   "market_cap": 32015267
+  },
+  {
+   "symbol": "PRTR",
+   "yahoo": "PRTR.BK",
+   "name": "PRTR Group Public Company Limited",
+   "industry": "",
+   "market_cap": 58276576
+  },
+  {
+   "symbol": "PSGC",
+   "yahoo": "PSGC.BK",
+   "name": "PSG Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 311093470
+  },
+  {
+   "symbol": "PSH",
+   "yahoo": "PSH.BK",
+   "name": "Pruksa Holding Public Company Limited",
+   "industry": "",
+   "market_cap": 243726370
+  },
+  {
+   "symbol": "PSL",
+   "yahoo": "PSL.BK",
+   "name": "Precious Shipping Public Company Limited",
+   "industry": "",
+   "market_cap": 424264087
+  },
+  {
+   "symbol": "PSP",
+   "yahoo": "PSP.BK",
+   "name": "P.S.P. Specialties Public Company Limited",
+   "industry": "",
+   "market_cap": 310926846
+  },
+  {
+   "symbol": "PT",
+   "yahoo": "PT.BK",
+   "name": "Premier Technology Public Company Limited",
+   "industry": "",
+   "market_cap": 95834573
+  },
+  {
+   "symbol": "PTC",
+   "yahoo": "PTC.BK",
+   "name": "Premier Tank Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 6798934
+  },
+  {
+   "symbol": "PTG",
+   "yahoo": "PTG.BK",
+   "name": "PTG Energy Public Company Limited",
+   "industry": "",
+   "market_cap": 373363949
+  },
+  {
+   "symbol": "PTL",
+   "yahoo": "PTL.BK",
+   "name": "Polyplex (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 359786777
+  },
+  {
+   "symbol": "PTT",
+   "yahoo": "PTT.BK",
+   "name": "PTT Public Company Limited",
+   "industry": "Oil & Gas Integrated",
+   "market_cap": 35227185040
+  },
+  {
+   "symbol": "PTTEP",
+   "yahoo": "PTTEP.BK",
+   "name": "PTT Exploration and Production Public Company Limited",
+   "industry": "Oil & Gas E&P",
+   "market_cap": 19044642962
+  },
+  {
+   "symbol": "PTTGC",
+   "yahoo": "PTTGC.BK",
+   "name": "PTT Global Chemical Public Company Limited",
+   "industry": "Chemicals",
+   "market_cap": 6175133883
+  },
+  {
+   "symbol": "PYLON",
+   "yahoo": "PYLON.BK",
+   "name": "Pylon Public Company Limited",
+   "industry": "",
+   "market_cap": 81271448
+  },
+  {
+   "symbol": "QDC",
+   "yahoo": "QDC.BK",
+   "name": "Quantum D C Public Company Limited",
+   "industry": "",
+   "market_cap": 881023
+  },
+  {
+   "symbol": "QH",
+   "yahoo": "QH.BK",
+   "name": "Quality Houses Public Company Limited",
+   "industry": "",
+   "market_cap": 427137109
+  },
+  {
+   "symbol": "QHBREIT",
+   "yahoo": "QHBREIT.BK",
+   "name": "Quality Houses Business Complex Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 87795081
+  },
+  {
+   "symbol": "QHHRREIT",
+   "yahoo": "QHHRREIT.BK",
+   "name": "Quality Houses Hotel And Residence Freehold And Leasehold Reit",
+   "industry": "",
+   "market_cap": 95343496
+  },
+  {
+   "symbol": "QHOP",
+   "yahoo": "QHOP.BK",
+   "name": "Quality Hospitality Leasehold Property Fund",
+   "industry": "",
+   "market_cap": 17787446
+  },
+  {
+   "symbol": "QLT",
+   "yahoo": "QLT.BK",
+   "name": "Qualitech Public Company Limited",
+   "industry": "",
+   "market_cap": 5253873
+  },
+  {
+   "symbol": "QTC",
+   "yahoo": "QTC.BK",
+   "name": "QTC Energy Public Company Limited",
+   "industry": "",
+   "market_cap": 53027416
+  },
+  {
+   "symbol": "QTCG",
+   "yahoo": "QTCG.BK",
+   "name": "QTCG Public Company Limited",
+   "industry": "",
+   "market_cap": 10977776
+  },
+  {
+   "symbol": "QUICK",
+   "yahoo": "QUICK.BK",
+   "name": "Quick Transformation Public Company Limited",
+   "industry": "",
+   "market_cap": 16763400
+  },
+  {
+   "symbol": "RABBIT",
+   "yahoo": "RABBIT.BK",
+   "name": "Rabbit Holdings Public Company Limited",
+   "industry": "",
+   "market_cap": 64273154
+  },
+  {
+   "symbol": "RAM",
+   "yahoo": "RAM.BK",
+   "name": "Ramkhamhaeng Hospital Public Company Limited",
+   "industry": "",
+   "market_cap": 607639894
+  },
+  {
+   "symbol": "RATCH",
+   "yahoo": "RATCH.BK",
+   "name": "Ratch Group Public Company Limited",
+   "industry": "Utilities - Regulated Electric",
+   "market_cap": 2399133782
+  },
+  {
+   "symbol": "RBF",
+   "yahoo": "RBF.BK",
+   "name": "R&B Food Supply Public Company Limited",
+   "industry": "",
+   "market_cap": 263378133
+  },
+  {
+   "symbol": "RCL",
+   "yahoo": "RCL.BK",
+   "name": "Regional Container Lines Public Company Limited",
+   "industry": "",
+   "market_cap": 1245456403
+  },
+  {
+   "symbol": "READY",
+   "yahoo": "READY.BK",
+   "name": "Readyplanet Public Company Limited",
+   "industry": "",
+   "market_cap": 10376071
+  },
+  {
+   "symbol": "RICHY",
+   "yahoo": "RICHY.BK",
+   "name": "Richy Place 2002 Public Company Limited",
+   "industry": "",
+   "market_cap": 7714884
+  },
+  {
+   "symbol": "RJH",
+   "yahoo": "RJH.BK",
+   "name": "Rajthanee Hospital Public Company Limited",
+   "industry": "",
+   "market_cap": 141655297
+  },
+  {
+   "symbol": "RML",
+   "yahoo": "RML.BK",
+   "name": "Raimon Land Public Company Limited",
+   "industry": "",
+   "market_cap": 15444771
+  },
+  {
+   "symbol": "ROCK",
+   "yahoo": "ROCK.BK",
+   "name": "Rockworth Public Company Limited",
+   "industry": "",
+   "market_cap": 6633106
+  },
+  {
+   "symbol": "ROCTEC",
+   "yahoo": "ROCTEC.BK",
+   "name": "Roctec Global Public Company Limited",
+   "industry": "",
+   "market_cap": 134618504
+  },
+  {
+   "symbol": "ROJNA",
+   "yahoo": "ROJNA.BK",
+   "name": "Rojana Industrial Park Public Company Limited",
+   "industry": "",
+   "market_cap": 341031445
+  },
+  {
+   "symbol": "RP",
+   "yahoo": "RP.BK",
+   "name": "Raja Ferry Port Public Company Limited",
+   "industry": "",
+   "market_cap": 3686799
+  },
+  {
+   "symbol": "RPC",
+   "yahoo": "RPC.BK",
+   "name": "RPCG Public Company Limited",
+   "industry": "",
+   "market_cap": 16998879
+  },
+  {
+   "symbol": "RPH",
+   "yahoo": "RPH.BK",
+   "name": "Ratchaphruek Hospital Public Company Limited",
+   "industry": "",
+   "market_cap": 76018028
+  },
+  {
+   "symbol": "RS",
+   "yahoo": "RS.BK",
+   "name": "RS Public Company Limited",
+   "industry": "",
+   "market_cap": 9046804
+  },
+  {
+   "symbol": "RSP",
+   "yahoo": "RSP.BK",
+   "name": "Rich Sport Public Company Limited",
+   "industry": "",
+   "market_cap": 26622150
+  },
+  {
+   "symbol": "RT",
+   "yahoo": "RT.BK",
+   "name": "Right Tunnelling Public Company Limited",
+   "industry": "",
+   "market_cap": 12249321
+  },
+  {
+   "symbol": "RWI",
+   "yahoo": "RWI.BK",
+   "name": "Rayong Wire Industries Public Company Limited",
+   "industry": "",
+   "market_cap": 11925433
+  },
+  {
+   "symbol": "S&J",
+   "yahoo": "S&J.BK",
+   "name": "S & J International Enterprises Public Company Limited",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "S",
+   "yahoo": "S.BK",
+   "name": "Singha Estate Public Company Limited",
+   "industry": "",
+   "market_cap": 103505976
+  },
+  {
+   "symbol": "S11",
+   "yahoo": "S11.BK",
+   "name": "S 11 Group Public Company Limited",
+   "industry": "",
+   "market_cap": 80595796
+  },
+  {
+   "symbol": "SA",
+   "yahoo": "SA.BK",
+   "name": "Siamese Asset Public Company Limited",
+   "industry": "",
+   "market_cap": 236089186
+  },
+  {
+   "symbol": "SAAM",
+   "yahoo": "SAAM.BK",
+   "name": "SAAM Development Public Company Limited",
+   "industry": "",
+   "market_cap": 44306777
+  },
+  {
+   "symbol": "SABINA",
+   "yahoo": "SABINA.BK",
+   "name": "Sabina Public Company Limited",
+   "industry": "",
+   "market_cap": 157440028
+  },
+  {
+   "symbol": "SAF",
+   "yahoo": "SAF.BK",
+   "name": "S.A.F. Special Steel Public Company Limited",
+   "industry": "",
+   "market_cap": 3198105
+  },
+  {
+   "symbol": "SAFE",
+   "yahoo": "SAFE.BK",
+   "name": "Safe Fertility Group Public Company Limited",
+   "industry": "",
+   "market_cap": 44822624
+  },
+  {
+   "symbol": "SAK",
+   "yahoo": "SAK.BK",
+   "name": "Saksiam Leasing Public Company Limited",
+   "industry": "",
+   "market_cap": 191166121
+  },
+  {
+   "symbol": "SALEE",
+   "yahoo": "SALEE.BK",
+   "name": "Salee Industry Public Company Limited",
+   "industry": "",
+   "market_cap": 24313338
+  },
+  {
+   "symbol": "SAMART",
+   "yahoo": "SAMART.BK",
+   "name": "Samart Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 160934819
+  },
+  {
+   "symbol": "SAMCO",
+   "yahoo": "SAMCO.BK",
+   "name": "Sammakorn Public Company Limited",
+   "industry": "",
+   "market_cap": 14633886
+  },
+  {
+   "symbol": "SAMTEL",
+   "yahoo": "SAMTEL.BK",
+   "name": "Samart Telcoms Public Company Limited",
+   "industry": "",
+   "market_cap": 54168796
+  },
+  {
+   "symbol": "SANKO",
+   "yahoo": "SANKO.BK",
+   "name": "Sanko Diecasting (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 9939649
+  },
+  {
+   "symbol": "SAPPE",
+   "yahoo": "SAPPE.BK",
+   "name": "Sappe Public Company Limited",
+   "industry": "",
+   "market_cap": 268988392
+  },
+  {
+   "symbol": "SAT",
+   "yahoo": "SAT.BK",
+   "name": "Somboon Advance Technology Public Company Limited",
+   "industry": "",
+   "market_cap": 196417676
+  },
+  {
+   "symbol": "SAUCE",
+   "yahoo": "SAUCE.BK",
+   "name": "Thaitheparos Public Company Limited",
+   "industry": "",
+   "market_cap": 431744138
+  },
+  {
+   "symbol": "SAV",
+   "yahoo": "SAV.BK",
+   "name": "Samart Aviation Solutions Public Company Limited",
+   "industry": "",
+   "market_cap": 207956113
+  },
+  {
+   "symbol": "SAWAD",
+   "yahoo": "SAWAD.BK",
+   "name": "Srisawad Corporation Public Company Limited",
+   "industry": "Credit Services",
+   "market_cap": 1097175140
+  },
+  {
+   "symbol": "SC",
+   "yahoo": "SC.BK",
+   "name": "SC Asset Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 233051951
+  },
+  {
+   "symbol": "SCAP",
+   "yahoo": "SCAP.BK",
+   "name": "Srisawad Capital 1969 Public Company Limited",
+   "industry": "",
+   "market_cap": 346772789
+  },
+  {
+   "symbol": "SCB",
+   "yahoo": "SCB.BK",
+   "name": "SCB X Public Company Limited",
+   "industry": "Banks - Regional",
+   "market_cap": 15055765363
+  },
+  {
+   "symbol": "SCC",
+   "yahoo": "SCC.BK",
+   "name": "The Siam Cement Public Company Limited",
+   "industry": "Conglomerates",
+   "market_cap": 9096831384
+  },
+  {
+   "symbol": "SCCC",
+   "yahoo": "SCCC.BK",
+   "name": "Siam City Cement Public Company Limited",
+   "industry": "",
+   "market_cap": 1328072249
+  },
+  {
+   "symbol": "SCG",
+   "yahoo": "SCG.BK",
+   "name": "Ratch Pathana Energy Public Company Limited",
+   "industry": "",
+   "market_cap": 84081057
+  },
+  {
+   "symbol": "SCGD",
+   "yahoo": "SCGD.BK",
+   "name": "SCG Decor Public Company Limited",
+   "industry": "",
+   "market_cap": 276058631
+  },
+  {
+   "symbol": "SCGP",
+   "yahoo": "SCGP.BK",
+   "name": "SCG Packaging Public Company Limited",
+   "industry": "Packaging & Containers",
+   "market_cap": 3400521471
+  },
+  {
+   "symbol": "SCI",
+   "yahoo": "SCI.BK",
+   "name": "SCI Electric Public Company Limited",
+   "industry": "",
+   "market_cap": 18655611
+  },
+  {
+   "symbol": "SCL",
+   "yahoo": "SCL.BK",
+   "name": "S.C.L Motor Part Public Company Limited",
+   "industry": "",
+   "market_cap": 12032086
+  },
+  {
+   "symbol": "SCM",
+   "yahoo": "SCM.BK",
+   "name": "Successmore Being Public Company Limited",
+   "industry": "",
+   "market_cap": 3411849
+  },
+  {
+   "symbol": "SCN",
+   "yahoo": "SCN.BK",
+   "name": "Scan Inter Public Company Limited",
+   "industry": "",
+   "market_cap": 15095150
+  },
+  {
+   "symbol": "SCP",
+   "yahoo": "SCP.BK",
+   "name": "Southern Concrete Pile Public Company Limited",
+   "industry": "",
+   "market_cap": 78161241
+  },
+  {
+   "symbol": "SDC",
+   "yahoo": "SDC.BK",
+   "name": "Samart Digital Public Company Limited",
+   "industry": "",
+   "market_cap": 30663046
+  },
+  {
+   "symbol": "SE",
+   "yahoo": "SE.BK",
+   "name": "SiamEast Solutions Public Company Limited",
+   "industry": "",
+   "market_cap": 8852773
+  },
+  {
+   "symbol": "SEAFCO",
+   "yahoo": "SEAFCO.BK",
+   "name": "Seafco Public Company Limited",
+   "industry": "",
+   "market_cap": 62729323
+  },
+  {
+   "symbol": "SEAOIL",
+   "yahoo": "SEAOIL.BK",
+   "name": "Sea Oil Public Company Limited",
+   "industry": "",
+   "market_cap": 77027412
+  },
+  {
+   "symbol": "SECURE",
+   "yahoo": "SECURE.BK",
+   "name": "nForce Secure Public Company Limited",
+   "industry": "",
+   "market_cap": 38333922
+  },
+  {
+   "symbol": "SEI",
+   "yahoo": "SEI.BK",
+   "name": "SEI Medical Public Company Limited",
+   "industry": "",
+   "market_cap": 9615043
+  },
+  {
+   "symbol": "SELIC",
+   "yahoo": "SELIC.BK",
+   "name": "Selic Corp Public Company Limited",
+   "industry": "",
+   "market_cap": 60034615
+  },
+  {
+   "symbol": "SENA",
+   "yahoo": "SENA.BK",
+   "name": "Sena Development Public Company Limited",
+   "industry": "",
+   "market_cap": 64942833
+  },
+  {
+   "symbol": "SENX",
+   "yahoo": "SENX.BK",
+   "name": "SEN X Public Company Limited",
+   "industry": "",
+   "market_cap": 28518809
+  },
+  {
+   "symbol": "SFLEX",
+   "yahoo": "SFLEX.BK",
+   "name": "Starflex Public Company Limited",
+   "industry": "",
+   "market_cap": 66312861
+  },
+  {
+   "symbol": "SFT",
+   "yahoo": "SFT.BK",
+   "name": "Shrinkflex (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 19413681
+  },
+  {
+   "symbol": "SGC",
+   "yahoo": "SGC.BK",
+   "name": "SG Capital Public Company Limited",
+   "industry": "",
+   "market_cap": 380647236
+  },
+  {
+   "symbol": "SGF",
+   "yahoo": "SGF.BK",
+   "name": "SGF Capital Public Company Limited",
+   "industry": "",
+   "market_cap": 5430856
+  },
+  {
+   "symbol": "SGP",
+   "yahoo": "SGP.BK",
+   "name": "Siamgas and Petrochemicals Public Company Limited",
+   "industry": "",
+   "market_cap": 465316237
+  },
+  {
+   "symbol": "SHANG",
+   "yahoo": "SHANG.BK",
+   "name": "Shangri-La Hotel Public Company Limited",
+   "industry": "",
+   "market_cap": 161681956
+  },
+  {
+   "symbol": "SHR",
+   "yahoo": "SHR.BK",
+   "name": "S Hotels and Resorts Public Company Limited",
+   "industry": "",
+   "market_cap": 150045366
+  },
+  {
+   "symbol": "SIAM",
+   "yahoo": "SIAM.BK",
+   "name": "Siam Steel International Public Company Limited",
+   "industry": "",
+   "market_cap": 15104774
+  },
+  {
+   "symbol": "SICT",
+   "yahoo": "SICT.BK",
+   "name": "Silicon Craft Technology Public Company Limited",
+   "industry": "",
+   "market_cap": 43778490
+  },
+  {
+   "symbol": "SIMAT",
+   "yahoo": "SIMAT.BK",
+   "name": "Simat Technologies Public Company Limited",
+   "industry": "",
+   "market_cap": 20933829
+  },
+  {
+   "symbol": "SINGER",
+   "yahoo": "SINGER.BK",
+   "name": "Singer Thailand Public Company Limited",
+   "industry": "",
+   "market_cap": 325847772
+  },
+  {
+   "symbol": "SINO",
+   "yahoo": "SINO.BK",
+   "name": "Sino Logistics Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 28948771
+  },
+  {
+   "symbol": "SIRI",
+   "yahoo": "SIRI.BK",
+   "name": "Sansiri Public Company Limited",
+   "industry": "",
+   "market_cap": 733963467
+  },
+  {
+   "symbol": "SIRIPRT",
+   "yahoo": "SIRIPRT.BK",
+   "name": "Siripinyo Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 25170269
+  },
+  {
+   "symbol": "SIS",
+   "yahoo": "SIS.BK",
+   "name": "SiS Distribution (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 248882666
+  },
+  {
+   "symbol": "SISB",
+   "yahoo": "SISB.BK",
+   "name": "SISB Public Company Limited",
+   "industry": "",
+   "market_cap": 250518216
+  },
+  {
+   "symbol": "SITHAI",
+   "yahoo": "SITHAI.BK",
+   "name": "Srithai Superware Public Company Limited",
+   "industry": "",
+   "market_cap": 84326255
+  },
+  {
+   "symbol": "SJWD",
+   "yahoo": "SJWD.BK",
+   "name": "SCGJWD Logistics Public Company Limited",
+   "industry": "",
+   "market_cap": 526066241
+  },
+  {
+   "symbol": "SK",
+   "yahoo": "SK.BK",
+   "name": "Sirakorn Public Company Limited",
+   "industry": "",
+   "market_cap": 7219425
+  },
+  {
+   "symbol": "SKE",
+   "yahoo": "SKE.BK",
+   "name": "Sakol Energy Public Company Limited",
+   "industry": "",
+   "market_cap": 6278957
+  },
+  {
+   "symbol": "SKIN",
+   "yahoo": "SKIN.BK",
+   "name": "Skin Laboratory Public Company Limited",
+   "industry": "",
+   "market_cap": 3624519
+  },
+  {
+   "symbol": "SKN",
+   "yahoo": "SKN.BK",
+   "name": "S.Kijchai Enterprise Public Company Limited",
+   "industry": "",
+   "market_cap": 114184193
+  },
+  {
+   "symbol": "SKR",
+   "yahoo": "SKR.BK",
+   "name": "Sikarin Public Company Limited",
+   "industry": "",
+   "market_cap": 469016828
+  },
+  {
+   "symbol": "SKY",
+   "yahoo": "SKY.BK",
+   "name": "Sky ICT Public Company Limited",
+   "industry": "",
+   "market_cap": 339842398
+  },
+  {
+   "symbol": "SLP",
+   "yahoo": "SLP.BK",
+   "name": "Salee Printing Public Company Limited",
+   "industry": "",
+   "market_cap": 14924489
+  },
+  {
+   "symbol": "SMART",
+   "yahoo": "SMART.BK",
+   "name": "MFC Smart Fixed Income",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "SMD100",
+   "yahoo": "SMD100.BK",
+   "name": "SMD Rise Public Company Limited",
+   "industry": "",
+   "market_cap": 9348801
+  },
+  {
+   "symbol": "SMIT",
+   "yahoo": "SMIT.BK",
+   "name": "Sahamit Machinery Public Company Limited",
+   "industry": "",
+   "market_cap": 55872075
+  },
+  {
+   "symbol": "SMO",
+   "yahoo": "SMO.BK",
+   "name": "Smothong Group Public Company Limited",
+   "industry": "",
+   "market_cap": 74646135
+  },
+  {
+   "symbol": "SMPC",
+   "yahoo": "SMPC.BK",
+   "name": "Sahamitr Pressure Container Public Company Limited",
+   "industry": "",
+   "market_cap": 151438712
+  },
+  {
+   "symbol": "SMT",
+   "yahoo": "SMT.BK",
+   "name": "Stars Microelectronics (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 175840689
+  },
+  {
+   "symbol": "SNC",
+   "yahoo": "SNC.BK",
+   "name": "SNC Former Public Company Limited",
+   "industry": "",
+   "market_cap": 71290351
+  },
+  {
+   "symbol": "SNNP",
+   "yahoo": "SNNP.BK",
+   "name": "Srinanaporn Marketing Public Company Limited",
+   "industry": "",
+   "market_cap": 173231657
+  },
+  {
+   "symbol": "SNP",
+   "yahoo": "SNP.BK",
+   "name": "S&P Syndicate Public Company Limited",
+   "industry": "",
+   "market_cap": 123990790
+  },
+  {
+   "symbol": "SNPS",
+   "yahoo": "SNPS.BK",
+   "name": "Specialty Natural Products Public Company Limited",
+   "industry": "",
+   "market_cap": 52049158
+  },
+  {
+   "symbol": "SO",
+   "yahoo": "SO.BK",
+   "name": "Siamrajathanee Public Company Limited",
+   "industry": "",
+   "market_cap": 63101217
+  },
+  {
+   "symbol": "SOLAR",
+   "yahoo": "SOLAR.BK",
+   "name": "Solartron Public Company Limited",
+   "industry": "",
+   "market_cap": 10450773
+  },
+  {
+   "symbol": "SONIC",
+   "yahoo": "SONIC.BK",
+   "name": "Sonic Interfreight Public Company Limited",
+   "industry": "",
+   "market_cap": 31643828
+  },
+  {
+   "symbol": "SORKON",
+   "yahoo": "SORKON.BK",
+   "name": "S. Khonkaen Foods Public Company Limited",
+   "industry": "",
+   "market_cap": 27784983
+  },
+  {
+   "symbol": "SPA",
+   "yahoo": "SPA.BK",
+   "name": "Siam Wellness Group Public Company Limited",
+   "industry": "",
+   "market_cap": 111653758
+  },
+  {
+   "symbol": "SPACK",
+   "yahoo": "SPACK.BK",
+   "name": "S. Pack & Print Public Company Limited",
+   "industry": "",
+   "market_cap": 12970092
+  },
+  {
+   "symbol": "SPALI",
+   "yahoo": "SPALI.BK",
+   "name": "Supalai Public Company Limited",
+   "industry": "Real Estate - Development",
+   "market_cap": 889902928
+  },
+  {
+   "symbol": "SPC",
+   "yahoo": "SPC.BK",
+   "name": "Saha Pathanapibul Public Company Limited",
+   "industry": "",
+   "market_cap": 549674278
+  },
+  {
+   "symbol": "SPCG",
+   "yahoo": "SPCG.BK",
+   "name": "SPCG Public Company Limited",
+   "industry": "",
+   "market_cap": 325147044
+  },
+  {
+   "symbol": "SPG",
+   "yahoo": "SPG.BK",
+   "name": "Siam Pan Group Public Company Limited",
+   "industry": "",
+   "market_cap": 118507553
+  },
+  {
+   "symbol": "SPI",
+   "yahoo": "SPI.BK",
+   "name": "Saha Pathana Inter-Holding Public Company Limited",
+   "industry": "",
+   "market_cap": 1305132951
+  },
+  {
+   "symbol": "SPRC",
+   "yahoo": "SPRC.BK",
+   "name": "Star Petroleum Refining Public Company Limited",
+   "industry": "",
+   "market_cap": 1759012682
+  },
+  {
+   "symbol": "SPREME",
+   "yahoo": "SPREME.BK",
+   "name": "Supreme Distribution Public Company Limited",
+   "industry": "",
+   "market_cap": 32431151
+  },
+  {
+   "symbol": "SPRIME",
+   "yahoo": "SPRIME.BK",
+   "name": "S Prime Growth Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 53181376
+  },
+  {
+   "symbol": "SPTX",
+   "yahoo": "SPTX.BK",
+   "name": "SPT X Public Company Limited",
+   "industry": "",
+   "market_cap": 63264695
+  },
+  {
+   "symbol": "SPVI",
+   "yahoo": "SPVI.BK",
+   "name": "S P V I Public Company Limited",
+   "industry": "",
+   "market_cap": 40272431
+  },
+  {
+   "symbol": "SQ",
+   "yahoo": "SQ.BK",
+   "name": "Sahakol Equipment Public Company Limited",
+   "industry": "",
+   "market_cap": 5784933
+  },
+  {
+   "symbol": "SR",
+   "yahoo": "SR.BK",
+   "name": "Siamraj Public Company Limited",
+   "industry": "",
+   "market_cap": 8816938
+  },
+  {
+   "symbol": "SRICHA",
+   "yahoo": "SRICHA.BK",
+   "name": "Sriracha Construction Public Company Limited",
+   "industry": "",
+   "market_cap": 161500460
+  },
+  {
+   "symbol": "SRIPANWA",
+   "yahoo": "SRIPANWA.BK",
+   "name": "Sri panwa Hospitality Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 40987783
+  },
+  {
+   "symbol": "SRS",
+   "yahoo": "SRS.BK",
+   "name": "Sirisoft Public Company Limited",
+   "industry": "",
+   "market_cap": 10518211
+  },
+  {
+   "symbol": "SSF",
+   "yahoo": "SSF.BK",
+   "name": "Surapon Foods Public Company Limited",
+   "industry": "",
+   "market_cap": 40375926
+  },
+  {
+   "symbol": "SSP",
+   "yahoo": "SSP.BK",
+   "name": "Sermsang Power Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 286597522
+  },
+  {
+   "symbol": "SSPF",
+   "yahoo": "SSPF.BK",
+   "name": "Sala @ Sathorn Property Fund",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "SSSC",
+   "yahoo": "SSSC.BK",
+   "name": "Siam Steel Service Center Public Company Limited",
+   "industry": "",
+   "market_cap": 43209805
+  },
+  {
+   "symbol": "SST",
+   "yahoo": "SST.BK",
+   "name": "Sub Sri Thai Public Company Limited",
+   "industry": "",
+   "market_cap": 16057158
+  },
+  {
+   "symbol": "SSTRT",
+   "yahoo": "SSTRT.BK",
+   "name": "Sub Sri Thai Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 27271616
+  },
+  {
+   "symbol": "STA",
+   "yahoo": "STA.BK",
+   "name": "Sri Trang Agro-Industry Public Company Limited",
+   "industry": "",
+   "market_cap": 1014296639
+  },
+  {
+   "symbol": "STANLY",
+   "yahoo": "STANLY.BK",
+   "name": "Thai Stanley Electric Public Company Limited",
+   "industry": "",
+   "market_cap": 546835217
+  },
+  {
+   "symbol": "STARM",
+   "yahoo": "STARM.BK",
+   "name": "Star Money Public Company Limited",
+   "industry": "",
+   "market_cap": 30293159
+  },
+  {
+   "symbol": "STC",
+   "yahoo": "STC.BK",
+   "name": "STC Concrete Product Public Company Limited",
+   "industry": "",
+   "market_cap": 12110158
+  },
+  {
+   "symbol": "STECH",
+   "yahoo": "STECH.BK",
+   "name": "Siam Technic Concrete Public Company Limited",
+   "industry": "",
+   "market_cap": 34135329
+  },
+  {
+   "symbol": "STECON",
+   "yahoo": "STECON.BK",
+   "name": "Stecon Group Public Company Limited",
+   "industry": "",
+   "market_cap": 773709828
+  },
+  {
+   "symbol": "STELLA",
+   "yahoo": "STELLA.BK",
+   "name": "Stella X Public Company Limited",
+   "industry": "",
+   "market_cap": 167712216
+  },
+  {
+   "symbol": "STGT",
+   "yahoo": "STGT.BK",
+   "name": "Sri Trang Gloves (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 769543964
+  },
+  {
+   "symbol": "STI",
+   "yahoo": "STI.BK",
+   "name": "Stonehenge Inter Public Company Limited",
+   "industry": "",
+   "market_cap": 30355198
+  },
+  {
+   "symbol": "STOWER",
+   "yahoo": "STOWER.BK",
+   "name": "Sky Tower Public Company Limited",
+   "industry": "",
+   "market_cap": 4811815
+  },
+  {
+   "symbol": "STP",
+   "yahoo": "STP.BK",
+   "name": "Sahathai Printing & Packaging Public Company Limited",
+   "industry": "",
+   "market_cap": 33757773
+  },
+  {
+   "symbol": "STPI",
+   "yahoo": "STPI.BK",
+   "name": "STP&I Public Company Limited",
+   "industry": "",
+   "market_cap": 300748644
+  },
+  {
+   "symbol": "STX",
+   "yahoo": "STX.BK",
+   "name": "Stone One Public Company Limited",
+   "industry": "",
+   "market_cap": 6548324
+  },
+  {
+   "symbol": "SUC",
+   "yahoo": "SUC.BK",
+   "name": "Saha-Union Public Company Limited",
+   "industry": "",
+   "market_cap": 242078767
+  },
+  {
+   "symbol": "SUN",
+   "yahoo": "SUN.BK",
+   "name": "Sunsweet Public Company Limited",
+   "industry": "",
+   "market_cap": 46297694
+  },
+  {
+   "symbol": "SUPER",
+   "yahoo": "SUPER.BK",
+   "name": "Super Energy Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 97184975
+  },
+  {
+   "symbol": "SUPEREIF",
+   "yahoo": "SUPEREIF.BK",
+   "name": "Super Energy Power Plant Infrastructure Fund",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "SUSCO",
+   "yahoo": "SUSCO.BK",
+   "name": "Susco Public Company Limited",
+   "industry": "",
+   "market_cap": 66390283
+  },
+  {
+   "symbol": "SUTHA",
+   "yahoo": "SUTHA.BK",
+   "name": "Golden Lime Public Company Limited",
+   "industry": "",
+   "market_cap": 33696009
+  },
+  {
+   "symbol": "SVOA",
+   "yahoo": "SVOA.BK",
+   "name": "SVOA Public Company Limited",
+   "industry": "",
+   "market_cap": 46009283
+  },
+  {
+   "symbol": "SVR",
+   "yahoo": "SVR.BK",
+   "name": "Sivarom Real Estate Public Company Limited",
+   "industry": "",
+   "market_cap": 4832692
+  },
+  {
+   "symbol": "SVT",
+   "yahoo": "SVT.BK",
+   "name": "Sun Vending Technology Public Company Limited",
+   "industry": "",
+   "market_cap": 31507255
+  },
+  {
+   "symbol": "SWC",
+   "yahoo": "SWC.BK",
+   "name": "Sherwood Corporation (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 73547124
+  },
+  {
+   "symbol": "SYMC",
+   "yahoo": "SYMC.BK",
+   "name": "Symphony Communication Public Company Limited",
+   "industry": "",
+   "market_cap": 81543041
+  },
+  {
+   "symbol": "SYNEX",
+   "yahoo": "SYNEX.BK",
+   "name": "Synnex (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 233356801
+  },
+  {
+   "symbol": "SYNTEC",
+   "yahoo": "SYNTEC.BK",
+   "name": "Syntec Construction Public Company Limited",
+   "industry": "",
+   "market_cap": 80504100
+  },
+  {
+   "symbol": "TACC",
+   "yahoo": "TACC.BK",
+   "name": "T.A.C. Consumer Public Company Limited",
+   "industry": "",
+   "market_cap": 117719715
+  },
+  {
+   "symbol": "TAE",
+   "yahoo": "TAE.BK",
+   "name": "Thai Agro Energy Public Company Limited",
+   "industry": "",
+   "market_cap": 49748297
+  },
+  {
+   "symbol": "TAKUNI",
+   "yahoo": "TAKUNI.BK",
+   "name": "Takuni Group Public Company Limited",
+   "industry": "",
+   "market_cap": 9949662
+  },
+  {
+   "symbol": "TAN",
+   "yahoo": "TAN.BK",
+   "name": "Tanachira Retail Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 35262540
+  },
+  {
+   "symbol": "TASCO",
+   "yahoo": "TASCO.BK",
+   "name": "Tipco Asphalt Public Company Limited",
+   "industry": "",
+   "market_cap": 794555702
+  },
+  {
+   "symbol": "TATG",
+   "yahoo": "TATG.BK",
+   "name": "Thai Auto Tools and Die Public Company Limited",
+   "industry": "",
+   "market_cap": 11489488
+  },
+  {
+   "symbol": "TBN",
+   "yahoo": "TBN.BK",
+   "name": "TBN Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 10305004
+  },
+  {
+   "symbol": "TBSP",
+   "yahoo": "TBSP.BK",
+   "name": "TBSP Public Company Limited",
+   "industry": "",
+   "market_cap": 10550691
+  },
+  {
+   "symbol": "TC",
+   "yahoo": "TC.BK",
+   "name": "Tropical Canning (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 83061886
+  },
+  {
+   "symbol": "TCAP",
+   "yahoo": "TCAP.BK",
+   "name": "Thanachart Capital Public Company Limited",
+   "industry": "Credit Services",
+   "market_cap": 2419544404
+  },
+  {
+   "symbol": "TCC",
+   "yahoo": "TCC.BK",
+   "name": "Thai Capital Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 10744538
+  },
+  {
+   "symbol": "TCJ",
+   "yahoo": "TCJ.BK",
+   "name": "T.C.J. Asia Public Company Limited",
+   "industry": "",
+   "market_cap": 8943012
+  },
+  {
+   "symbol": "TCMC",
+   "yahoo": "TCMC.BK",
+   "name": "TCM Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 6327993
+  },
+  {
+   "symbol": "TCOAT",
+   "yahoo": "TCOAT.BK",
+   "name": "Thai Coating Industrial Public Company Limited",
+   "industry": "",
+   "market_cap": 7850903
+  },
+  {
+   "symbol": "TEAM",
+   "yahoo": "TEAM.BK",
+   "name": "Team Precision Public Company Limited",
+   "industry": "",
+   "market_cap": 99040054
+  },
+  {
+   "symbol": "TEAMG",
+   "yahoo": "TEAMG.BK",
+   "name": "TEAM Consulting Engineering and Management Public Company Limited",
+   "industry": "",
+   "market_cap": 67815369
+  },
+  {
+   "symbol": "TEGH",
+   "yahoo": "TEGH.BK",
+   "name": "Thai Eastern Group Holdings Public Company Limited",
+   "industry": "",
+   "market_cap": 101699732
+  },
+  {
+   "symbol": "TEKA",
+   "yahoo": "TEKA.BK",
+   "name": "Teka Construction Public Company Limited",
+   "industry": "",
+   "market_cap": 16434705
+  },
+  {
+   "symbol": "TERA",
+   "yahoo": "TERA.BK",
+   "name": "Terabyte Plus Public Company Limited",
+   "industry": "",
+   "market_cap": 10305004
+  },
+  {
+   "symbol": "TFFIF",
+   "yahoo": "TFFIF.BK",
+   "name": "Thailand Future Fund",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "TFG",
+   "yahoo": "TFG.BK",
+   "name": "Thaifoods Group Public Company Limited",
+   "industry": "",
+   "market_cap": 1705265570
+  },
+  {
+   "symbol": "TFI",
+   "yahoo": "TFI.BK",
+   "name": "Thai Future Incorporation Public Company Limited",
+   "industry": "",
+   "market_cap": 24912975
+  },
+  {
+   "symbol": "TFM",
+   "yahoo": "TFM.BK",
+   "name": "Thai Union Feedmill Public Company Limited",
+   "industry": "",
+   "market_cap": 177672488
+  },
+  {
+   "symbol": "TFMAMA",
+   "yahoo": "TFMAMA.BK",
+   "name": "Thai President Foods Public Company Limited",
+   "industry": "",
+   "market_cap": 1772024789
+  },
+  {
+   "symbol": "TGE",
+   "yahoo": "TGE.BK",
+   "name": "Thachang Green Energy Public Company Limited",
+   "industry": "",
+   "market_cap": 71401348
+  },
+  {
+   "symbol": "TGH",
+   "yahoo": "TGH.BK",
+   "name": "Thai Group Holdings Public Company Limited",
+   "industry": "",
+   "market_cap": 227165982
+  },
+  {
+   "symbol": "TGPRO",
+   "yahoo": "TGPRO.BK",
+   "name": "Thai-German Products Public Company Limited",
+   "industry": "",
+   "market_cap": 4192591
+  },
+  {
+   "symbol": "TH",
+   "yahoo": "TH.BK",
+   "name": "Tong Hua Holding Public Company Limited",
+   "industry": "",
+   "market_cap": 12416501
+  },
+  {
+   "symbol": "THAI",
+   "yahoo": "THAI.BK",
+   "name": "Thai Airways International Public Company Limited",
+   "industry": "",
+   "market_cap": 4316315012
+  },
+  {
+   "symbol": "THANA",
+   "yahoo": "THANA.BK",
+   "name": "Thanasiri Group Public Company Limited",
+   "industry": "",
+   "market_cap": 12813314
+  },
+  {
+   "symbol": "THANI",
+   "yahoo": "THANI.BK",
+   "name": "Ratchthani Leasing Public Company Limited",
+   "industry": "",
+   "market_cap": 420576534
+  },
+  {
+   "symbol": "THE",
+   "yahoo": "THE.BK",
+   "name": "The Steel Public Company Limited",
+   "industry": "",
+   "market_cap": 26433810
+  },
+  {
+   "symbol": "THG",
+   "yahoo": "THG.BK",
+   "name": "Thonburi Healthcare Group Public Company Limited",
+   "industry": "",
+   "market_cap": 360267969
+  },
+  {
+   "symbol": "THIP",
+   "yahoo": "THIP.BK",
+   "name": "Thantawan Industry Public Company Limited",
+   "industry": "",
+   "market_cap": 57832196
+  },
+  {
+   "symbol": "THMUI",
+   "yahoo": "THMUI.BK",
+   "name": "Thai Mui Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 3775541
+  },
+  {
+   "symbol": "THRE",
+   "yahoo": "THRE.BK",
+   "name": "Thai Reinsurance Public Company Limited",
+   "industry": "",
+   "market_cap": 54918488
+  },
+  {
+   "symbol": "THREL",
+   "yahoo": "THREL.BK",
+   "name": "Thaire Life Assurance Public Company Limited",
+   "industry": "",
+   "market_cap": 22398578
+  },
+  {
+   "symbol": "TIDLOR",
+   "yahoo": "TIDLOR.BK",
+   "name": "Tidlor Holdings Public Company Limited",
+   "industry": "Credit Services",
+   "market_cap": 1369596373
+  },
+  {
+   "symbol": "TIF1",
+   "yahoo": "TIF1.BK",
+   "name": "Thai Industrial Fund 1",
+   "industry": "",
+   "market_cap": 21054190
+  },
+  {
+   "symbol": "TIGER",
+   "yahoo": "TIGER.BK",
+   "name": "Thai Enger Holding Public Company Limited",
+   "industry": "",
+   "market_cap": 6265916
+  },
+  {
+   "symbol": "TIPAK",
+   "yahoo": "TIPAK.BK",
+   "name": "Thai Packaging Industry Public Company Limited",
+   "industry": "",
+   "market_cap": 26970684
+  },
+  {
+   "symbol": "TIPCO",
+   "yahoo": "TIPCO.BK",
+   "name": "Tipco Foods Public Company Limited",
+   "industry": "",
+   "market_cap": 96458767
+  },
+  {
+   "symbol": "TIPH",
+   "yahoo": "TIPH.BK",
+   "name": "Dhipaya Group Holdings Public Company Limited",
+   "industry": "",
+   "market_cap": 425877258
+  },
+  {
+   "symbol": "TISCO",
+   "yahoo": "TISCO.BK",
+   "name": "TISCO Financial Group Public Company Limited",
+   "industry": "Banks - Regional",
+   "market_cap": 2951956231
+  },
+  {
+   "symbol": "TITLE",
+   "yahoo": "TITLE.BK",
+   "name": "Rhom Bho Property Public Company Limited",
+   "industry": "",
+   "market_cap": 188740087
+  },
+  {
+   "symbol": "TK",
+   "yahoo": "TK.BK",
+   "name": "Thitikorn Public Company Limited",
+   "industry": "",
+   "market_cap": 64258220
+  },
+  {
+   "symbol": "TKC",
+   "yahoo": "TKC.BK",
+   "name": "Turnkey Communication Services Public Company Limited",
+   "industry": "",
+   "market_cap": 96535378
+  },
+  {
+   "symbol": "TKN",
+   "yahoo": "TKN.BK",
+   "name": "Taokaenoi Food & Marketing Public Company Limited",
+   "industry": "",
+   "market_cap": 178030206
+  },
+  {
+   "symbol": "TKS",
+   "yahoo": "TKS.BK",
+   "name": "T.K.S. Technologies Public Company Limited",
+   "industry": "",
+   "market_cap": 116341257
+  },
+  {
+   "symbol": "TKT",
+   "yahoo": "TKT.BK",
+   "name": "T.Krungthai Industries Public Company Limited",
+   "industry": "",
+   "market_cap": 6440142
+  },
+  {
+   "symbol": "TL",
+   "yahoo": "TL.BK",
+   "name": "Techlead Next Public Company Limited",
+   "industry": "",
+   "market_cap": 69194358
+  },
+  {
+   "symbol": "TLHPF",
+   "yahoo": "TLHPF.BK",
+   "name": "Thailand Hospitality Property Fund",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "TLI",
+   "yahoo": "TLI.BK",
+   "name": "Thai Life Insurance Public Company Limited",
+   "industry": "Insurance - Life",
+   "market_cap": 3899170955
+  },
+  {
+   "symbol": "TM",
+   "yahoo": "TM.BK",
+   "name": "Techno Medical Public Company Limited",
+   "industry": "",
+   "market_cap": 10397401
+  },
+  {
+   "symbol": "TMAN",
+   "yahoo": "TMAN.BK",
+   "name": "T.Man Pharmaceutical Public Company Limited",
+   "industry": "",
+   "market_cap": 120818376
+  },
+  {
+   "symbol": "TMC",
+   "yahoo": "TMC.BK",
+   "name": "T.M.C. Industrial Public Company Limited",
+   "industry": "",
+   "market_cap": 9238496
+  },
+  {
+   "symbol": "TMD",
+   "yahoo": "TMD.BK",
+   "name": "Thai Metal Drum Manufacturing Public Company Limited",
+   "industry": "",
+   "market_cap": 121039383
+  },
+  {
+   "symbol": "TMI",
+   "yahoo": "TMI.BK",
+   "name": "Teera-Mongkol Industry Public Company Limited",
+   "industry": "",
+   "market_cap": 9543751
+  },
+  {
+   "symbol": "TMILL",
+   "yahoo": "TMILL.BK",
+   "name": "T S Flour Mill Public Company Limited",
+   "industry": "",
+   "market_cap": 27860443
+  },
+  {
+   "symbol": "TMT",
+   "yahoo": "TMT.BK",
+   "name": "TMT Steel Public Company Limited",
+   "industry": "",
+   "market_cap": 112938117
+  },
+  {
+   "symbol": "TMW",
+   "yahoo": "TMW.BK",
+   "name": "Thai Mitsuwa Public Company Limited",
+   "industry": "",
+   "market_cap": 65279089
+  },
+  {
+   "symbol": "TNDT",
+   "yahoo": "TNDT.BK",
+   "name": "Thai Nondestructive Testing Public Company Limited",
+   "industry": "",
+   "market_cap": 15895489
+  },
+  {
+   "symbol": "TNH",
+   "yahoo": "TNH.BK",
+   "name": "Thai Nakarin Hospital Public Company Limited",
+   "industry": "",
+   "market_cap": 157240156
+  },
+  {
+   "symbol": "TNITY",
+   "yahoo": "TNITY.BK",
+   "name": "Trinity Watthana Public Company Limited",
+   "industry": "",
+   "market_cap": 14856598
+  },
+  {
+   "symbol": "TNL",
+   "yahoo": "TNL.BK",
+   "name": "Thanulux Public Company Limited",
+   "industry": "",
+   "market_cap": 171389701
+  },
+  {
+   "symbol": "TNP",
+   "yahoo": "TNP.BK",
+   "name": "Thanapiriya Public Company Limited",
+   "industry": "",
+   "market_cap": 63962096
+  },
+  {
+   "symbol": "TNPC",
+   "yahoo": "TNPC.BK",
+   "name": "Thai Nam Plastic Public Company Limited",
+   "industry": "",
+   "market_cap": 8982066
+  },
+  {
+   "symbol": "TNPF",
+   "yahoo": "TNPF.BK",
+   "name": "Trinity Freehold and Leasehold Property Fund",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "TNR",
+   "yahoo": "TNR.BK",
+   "name": "Thai Nippon Rubber Industry Public Co., Ltd.",
+   "industry": "",
+   "market_cap": 51969201
+  },
+  {
+   "symbol": "TOA",
+   "yahoo": "TOA.BK",
+   "name": "TOA Paint (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 843861135
+  },
+  {
+   "symbol": "TOG",
+   "yahoo": "TOG.BK",
+   "name": "Thai Optical Group Public Company Limited",
+   "industry": "",
+   "market_cap": 99021087
+  },
+  {
+   "symbol": "TOP",
+   "yahoo": "TOP.BK",
+   "name": "Thai Oil Public Company Limited",
+   "industry": "Oil & Gas Refining & Marketing",
+   "market_cap": 4150819634
+  },
+  {
+   "symbol": "TPA",
+   "yahoo": "TPA.BK",
+   "name": "Thai Poly Acrylic Public Company Limited",
+   "industry": "",
+   "market_cap": 9642286
+  },
+  {
+   "symbol": "TPAC",
+   "yahoo": "TPAC.BK",
+   "name": "Thai Plaspac Public Company Limited",
+   "industry": "",
+   "market_cap": 94764285
+  },
+  {
+   "symbol": "TPBI",
+   "yahoo": "TPBI.BK",
+   "name": "TPBI Public Company Limited",
+   "industry": "",
+   "market_cap": 44193961
+  },
+  {
+   "symbol": "TPCH",
+   "yahoo": "TPCH.BK",
+   "name": "TPC Power Holding Public Company Limited",
+   "industry": "",
+   "market_cap": 10573527
+  },
+  {
+   "symbol": "TPCS",
+   "yahoo": "TPCS.BK",
+   "name": "TPCS Public Company Limited",
+   "industry": "",
+   "market_cap": 32300858
+  },
+  {
+   "symbol": "TPIPL",
+   "yahoo": "TPIPL.BK",
+   "name": "TPI Polene Public Company Limited",
+   "industry": "",
+   "market_cap": 465390710
+  },
+  {
+   "symbol": "TPIPP",
+   "yahoo": "TPIPP.BK",
+   "name": "TPI Polene Power Public Company Limited",
+   "industry": "",
+   "market_cap": 393011559
+  },
+  {
+   "symbol": "TPL",
+   "yahoo": "TPL.BK",
+   "name": "Thai Parcels Public Company Limited",
+   "industry": "",
+   "market_cap": 23925008
+  },
+  {
+   "symbol": "TPLAS",
+   "yahoo": "TPLAS.BK",
+   "name": "Thai Plastic Industrial (1994) Public Company Limited",
+   "industry": "",
+   "market_cap": 8395025
+  },
+  {
+   "symbol": "TPOLY",
+   "yahoo": "TPOLY.BK",
+   "name": "Thai Polycons Public Company Limited",
+   "industry": "",
+   "market_cap": 1526454
+  },
+  {
+   "symbol": "TPP",
+   "yahoo": "TPP.BK",
+   "name": "Thai Packaging & Printing Public Company Limited",
+   "industry": "",
+   "market_cap": 13880664
+  },
+  {
+   "symbol": "TPRIME",
+   "yahoo": "TPRIME.BK",
+   "name": "Thailand Prime Property Freehold and Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 128079671
+  },
+  {
+   "symbol": "TPS",
+   "yahoo": "TPS.BK",
+   "name": "The Practical Solution Public Company Limited",
+   "industry": "",
+   "market_cap": 37781676
+  },
+  {
+   "symbol": "TQM",
+   "yahoo": "TQM.BK",
+   "name": "TQM Alpha Public Company Limited",
+   "industry": "",
+   "market_cap": 244407343
+  },
+  {
+   "symbol": "TQR",
+   "yahoo": "TQR.BK",
+   "name": "TQR Public Company Limited",
+   "industry": "",
+   "market_cap": 42567368
+  },
+  {
+   "symbol": "TRC",
+   "yahoo": "TRC.BK",
+   "name": "TRC Construction Public Company Limited",
+   "industry": "",
+   "market_cap": 15417490
+  },
+  {
+   "symbol": "TRITN",
+   "yahoo": "TRITN.BK",
+   "name": "Triton Holding Public Company Limited",
+   "industry": "",
+   "market_cap": 19452285
+  },
+  {
+   "symbol": "TRP",
+   "yahoo": "TRP.BK",
+   "name": "Aesthetic Connect Public Company Limited",
+   "industry": "",
+   "market_cap": 37891551
+  },
+  {
+   "symbol": "TRT",
+   "yahoo": "TRT.BK",
+   "name": "Tirathai Public Company Limited",
+   "industry": "",
+   "market_cap": 106712958
+  },
+  {
+   "symbol": "TRU",
+   "yahoo": "TRU.BK",
+   "name": "Thai Rung Union Car Public Company Limited",
+   "industry": "",
+   "market_cap": 71104071
+  },
+  {
+   "symbol": "TRUBB",
+   "yahoo": "TRUBB.BK",
+   "name": "Thai Rubber Latex Group Public Company Limited",
+   "industry": "",
+   "market_cap": 25884122
+  },
+  {
+   "symbol": "TRUE",
+   "yahoo": "TRUE.BK",
+   "name": "True Corporation Public Company Limited",
+   "industry": "Telecom Services",
+   "market_cap": 12891811113
+  },
+  {
+   "symbol": "TRV",
+   "yahoo": "TRV.BK",
+   "name": "T.R.V. Rubber Products Public Company Limited",
+   "industry": "",
+   "market_cap": 10233935
+  },
+  {
+   "symbol": "TSC",
+   "yahoo": "TSC.BK",
+   "name": "Thai Steel Cable Public Company Limited",
+   "industry": "",
+   "market_cap": 113859641
+  },
+  {
+   "symbol": "TSE",
+   "yahoo": "TSE.BK",
+   "name": "Thai Solar Energy Public Company Limited",
+   "industry": "",
+   "market_cap": 70152270
+  },
+  {
+   "symbol": "TSI",
+   "yahoo": "TSI.BK",
+   "name": "The Thai Setakij Insurance Public Company Limited",
+   "industry": "",
+   "market_cap": 2253970
+  },
+  {
+   "symbol": "TSTE",
+   "yahoo": "TSTE.BK",
+   "name": "TSTE Public Company Limited",
+   "industry": "",
+   "market_cap": 115781377
+  },
+  {
+   "symbol": "TSTH",
+   "yahoo": "TSTH.BK",
+   "name": "Tata Steel (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 214466245
+  },
+  {
+   "symbol": "TTA",
+   "yahoo": "TTA.BK",
+   "name": "Thoresen Thai Agencies Public Company Limited",
+   "industry": "",
+   "market_cap": 265212752
+  },
+  {
+   "symbol": "TTB",
+   "yahoo": "TTB.BK",
+   "name": "TMBThanachart Bank Public Company Limited",
+   "industry": "Banks - Regional",
+   "market_cap": 7050337362
+  },
+  {
+   "symbol": "TTI",
+   "yahoo": "TTI.BK",
+   "name": "Thai Textile Industry Public Company Limited",
+   "industry": "",
+   "market_cap": 35534498
+  },
+  {
+   "symbol": "TTLPF",
+   "yahoo": "TTLPF.BK",
+   "name": "Talaad Thai Leasehold Property Fund",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "TTT",
+   "yahoo": "TTT.BK",
+   "name": "Toray Textiles (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 80499847
+  },
+  {
+   "symbol": "TTW",
+   "yahoo": "TTW.BK",
+   "name": "TTW Public Company Limited",
+   "industry": "",
+   "market_cap": 1193337381
+  },
+  {
+   "symbol": "TU",
+   "yahoo": "TU.BK",
+   "name": "Thai Union Group Public Company Limited",
+   "industry": "Packaged Foods",
+   "market_cap": 1449798284
+  },
+  {
+   "symbol": "TURBO",
+   "yahoo": "TURBO.BK",
+   "name": "Ngernturbo Public Company Limited",
+   "industry": "",
+   "market_cap": 119387035
+  },
+  {
+   "symbol": "TVDH",
+   "yahoo": "TVDH.BK",
+   "name": "TVD Holdings Public Company Limited",
+   "industry": "",
+   "market_cap": 2023756
+  },
+  {
+   "symbol": "TVH",
+   "yahoo": "TVH.BK",
+   "name": "Thaivivat Holdings Public Company Limited",
+   "industry": "",
+   "market_cap": 86554001
+  },
+  {
+   "symbol": "TVO",
+   "yahoo": "TVO.BK",
+   "name": "Thai Vegetable Oil Public Company Limited",
+   "industry": "",
+   "market_cap": 750664219
+  },
+  {
+   "symbol": "TVT",
+   "yahoo": "TVT.BK",
+   "name": "TV Thunder Public Company Limited",
+   "industry": "",
+   "market_cap": 5211922
+  },
+  {
+   "symbol": "TWP",
+   "yahoo": "TWP.BK",
+   "name": "Thai Wire Products Public Company Limited",
+   "industry": "",
+   "market_cap": 10908976
+  },
+  {
+   "symbol": "TWPC",
+   "yahoo": "TWPC.BK",
+   "name": "Thai Wah Public Company Limited",
+   "industry": "",
+   "market_cap": 64134898
+  },
+  {
+   "symbol": "TWZ",
+   "yahoo": "TWZ.BK",
+   "name": "TWZ Corporation Public Company Limited",
+   "industry": "",
+   "market_cap": 5881229
+  },
+  {
+   "symbol": "TYCN",
+   "yahoo": "TYCN.BK",
+   "name": "Tycoons Worldwide Group (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 29157113
+  },
+  {
+   "symbol": "UAC",
+   "yahoo": "UAC.BK",
+   "name": "UAC Global Public Company Limited",
+   "industry": "",
+   "market_cap": 48632256
+  },
+  {
+   "symbol": "UBA",
+   "yahoo": "UBA.BK",
+   "name": "Utility Business Alliance Public Company Limited",
+   "industry": "",
+   "market_cap": 22031389
+  },
+  {
+   "symbol": "UBE",
+   "yahoo": "UBE.BK",
+   "name": "Ubon Bio Ethanol Public Company Limited",
+   "industry": "",
+   "market_cap": 63750587
+  },
+  {
+   "symbol": "UBIS",
+   "yahoo": "UBIS.BK",
+   "name": "Ubis (Asia) Public Company Limited",
+   "industry": "",
+   "market_cap": 11308854
+  },
+  {
+   "symbol": "UEC",
+   "yahoo": "UEC.BK",
+   "name": "Unimit Engineering Public Company Limited",
+   "industry": "",
+   "market_cap": 11994744
+  },
+  {
+   "symbol": "UKEM",
+   "yahoo": "UKEM.BK",
+   "name": "Union Petrochemical Public Company Limited",
+   "industry": "",
+   "market_cap": 36590124
+  },
+  {
+   "symbol": "UMI",
+   "yahoo": "UMI.BK",
+   "name": "The Union Mosaic Industry Public Company Limited",
+   "industry": "",
+   "market_cap": 20807344
+  },
+  {
+   "symbol": "UMS",
+   "yahoo": "UMS.BK",
+   "name": "Unique Mining Services Public Company Limited",
+   "industry": "",
+   "market_cap": 43848880
+  },
+  {
+   "symbol": "UNIQ",
+   "yahoo": "UNIQ.BK",
+   "name": "Unique Engineering and Construction Public Company Limited",
+   "industry": "",
+   "market_cap": 81308290
+  },
+  {
+   "symbol": "UNIX",
+   "yahoo": "UNIX.BK",
+   "name": "Unique Plastic Industry Public Company Limited",
+   "industry": "",
+   "market_cap": 8869411
+  },
+  {
+   "symbol": "UP",
+   "yahoo": "UP.BK",
+   "name": "Union Plastic Public Company Limited",
+   "industry": "",
+   "market_cap": 18692626
+  },
+  {
+   "symbol": "UPF",
+   "yahoo": "UPF.BK",
+   "name": "Union Pioneer Public Company Limited",
+   "industry": "",
+   "market_cap": 5263547
+  },
+  {
+   "symbol": "UPOIC",
+   "yahoo": "UPOIC.BK",
+   "name": "United Palm Oil Industry Public Company Limited",
+   "industry": "",
+   "market_cap": 63332242
+  },
+  {
+   "symbol": "UREKA",
+   "yahoo": "UREKA.BK",
+   "name": "Eureka Design Public Company Limited",
+   "industry": "",
+   "market_cap": 18393039
+  },
+  {
+   "symbol": "UTP",
+   "yahoo": "UTP.BK",
+   "name": "United Paper Public Company Limited",
+   "industry": "",
+   "market_cap": 172268273
+  },
+  {
+   "symbol": "UV",
+   "yahoo": "UV.BK",
+   "name": "Univentures Public Company Limited",
+   "industry": "",
+   "market_cap": 48123705
+  },
+  {
+   "symbol": "UVAN",
+   "yahoo": "UVAN.BK",
+   "name": "Univanich Palm Oil Public Company Limited",
+   "industry": "",
+   "market_cap": 372993769
+  },
+  {
+   "symbol": "VARO",
+   "yahoo": "VARO.BK",
+   "name": "Varopakorn Public Company Limited",
+   "industry": "",
+   "market_cap": 15826956
+  },
+  {
+   "symbol": "VAYU1",
+   "yahoo": "VAYU1.BK",
+   "name": "Vayupak Fund1",
+   "industry": "",
+   "market_cap": null
+  },
+  {
+   "symbol": "VCOM",
+   "yahoo": "VCOM.BK",
+   "name": "Vintcom Technology Public Company Limited",
+   "industry": "",
+   "market_cap": 34364217
+  },
+  {
+   "symbol": "VGI",
+   "yahoo": "VGI.BK",
+   "name": "VGI Public Company Limited",
+   "industry": "Conglomerates",
+   "market_cap": 556119140
+  },
+  {
+   "symbol": "VIBE",
+   "yahoo": "VIBE.BK",
+   "name": "Vibe Synergy Group Public Company Limited",
+   "industry": "",
+   "market_cap": 7298082
+  },
+  {
+   "symbol": "VIBHA",
+   "yahoo": "VIBHA.BK",
+   "name": "Vibhavadi Medical Center Public Company Limited",
+   "industry": "",
+   "market_cap": 523100250
+  },
+  {
+   "symbol": "VIH",
+   "yahoo": "VIH.BK",
+   "name": "Srivichaivejvivat Public Company Limited",
+   "industry": "",
+   "market_cap": 148492521
+  },
+  {
+   "symbol": "VL",
+   "yahoo": "VL.BK",
+   "name": "V.L. Enterprise Public Company Limited",
+   "industry": "",
+   "market_cap": 27689220
+  },
+  {
+   "symbol": "VNG",
+   "yahoo": "VNG.BK",
+   "name": "Vanachai Group Public Company Limited",
+   "industry": "",
+   "market_cap": 92491184
+  },
+  {
+   "symbol": "VPO",
+   "yahoo": "VPO.BK",
+   "name": "Vichitbhan Palmoil Public Company Limited",
+   "industry": "",
+   "market_cap": 11969203
+  },
+  {
+   "symbol": "VRANDA",
+   "yahoo": "VRANDA.BK",
+   "name": "Veranda Resort Public Company Limited",
+   "industry": "",
+   "market_cap": 42598976
+  },
+  {
+   "symbol": "VS",
+   "yahoo": "VS.BK",
+   "name": "Viserve Enterprise Public Company Limited",
+   "industry": "",
+   "market_cap": 1850755
+  },
+  {
+   "symbol": "WACOAL",
+   "yahoo": "WACOAL.BK",
+   "name": "Thai Wacoal Public Company Limited",
+   "industry": "",
+   "market_cap": 55078471
+  },
+  {
+   "symbol": "WARRIX",
+   "yahoo": "WARRIX.BK",
+   "name": "Warrix Sport Public Company Limited",
+   "industry": "",
+   "market_cap": 17269446
+  },
+  {
+   "symbol": "WASH",
+   "yahoo": "WASH.BK",
+   "name": "Laundry You Public Company Limited",
+   "industry": "",
+   "market_cap": 36788659
+  },
+  {
+   "symbol": "WAVE",
+   "yahoo": "WAVE.BK",
+   "name": "Wave Exponential Public Company Limited",
+   "industry": "",
+   "market_cap": 10183243
+  },
+  {
+   "symbol": "WFX",
+   "yahoo": "WFX.BK",
+   "name": "World Flex Public Company Limited",
+   "industry": "",
+   "market_cap": 15257981
+  },
+  {
+   "symbol": "WGE",
+   "yahoo": "WGE.BK",
+   "name": "Well Graded Engineering Public Company Limited",
+   "industry": "",
+   "market_cap": 11193367
+  },
+  {
+   "symbol": "WHA",
+   "yahoo": "WHA.BK",
+   "name": "WHA Corporation Public Company Limited",
+   "industry": "Real Estate Services",
+   "market_cap": 2142217432
+  },
+  {
+   "symbol": "WHABT",
+   "yahoo": "WHABT.BK",
+   "name": "WHA Business Complex Freehold and Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 37684337
+  },
+  {
+   "symbol": "WHAIR",
+   "yahoo": "WHAIR.BK",
+   "name": "WHA Industrial Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 250827629
+  },
+  {
+   "symbol": "WHART",
+   "yahoo": "WHART.BK",
+   "name": "WHA Premium Growth Freehold And Leasehold Real Estate Investment Trust",
+   "industry": "",
+   "market_cap": 1150157633
+  },
+  {
+   "symbol": "WHAUP",
+   "yahoo": "WHAUP.BK",
+   "name": "WHA Utilities and Power Public Company Limited",
+   "industry": "",
+   "market_cap": 764546893
+  },
+  {
+   "symbol": "WICE",
+   "yahoo": "WICE.BK",
+   "name": "Wice Logistics Public Company Limited",
+   "industry": "",
+   "market_cap": 53906974
+  },
+  {
+   "symbol": "WIIK",
+   "yahoo": "WIIK.BK",
+   "name": "WIIK Public Company Limited",
+   "industry": "",
+   "market_cap": 27038051
+  },
+  {
+   "symbol": "WIN",
+   "yahoo": "WIN.BK",
+   "name": "Wyncoast Industrial Park Public Company Limited",
+   "industry": "",
+   "market_cap": 4818826
+  },
+  {
+   "symbol": "WINDOW",
+   "yahoo": "WINDOW.BK",
+   "name": "Window Asia Public Company Limited",
+   "industry": "",
+   "market_cap": 18143914
+  },
+  {
+   "symbol": "WINMED",
+   "yahoo": "WINMED.BK",
+   "name": "Winnergy Medical Public Company Limited",
+   "industry": "",
+   "market_cap": 13621557
+  },
+  {
+   "symbol": "WINNER",
+   "yahoo": "WINNER.BK",
+   "name": "Winner Group Enterprise Public Company Limited",
+   "industry": "",
+   "market_cap": 39796958
+  },
+  {
+   "symbol": "WORK",
+   "yahoo": "WORK.BK",
+   "name": "Workpoint Entertainment Public Company Limited",
+   "industry": "",
+   "market_cap": 41580168
+  },
+  {
+   "symbol": "WP",
+   "yahoo": "WP.BK",
+   "name": "WP Energy Public Company Limited",
+   "industry": "",
+   "market_cap": 53409460
+  },
+  {
+   "symbol": "WPH",
+   "yahoo": "WPH.BK",
+   "name": "Wattanapat Hospital Trang Public Company Limited",
+   "industry": "",
+   "market_cap": 126880375
+  },
+  {
+   "symbol": "XBIO",
+   "yahoo": "XBIO.BK",
+   "name": "X Bioscience Public Company Limited",
+   "industry": "",
+   "market_cap": 14469291
+  },
+  {
+   "symbol": "XO",
+   "yahoo": "XO.BK",
+   "name": "Exotic Food Public Company Limited",
+   "industry": "",
+   "market_cap": 237149482
+  },
+  {
+   "symbol": "XPG",
+   "yahoo": "XPG.BK",
+   "name": "XSpring Capital Public Company Limited",
+   "industry": "",
+   "market_cap": 155258911
+  },
+  {
+   "symbol": "XYZ",
+   "yahoo": "XYZ.BK",
+   "name": "RSXYZ Public Company Limited",
+   "industry": "",
+   "market_cap": 12931149
+  },
+  {
+   "symbol": "YGG",
+   "yahoo": "YGG.BK",
+   "name": "Yggdrazil Group Public Company Limited",
+   "industry": "",
+   "market_cap": 3030486
+  },
+  {
+   "symbol": "YONG",
+   "yahoo": "YONG.BK",
+   "name": "Yong Concrete Public Company Limited",
+   "industry": "",
+   "market_cap": 12685816
+  },
+  {
+   "symbol": "YUASA",
+   "yahoo": "YUASA.BK",
+   "name": "Yuasa Battery (Thailand) Public Company Limited",
+   "industry": "",
+   "market_cap": 50673304
+  },
+  {
+   "symbol": "ZAA",
+   "yahoo": "ZAA.BK",
+   "name": "ZALEKTA Public Company Limited",
+   "industry": "",
+   "market_cap": 30606892
+  },
+  {
+   "symbol": "ZEN",
+   "yahoo": "ZEN.BK",
+   "name": "ZEN Corporation Group Public Company Limited",
+   "industry": "",
+   "market_cap": 47681265
+  },
+  {
+   "symbol": "ZIGA",
+   "yahoo": "ZIGA.BK",
+   "name": "Ziga Innovation Public Company Limited",
+   "industry": "",
+   "market_cap": 21615493
+  }
+ ]
+}

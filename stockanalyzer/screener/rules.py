@@ -82,36 +82,48 @@ class Screen:
         return pd.DataFrame(rows, columns=["rule", "passes", "cumulative"])
 
 
-LIQUID = Rule("dollar_volume_20", ">", 5e6)
+def explain_row(rules: list[Rule], row: pd.DataFrame) -> pd.DataFrame:
+    """For one stock (a one-row frame), each rule with the stock's value for it and whether it passes."""
+    if len(row) != 1:
+        raise ValueError("explain_row takes a frame with exactly one row")
+    out = []
+    for rule in rules:
+        value = row[rule.field].iloc[0] if rule.field in row.columns else float("nan")  # a missing figure is empty, and never passes
+        out.append({"rule": rule, "value": value, "passed": bool(rule.mask(row).iloc[0])})
+    return pd.DataFrame(out, columns=["rule", "value", "passed"])
+
+
+# No preset carries its own liquidity floor: how much trading is "enough" depends on the market (US$5M a day is the whole
+# top of the Thai market), so the screener page and the CLI apply one floor per market before any preset runs.
 
 PRESETS: dict[str, Screen] = {
     "Oversold in an uptrend": Screen(
         "Oversold in an uptrend",
-        [LIQUID, Rule("rsi14", "<", 35), Rule("above_sma200", "==", True), Rule("trend_score", ">=", 1)],
+        [Rule("rsi14", "<", 35), Rule("above_sma200", "==", True), Rule("trend_score", ">=", 1)],
         sort_by="rsi14", ascending=True,
         description="Pullbacks inside a longer-term uptrend: RSI < 35 while above the 200-day average.",
     ),
     "Breakout near 52-week high": Screen(
         "Breakout near 52-week high",
-        [LIQUID, Rule("pct_from_52w_high", ">=", -0.03), Rule("volume_ratio", ">", 1.5), Rule("adx14", ">", 20)],
+        [Rule("pct_from_52w_high", ">=", -0.03), Rule("volume_ratio", ">", 1.5), Rule("adx14", ">", 20)],
         sort_by="volume_ratio",
         description="Within 3% of the 52-week high on 1.5x volume with a trending ADX.",
     ),
     "Golden cross + momentum": Screen(
         "Golden cross + momentum",
-        [LIQUID, Rule("golden_cross", "==", True), Rule("above_sma50", "==", True), Rule("ret_63d", ">", 0.10)],
+        [Rule("golden_cross", "==", True), Rule("above_sma50", "==", True), Rule("ret_63d", ">", 0.10)],
         sort_by="ret_63d",
         description="50-day above 200-day average, price above the 50-day, 3-month return above 10%.",
     ),
     "Near support": Screen(
         "Near support",
-        [LIQUID, Rule("support_dist_atr", "between", (0, 1.0)), Rule("rsi14", "<", 50)],
+        [Rule("support_dist_atr", "between", (0, 1.0)), Rule("rsi14", "<", 50)],
         sort_by="support_dist_atr", ascending=True,
         description="Price within 1 ATR above a confirmed support zone.",
     ),
     "Strong relative strength": Screen(
         "Strong relative strength",
-        [LIQUID, Rule("rs_126", ">", 0.10), Rule("above_sma200", "==", True), Rule("hvol_60", "<", 0.60)],
+        [Rule("rs_126", ">", 0.10), Rule("above_sma200", "==", True), Rule("hvol_60", "<", 0.60)],
         sort_by="rs_126",
         description="Beating the benchmark by 10+ points over 6 months, above the 200-day, not wildly volatile.",
     ),
@@ -121,11 +133,32 @@ PRESETS: dict[str, Screen] = {
         sort_by="fcf_yield",
         description="Needs fundamentals: P/E under 15, FCF yield over 5%, rising over 6 months.",
     ),
+    "Cheap with a dividend": Screen(
+        "Cheap with a dividend",
+        [Rule("pe", "between", (0, 15)), Rule("pb", "<", 2.0), Rule("dividend_yield", ">", 0.03)],
+        sort_by="dividend_yield",
+        description="Needs P/E, P/B and yield only - the market-wide snapshot is enough: P/E under 15, P/B under 2, yield over 3%.",
+    ),
     "Quality compounders": Screen(
         "Quality compounders",
         [Rule("roe", ">", 0.15), Rule("debt_to_equity", "<", 1.0), Rule("operating_margin", ">", 0.15),
          Rule("above_sma200", "==", True)],
         sort_by="roe",
         description="Needs fundamentals: ROE > 15%, D/E < 1, operating margin > 15%, long-term uptrend.",
+    ),
+    "Growth that pays: Rule of 40": Screen(
+        "Growth that pays: Rule of 40",
+        [Rule("revenue_growth", ">", 0.15), Rule("rule_of_40", ">=", 0.40), Rule("gross_margin", ">", 0.40),
+         Rule("above_sma200", "==", True)],
+        sort_by="rule_of_40",
+        description="Needs fundamentals: revenue growing over 15% while growth plus free-cash-flow margin is at least 40% "
+                    "(the usual bar for a healthy grower), gross margin above 40%, in a long-term uptrend.",
+    ),
+    "Growth at a reasonable price": Screen(
+        "Growth at a reasonable price",
+        [Rule("revenue_growth", ">", 0.15), Rule("ev_sales_growth", "between", (0, 0.5)), Rule("rule_of_40", ">=", 0.25)],
+        sort_by="ev_sales_growth", ascending=True,
+        description="Needs fundamentals: revenue growing over 15% but EV/Sales under half a point per point of growth "
+                    "(a 20x sales multiple needs 40%+ growth) and a Rule of 40 of at least 25%. A rule of thumb, not a valuation.",
     ),
 }

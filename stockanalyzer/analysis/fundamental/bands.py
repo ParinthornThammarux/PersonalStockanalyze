@@ -99,7 +99,7 @@ def valuation_history(
     report_days: Iterable = (),
     fx: float = 1.0,
 ) -> pd.DataFrame:
-    """Daily ``close, eps_ttm, bvps, pe, pb, ev_ebitda`` (NaN where the company had no usable figure).
+    """Daily ``close, eps_ttm, bvps, sps, pe, pb, ps, ev_ebitda, ev_sales`` (NaN where the company had no usable figure).
 
     A multiple is NaN while its denominator is not positive: a P/E on a loss is not a cheap stock.
     ``fx`` converts statement currency into the price currency (one rate for the whole history).
@@ -126,14 +126,16 @@ def valuation_history(
 
     eps = _asof(flow_points(eps_by_period(annual), eps_by_period(quarterly)), years, days, idx) * fx
     ebitda = _asof(both("ebitda", flow_points), years, days, idx) * fx
+    sales = _asof(both("revenue", flow_points), years, days, idx) * fx
     bvps = _asof(stock_points(book_per_share(annual), book_per_share(quarterly)), years, days, idx) * fx
     shares = _asof(stock_points(share_count(annual), share_count(quarterly)), years, days, idx)
     bridge = _asof(stock_points(ev_bridge(annual), ev_bridge(quarterly)), years, days, idx) * fx
     ev = px * shares + bridge
+    sps = (sales / shares).replace([float("inf"), float("-inf")], float("nan"))  # sales per share
     out = pd.DataFrame({
-        "close": px, "eps_ttm": eps, "bvps": bvps,
-        "pe": px / eps.where(eps > 0), "pb": px / bvps.where(bvps > 0),
-        "ev_ebitda": ev / ebitda.where(ebitda > 0),
+        "close": px, "eps_ttm": eps, "bvps": bvps, "sps": sps,
+        "pe": px / eps.where(eps > 0), "pb": px / bvps.where(bvps > 0), "ps": px / sps.where(sps > 0),
+        "ev_ebitda": ev / ebitda.where(ebitda > 0), "ev_sales": ev / sales.where(sales > 0),
     })
     return out
 

@@ -12,7 +12,7 @@ from stockanalyzer.analysis.technical import signals
 from stockanalyzer.analysis.fundamental.valuation import snapshot_from_info
 from stockanalyzer.config import display_timezone
 from stockanalyzer.data import events as ev
-from stockanalyzer.domain.assets import AssetClass, infer_asset_class
+from stockanalyzer.domain.assets import AssetClass, benchmark_for, infer_asset_class
 from stockanalyzer.ui import charts
 from stockanalyzer.ui import data as ui_data
 from stockanalyzer.ui.context import services
@@ -109,17 +109,18 @@ def render() -> None:
             st.dataframe(pd.DataFrame([{k: v * 100 for k, v in rows.items()}], index=["%"]).style.format("{:+.1f}%"),
                          width="stretch")
             rets = risk.to_returns(full["close"])
-            bench = None
-            if symbol != "SPY" and infer_asset_class(symbol) in (AssetClass.EQUITY, AssetClass.ETF):
-                spy = ui_data.prices("SPY", "max", "1d")
-                bench = risk.to_returns(spy["close"]) if not spy.empty else None
+            bench, bench_symbol = None, benchmark_for(symbol)
+            if symbol != bench_symbol and infer_asset_class(symbol) in (AssetClass.EQUITY, AssetClass.ETF):
+                ref = ui_data.prices(bench_symbol, "max", "1d")
+                bench = risk.to_returns(ref["close"]) if not ref.empty else None
             s = risk.summary(rets.tail(252), bench.tail(252) if bench is not None else None)
             c1, c2, c3, c4, c5 = st.columns(5)
             c1.metric("Volatility (1y)", pct(s["volatility"]))
             c2.metric("Sharpe (1y, rf=0)", f"{s['sharpe']:.2f}")
             c3.metric("Max drawdown (1y)", pct(s["max_drawdown"]))
             c4.metric("VaR 95% (1 day)", pct(s["var_95"]))
-            c5.metric("Beta vs SPY", f"{s['vs_benchmark_beta']:.2f}" if "vs_benchmark_beta" in s else "-")
+            c5.metric(f"Beta vs {bench_symbol}", f"{s['vs_benchmark_beta']:.2f}" if "vs_benchmark_beta" in s else "-",
+                      help="Measured against the stock's own market: the SET50 ETF (TDEX.BK) for Thai stocks, the S&P 500 (SPY) otherwise.")
             dd = risk.drawdown_series(rets)
             fig = charts.line_figure(pd.DataFrame({"Drawdown %": dd["drawdown"] * 100}), title="Drawdown from peak (full history)", height=260)
             show_chart(fig)

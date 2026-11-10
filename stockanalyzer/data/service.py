@@ -75,6 +75,19 @@ class MarketData:
     def update(self, symbols: Iterable[str], **kwargs) -> UpdateReport:
         return self.updater.update(symbols, **kwargs)
 
+    def backfill(self, symbols: Iterable[str], **kwargs) -> UpdateReport:
+        """Replace each symbol with its whole history (back to 1993 for SPY, 2008 for TDEX), see ``Updater.backfill``."""
+        return self.updater.backfill(symbols, **kwargs)
+
+    def first_timestamps(self, symbols: Iterable[str]) -> dict[str, pd.Timestamp]:
+        """Oldest stored daily bar per symbol (symbols with nothing stored are left out)."""
+        out = {}
+        for s in dict.fromkeys(x.strip().upper() for x in symbols):
+            df = self.store.read(s)
+            if not df.empty:
+                out[s] = df.index.min()
+        return out
+
     def last_error(self, symbol: str) -> str | None:
         row = self.state.query_one(
             "SELECT status, message FROM update_log WHERE symbol=? AND interval='1d'", (symbol.upper(),)
@@ -167,13 +180,17 @@ class MarketData:
                 if not (df := self.prices(s, period=period, start=start, adjusted=adjusted, live=live)).empty}
 
     def close_matrix(
-        self, symbols: Iterable[str], *, period: str | None = "2y", start=None, live: bool = True
+        self, symbols: Iterable[str], *, period: str | None = "2y", start=None, live: bool = True,
+        ffill: bool = True,
     ) -> pd.DataFrame:
         """Adjusted closes side by side (dates x symbols), forward-filled over non-shared holidays.
 
         ``live=False`` leaves out today's unfinished bar and saves one network call per symbol.
+        ``ffill=False`` leaves NaN where a symbol did not trade (a Thai holiday next to a US stock), which
+        correlation and cointegration need: a filled holiday is a fake 0 % return.
         """
         frames = self.prices_many(symbols, period=period, start=start, live=live)
         if not frames:
             return pd.DataFrame()
-        return pd.DataFrame({s: df["close"] for s, df in frames.items()}).sort_index().ffill()
+        close = pd.DataFrame({s: df["close"] for s, df in frames.items()}).sort_index()
+        return close.ffill() if ffill else close

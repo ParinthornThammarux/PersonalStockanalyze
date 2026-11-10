@@ -45,6 +45,19 @@ class WatchlistRepo:
             (wid, symbol.strip().upper(), note, utcnow_iso()),
         )
 
+    def add_many(self, name: str, symbols: list[str]) -> int:
+        """Add several symbols in one transaction (already-listed ones keep their note); returns how many were new."""
+        wid = self.create(name)
+        before = {r["symbol"] for r in self.items(name)}
+        stamp = utcnow_iso()
+        clean = list(dict.fromkeys(s.strip().upper() for s in symbols if s and s.strip()))
+        self.state.executemany(
+            "INSERT INTO watchlist_items(watchlist_id, symbol, note, added_at) VALUES (?,?,?,?) "
+            "ON CONFLICT(watchlist_id, symbol) DO NOTHING",
+            [(wid, sym, "", stamp) for sym in clean],
+        )
+        return len([s for s in clean if s not in before])
+
     def remove(self, name: str, symbol: str) -> None:
         self.state.execute(
             "DELETE FROM watchlist_items WHERE symbol=? AND watchlist_id=(SELECT id FROM watchlists WHERE name=?)",

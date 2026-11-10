@@ -11,6 +11,7 @@ from stockanalyzer.ui import charts
 from stockanalyzer.ui import data as ui_data
 from stockanalyzer.ui.context import services
 from stockanalyzer.ui.format import heat
+from stockanalyzer.ui.views import pairs
 from stockanalyzer.ui.widgets import show_chart, show_table
 
 WINDOWS = {"1M": 21, "3M": 63, "6M": 126, "1Y": 252, "2Y": 504}
@@ -52,7 +53,7 @@ def render() -> None:
             st.rerun()
         return
 
-    tab_perf, tab_corr, tab_macro = st.tabs(["Performance", "Correlations", "Macro (FRED)"])
+    tab_perf, tab_corr, tab_pairs, tab_macro = st.tabs(["Performance", "Correlations", "Pairs", "Macro (FRED)"])
 
     with tab_perf:
         perf = _performance(closes, names)
@@ -89,6 +90,9 @@ def render() -> None:
                 roll = risk.rolling_correlation(allr[first], allr[second], 60).dropna()
                 show_chart(charts.line_figure(roll.to_frame("60-day correlation"), height=260))
             st.caption("Correlations move: diversification that works in calm markets often disappears in a sell-off.")
+
+    with tab_pairs:
+        pairs.render_panel()
 
     with tab_macro:
         series = uni.MACRO_SERIES

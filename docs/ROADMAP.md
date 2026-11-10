@@ -19,8 +19,8 @@ Status of the original wish list (`note.md`) and what comes next.
 | 11 | Index search | Done | Search by ticker prefix or company name over 5.5k symbols |
 | 12 | Detect trend | Done | `signals.trend_state`, regression slope/R², S/R zones |
 | 13 | Filter and sort stock | Done | Screener |
-| 14 | Tax calculator | **Not done** | Needs your jurisdiction's rules. The ledger already produces FIFO lots with holding days |
-| 15 | Simulation portfolio | Done | Transaction ledger (paper trades work too), multi-asset strategy backtest and rotation backtest |
+| 14 | Tax calculator | **Not done** | Needs your jurisdiction's rules. The ledger already produces FIFO lots with holding days, and records dividends with the tax withheld |
+| 15 | Simulation portfolio | Done | Transaction ledger (paper trades work too), multi-asset strategy backtest and rotation backtest, Monte Carlo with DCA through market regimes and crisis replays |
 | 16 | Risk evaluation | Done | Portfolio & Risk |
 | 17 | Finance and fundamental analyser | Done | Fundamentals & Valuation |
 | 18 | Group indicator | Done | Registry categories + multi-panel charts |
@@ -36,13 +36,18 @@ Status of the original wish list (`note.md`) and what comes next.
   The same test on the S&P 500 (-23% at 7 days, -44% at 21), Bitcoin (-3% / -9%) and WTI crude (-13% / -36%) found no skill
   either, so the whole ML Forecast page, its CLI command and the `ml` package were removed rather than shipping forecasts nobody
   should trade on.
+- **Monte Carlo regimes are a risk tool, not a forecast (2026-11-09).** The walk-forward check (`simulation/calibration.py`) found the
+  regime simulation no better than a plain block bootstrap at scoring the index's next 3 / 6 / 12 months (CRPS within 1%, Diebold-Mariano
+  p 0.38-0.99 on SPY since 1993 and TDEX since 2008); it only tightens the range after a stressed start. It stays the default engine for
+  its scenario controls, and the page shows the check.
 - If you revisit forecasting, make a new idea clear that same bar first: predict returns (never levels), validate walk-forward with a
   purge gap, compare with no-change / historical-mean baselines, test significance with an overlap-aware test, and charge costs.
 
 ## Next
 
 **Data**
-- Thai market universe beyond SET50 (SET100 / mai: set.or.th blocks scripted access, so import a CSV -> `load_symbol_file`; the `.BK` close time is already handled). Index pools are snapshots from `scripts/build_pools.py`; rerun it to refresh, and a point-in-time membership history would remove the survivorship bias of testing over today's members.
+- Thai market: done - every share on the SET and mai (887) is in `th_stocks.json` and loads with `--thai all`. SET100 membership is still not available (set.or.th blocks scripted access). Industries for the ~825 non-SET50 shares fill in from full snapshots. Index pools are snapshots from `scripts/build_pools.py`; rerun it to refresh, and a point-in-time membership history would remove the survivorship bias of testing over today's members.
+- Keep the stock lists current: the US list is a packaged snapshot (new listings are missing), a refresh could come from Yahoo's screener the way the Thai list does.
 - Point-in-time fundamentals and a survivorship-bias-free universe (needs a paid source) before any factor backtests.
 - Intraday bars in the store; corporate-action table. (Earnings, dividend and economic calendars: done, see Calendar & News.)
 - Calendar follow-ups: alerts before an earnings / XD date, SET dividend amounts and payment dates from SET itself,
@@ -50,14 +55,35 @@ Status of the original wish list (`note.md`) and what comes next.
 - A second price provider (Tiingo / Polygon / FMP behind the existing `PriceProvider` protocol) as a fallback for Yahoo outages.
 
 **Analysis**
-- Fundamental / valuation (in progress): valuation bands and the statement archive are done. Next: peer comparison with
-  relative valuation, analyst consensus and EPS-estimate revisions, a bank mode (justified P/B instead of FCF DCF), Beneish
-  M-score / accruals / Magic Formula, dividend quality, then a football-field summary and screener columns for all of it.
-  Ownership (insiders, institutions) is parked: Yahoo has it for US stocks only.
+- Fundamental / valuation (in progress): valuation bands (P/E, P/B, P/S, EV/EBITDA, EV/Sales, yield), the statement archive, the bank mode
+  (justified P/B), the growth-company tools (years at full speed, revenue × margin DCF, analyst consensus with daily snapshots, Rule of 40,
+  EV/Sales per point of growth, two growth screens), the Graham value tab (Graham Number, growth formula, net current asset value,
+  defensive-investor tests), the Earnings quality tab (cash backing, accruals, working-capital days, Beneish M-score, ROIC vs WACC,
+  incremental ROIC, DuPont, stock pay / dilution / one-offs as flags) and the Dividends tab (record and streaks, coverage, the XD-day
+  study against similar payers in the same market) are done.
+  Next: peer comparison with relative valuation, Magic Formula, then a football-field summary. Earnings-quality follow-ups: the flags
+  as screener columns (needs statements per stock - one request each, so for a shortlist), a lease-adjusted capital spending figure.
+  Dividend follow-ups: alerts before an XD, the XD study as a screen ("fills its gap fast"), SET's own dividend amounts. Growth follow-ups: nightly fetch of estimates for the watchlist and portfolio (so the history grows without opening each
+  page), a screener preset on rising EPS estimates (needs that nightly fetch - estimates are one request per stock), exit-multiple
+  terminal value for the revenue model. Bank mode follow-ups: NPL / capital-ratio inputs (Yahoo has neither), a bank screener preset
+  (P/B vs ROE), insurers. Ownership (insiders, institutions) is parked: Yahoo has it for US stocks only.
+- Market breadth (done): participation, highs / lows, A/D, McClellan, Zweig thrust, the average stock vs the index, sector
+  participation and a breadth regime with forward returns, for US and Thai stocks. Follow-ups: an alert when the regime changes or a
+  thrust fires, a `breadth` command for the CLI and the nightly report, Thai industries for every share (only fetched full snapshots
+  carry one), a point-in-time universe so delisted stocks count in the past.
 - Ichimoku, Supertrend, volume profile; multi-timeframe confirmation in the screener.
 - Sector rotation (done): US sector ETFs, asset classes, Thai baskets. Follow-ups: alerts when a sector changes quadrant or
   the risk regime flips; official SET sector membership (needs a SET source); industries below the 11 US sectors; money flow
   from ETF shares outstanding (needs a paid source - Yahoo only has the current figure).
+- Portfolio (done: currencies, dividends, cash, XIRR, price / currency split). Follow-ups: a tax calculator (needs your rules; the
+  ledger has FIFO lots, holding days and dividends with tax withheld), broker-specific CSV importers, a benchmark chosen per
+  holding, a currency hedge view, interest on cash.
+- Monte Carlo (done): ledger or custom portfolio, DCA with yearly raises or withdrawals, rebalancing, fees, inflation; 2-3 weekly
+  Markov-switching regimes on SPY / TDEX / BTC; start state, longer or more frequent stress, crisis replays (dot-com to the 2025 tariff
+  shock); crisis table for today's weights; full-history download; walk-forward check. Follow-ups: a return override per holding (bonds and
+  gold under the stock-beta default), interest on the cash balance and including it, regime lengths drawn from the real spells
+  (semi-Markov: geometric lengths understate long calm years), a rules-based regime option (trend x volatility), running a Backtest strategy
+  through the simulated paths, a Thai driver before 2008 (no SET index on Yahoo; a basket of long-listed SET50 names from 2000), taxes.
 - Factor exposure (market / size / value / momentum) in Portfolio & Risk.
 - Walk-forward strategy optimisation (re-fit parameters on a rolling window) instead of one in-/out-of-sample split.
 

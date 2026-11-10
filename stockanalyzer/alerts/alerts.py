@@ -1,9 +1,13 @@
 """Price/indicator alerts evaluated against the local store (no network).
 
-Alerts are checked after each data update (nightly job or "Check now" in the UI). A fired
-alert is written to ``alert_events`` and then muted for ``cooldown_hours`` so a stock that
-stays above its level does not notify every night. Delivery is intentionally just the
-event log + the UI; add a notifier by reading ``AlertManager.events()``.
+Alerts are checked after each data update (nightly job or "Check now" in the UI). Every kind is a condition on the
+latest bar, and an alert fires when that condition *becomes* true - a price crossing its level, an RSI entering its zone,
+a cross happening - not on every check while it stays true. It re-arms by itself once the condition ends.
+
+Each alert remembers the last bar it examined, so a gap in updates (a weekend, a skipped night) is replayed bar by bar
+instead of missing a cross that happened in between. ``cooldown_hours`` is an extra guard against a price flapping
+around its level: after a fire the alert stays quiet that long even if it crosses again. A fired alert is written to
+``alert_events``. Delivery is intentionally just the event log + the UI; add a notifier by reading ``AlertManager.events()``.
 """
 
 from __future__ import annotations
@@ -13,6 +17,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from typing import Callable
 
+import numpy as np
 import pandas as pd
 
 from stockanalyzer.analysis.technical import indicators as ind
@@ -20,6 +25,7 @@ from stockanalyzer.analysis.technical import signals
 from stockanalyzer.storage.state import StateDB, to_iso
 
 Evaluation = tuple[bool, float | None, str]
+MAX_CATCH_UP = 60  # bars replayed after a gap; a longer gap is judged by the most recent ones
 
 
 def _price_above(df, p) -> Evaluation:
@@ -107,6 +113,8 @@ class Alert:
     cooldown_hours: float
     created_at: str
     last_triggered_at: str | None = None
+    last_bar: str | None = None  # timestamp of the newest bar already examined
+    in_zone: bool | None = None  # was the condition true on that bar (None = never examined)
 
     @property
     def label(self) -> str:
@@ -129,7 +137,8 @@ class AlertEvent:
 
 def _row_to_alert(r: dict) -> Alert:
     return Alert(r["id"], r["symbol"], r["kind"], json.loads(r["params"]), bool(r["active"]),
-                 r["cooldown_hours"], r["created_at"], r["last_triggered_at"])
+                 r["cooldown_hours"], r["created_at"], r["last_triggered_at"], r["last_bar"],
+                 None if r["in_zone"] is None else bool(r["in_zone"]))
 
 
 @dataclass
@@ -172,7 +181,8 @@ class AlertManager:
         self.state.execute("DELETE FROM alerts WHERE id=?", (alert_id,))
 
     def set_active(self, alert_id: int, active: bool) -> None:
-        self.state.execute("UPDATE alerts SET active=? WHERE id=?", (int(active), alert_id))
+        # a resumed alert starts afresh: it judges today's bar, it does not replay what happened while it was paused
+        self.state.execute("UPDATE alerts SET active=?, last_bar=NULL, in_zone=NULL WHERE id=?", (int(active), alert_id))
 
     def _muted(self, alert: Alert) -> bool:
         if not alert.last_triggered_at:
@@ -181,22 +191,29 @@ class AlertManager:
         return self.now() - last < timedelta(hours=alert.cooldown_hours)
 
     def evaluate(self, load_prices: Callable[[str], pd.DataFrame]) -> list[AlertEvent]:
-        """Check every active, un-muted alert; returns (and records) the ones that fired."""
-        alerts = [a for a in self.list(active_only=True) if not self._muted(a)]
+        """Check every active alert against the bars it has not seen; returns (and records) the ones that fired."""
         frames: dict[str, pd.DataFrame] = {}
         fired: list[AlertEvent] = []
-        for alert in alerts:
+        for alert in self.list(active_only=True):
             if alert.symbol not in frames:
                 frames[alert.symbol] = load_prices(alert.symbol)
             df = frames[alert.symbol]
             if df is None or len(df) < 2:
                 continue
             try:
-                hit, value, message = KINDS[alert.kind].check(df, alert.params)
+                scan = self._scan(alert, df)
             except Exception:  # a broken alert must not block the others
                 continue
-            if not hit:
+            if scan is None:  # no new bar since the last check
                 continue
+            crossings, in_zone = scan
+            self.state.execute("UPDATE alerts SET last_bar=?, in_zone=? WHERE id=?",
+                               (df.index[-1].isoformat(), int(in_zone), alert.id))
+            if not crossings or self._muted(alert):
+                continue
+            ts, value, message = crossings[-1]
+            if ts != df.index[-1]:
+                message = f"{ts:%Y-%m-%d}: {message}"
             at = to_iso(self.now())
             self.state.execute(
                 "INSERT INTO alert_events(alert_id, symbol, triggered_at, message, value) VALUES (?,?,?,?,?)",
@@ -205,6 +222,28 @@ class AlertManager:
             self.state.execute("UPDATE alerts SET last_triggered_at=? WHERE id=?", (at, alert.id))
             fired.append(AlertEvent(alert.id, alert.symbol, alert.kind, at, message, value))
         return fired
+
+    @staticmethod
+    def _scan(alert: Alert, df: pd.DataFrame) -> tuple[list[tuple[pd.Timestamp, float | None, str]], bool] | None:
+        """Replay the unseen bars: the bars where the condition turned true, and whether it holds on the last one.
+
+        The first look at an alert judges only the latest bar. ``None`` when there is nothing new to look at.
+        """
+        if alert.last_bar is None:
+            todo = [len(df) - 1]
+        else:
+            todo = [int(i) for i in np.flatnonzero(df.index > pd.Timestamp(alert.last_bar))][-MAX_CATCH_UP:]
+            if not todo:
+                return None
+        check = KINDS[alert.kind].check
+        holding, crossings = bool(alert.in_zone), []
+        for i in todo:
+            hit, value, message = check(df.iloc[: i + 1], alert.params)
+            hit = bool(hit)
+            if hit and not holding:
+                crossings.append((df.index[i], value, message))
+            holding = hit
+        return crossings, holding
 
     def events(self, limit: int = 100) -> list[dict]:
         return self.state.query(

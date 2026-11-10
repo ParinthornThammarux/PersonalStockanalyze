@@ -8,18 +8,38 @@ import numpy as np
 import pandas as pd
 
 from stockanalyzer.domain.assets import infer_asset_class
-from stockanalyzer.portfolio.ledger import Book, Transaction
+from stockanalyzer.portfolio.ledger import TRADE_SIDES, Book, Transaction
 
 
 def mark_to_market(
-    positions: pd.DataFrame, prices: Mapping[str, float] | pd.Series, meta: pd.DataFrame | None = None
+    positions: pd.DataFrame, prices: Mapping[str, float] | pd.Series, meta: pd.DataFrame | None = None,
+    fx: Mapping[str, float] | None = None,
 ) -> pd.DataFrame:
-    """Add price, market value, unrealised P&L, weights and classification to open positions."""
+    """Add price, market value, unrealised P&L, weights and classification to open positions.
+
+    ``prices`` are in each stock's own currency. With ``fx`` (base currency per 1 unit of each currency, today's rate)
+    and a book built with ``base=``, values and P&L are in the base currency and the unrealised P&L is split into
+    ``unrealized_price`` (the stock's own gain, at today's rate) and ``unrealized_fx`` (what the exchange rate added
+    since the purchases); ``avg_cost`` and ``price`` stay in the stock's currency, like on a broker statement.
+    """
     out = positions.copy()
     px = pd.Series(prices, dtype="float64").reindex(out.index)
     out["price"] = px
-    out["market_value"] = out["quantity"] * px
-    out["unrealized_pnl"] = out["market_value"] - out["cost_basis"]
+    if fx is None:
+        out["market_value"] = out["quantity"] * px
+        out["unrealized_pnl"] = out["market_value"] - out["cost_basis"]
+    else:
+        if "cost_basis_base" not in out.columns:
+            raise ValueError("the book must be built with a base currency to value it in one")
+        rate = out["currency"].map(dict(fx)).astype("float64")
+        out["fx"] = rate
+        out["cost_local"] = out["cost_basis"]
+        out["cost_basis"] = out["cost_basis_base"]
+        out["market_value_local"] = out["quantity"] * px
+        out["market_value"] = out["market_value_local"] * rate
+        out["unrealized_pnl"] = out["market_value"] - out["cost_basis"]
+        out["unrealized_price"] = (out["market_value_local"] - out["cost_local"]) * rate
+        out["unrealized_fx"] = out["unrealized_pnl"] - out["unrealized_price"]
     out["unrealized_pct"] = out["unrealized_pnl"] / out["cost_basis"].replace(0, np.nan)
     total = out["market_value"].sum()
     out["weight"] = out["market_value"] / total if total else np.nan
@@ -44,13 +64,16 @@ def summary(marked: pd.DataFrame, book: Book) -> dict[str, float]:
     value = float(marked["market_value"].sum())
     cost = float(marked["cost_basis"].sum())
     unrealized = value - cost
-    realized = float(book.realized["realized_pnl"].sum()) if not book.realized.empty else 0.0
+    suffix = "_base" if book.base else ""
+    realized_frame = book.realized
+    realized = float(realized_frame[f"realized_pnl{suffix}"].sum()) if not realized_frame.empty else 0.0
+    fees = float(realized_frame[f"fees_paid{suffix}"].sum()) if not realized_frame.empty else 0.0
+    dividends = float(realized_frame[f"dividends{suffix}"].sum()) if not realized_frame.empty else 0.0
     return {
         "market_value": value, "cost_basis": cost, "unrealized_pnl": unrealized,
         "unrealized_pct": unrealized / cost if cost else float("nan"),
-        "realized_pnl": realized, "total_pnl": unrealized + realized,
-        "fees_paid": float(book.realized["fees_paid"].sum()) if not book.realized.empty else 0.0,
-        "positions": int(len(marked)),
+        "realized_pnl": realized, "dividends": dividends, "total_pnl": unrealized + realized + dividends,
+        "fees_paid": fees, "positions": int(len(marked)),
     }
 
 
@@ -58,6 +81,8 @@ def holdings_history(transactions: Iterable[Transaction], index: pd.DatetimeInde
     """Shares held at each date's close (rows = ``index``). Off-calendar trades roll to the next bar."""
     deltas: dict[str, np.ndarray] = {}
     for t in transactions:
+        if t.side not in TRADE_SIDES:  # dividends and cash movements do not change what is held
+            continue
         pos = index.searchsorted(t.ts.normalize())
         if pos >= len(index):
             continue

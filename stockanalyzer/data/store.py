@@ -10,6 +10,7 @@ while DuckDB reads many files at once for screening and portfolio work.
 from __future__ import annotations
 
 import os
+import threading
 from pathlib import Path
 from typing import Iterable
 from urllib.parse import quote, unquote
@@ -18,6 +19,14 @@ import duckdb
 import pandas as pd
 
 from stockanalyzer.data.providers.base import CANONICAL_COLUMNS, empty_ohlcv, normalize_ohlcv
+
+
+# Parquet files per DuckDB query; keeps open descriptors well under a 1024 soft limit.
+_FILE_BATCH = 200
+# Streamlit reruns (and background jobs) hit the store from several threads at once; without
+# this, N concurrent scans would each hold _FILE_BATCH descriptors and blow the limit again.
+# DuckDB already parallelises inside a query, so serialising queries costs little.
+_SCAN_LOCK = threading.Lock()
 
 
 def _empty_long(columns: list[str]) -> pd.DataFrame:
@@ -106,6 +115,21 @@ class PriceStore:
         finally:
             con.close()
 
+    def _query_files(self, sql: str, files: list[str], params: list | None = None) -> list[pd.DataFrame]:
+        """Run ``sql`` (whose first ``?`` is the file list) over ``files`` in batches.
+
+        DuckDB keeps one file descriptor open per Parquet file in a ``read_parquet([...])``
+        list, so a whole-market store (thousands of files) exceeds the usual 1024 soft limit
+        ("Too many open files"). Each file holds exactly one symbol, so per-batch results
+        can simply be concatenated / re-aggregated by the caller.
+        """
+        extra = params or []
+        out = []
+        for i in range(0, len(files), _FILE_BATCH):
+            with _SCAN_LOCK:
+                out.append(self._query(sql, [files[i : i + _FILE_BATCH], *extra]))
+        return out
+
     def read_many(
         self,
         symbols: Iterable[str] | None = None,
@@ -126,7 +150,7 @@ class PriceStore:
             return _empty_long(cols)
 
         sql = f"SELECT symbol, ts, {', '.join(cols)} FROM read_parquet(?, union_by_name=true)"
-        params: list = [files]
+        params: list = []
         clauses = []
         if start is not None:
             clauses.append("ts >= ?")
@@ -141,7 +165,10 @@ class PriceStore:
             params.append(int(last_n))
         sql += " ORDER BY symbol, ts"
 
-        df = self._query(sql, params)
+        frames = self._query_files(sql, files, params)
+        df = frames[0] if len(frames) == 1 else (
+            pd.concat(frames, ignore_index=True).sort_values(["symbol", "ts"], kind="stable", ignore_index=True)
+        )
         df["ts"] = df["ts"].astype("datetime64[ns]")
         return df
 
@@ -151,11 +178,11 @@ class PriceStore:
         files = self._files(symbols, interval)
         if not files:
             return {}
-        df = self._query(
+        frames = self._query_files(
             "SELECT symbol, max(ts) AS last_ts FROM read_parquet(?, union_by_name=true) GROUP BY symbol",
-            [files],
+            files,
         )
-        return {r.symbol: pd.Timestamp(r.last_ts) for r in df.itertuples()}
+        return {r.symbol: pd.Timestamp(r.last_ts) for df in frames for r in df.itertuples()}
 
     def stats(self, interval: str = "1d", *, deep: bool = False) -> dict:
         files = self._files(None, interval)
@@ -164,12 +191,14 @@ class PriceStore:
             "size_mb": round(sum(os.path.getsize(f) for f in files) / 1e6, 2),
         }
         if deep and files:
-            df = self._query(
-                "SELECT count(*) AS rows, min(ts) AS first_ts, max(ts) AS last_ts "
-                "FROM read_parquet(?, union_by_name=true)",
-                [files],
+            parts = pd.concat(
+                self._query_files(
+                    "SELECT count(*) AS rows, min(ts) AS first_ts, max(ts) AS last_ts "
+                    "FROM read_parquet(?, union_by_name=true)",
+                    files,
+                ),
+                ignore_index=True,
             )
-            row = df.iloc[0]
-            info.update(rows=int(row["rows"]), first_ts=pd.Timestamp(row["first_ts"]),
-                        last_ts=pd.Timestamp(row["last_ts"]))
+            info.update(rows=int(parts["rows"].sum()), first_ts=pd.Timestamp(parts["first_ts"].min()),
+                        last_ts=pd.Timestamp(parts["last_ts"].max()))
         return info

@@ -13,6 +13,7 @@ from stockanalyzer.data.events import EventsService
 from stockanalyzer.data.fundamentals import FundamentalsService
 from stockanalyzer.data.service import MarketData
 from stockanalyzer.portfolio.ledger import TransactionRepo
+from stockanalyzer.screener.saved import SavedScreens
 from stockanalyzer.screener.store import FeatureStore
 from stockanalyzer.storage.state import StateDB
 
@@ -40,6 +41,10 @@ class Services:
     @property
     def transactions(self) -> TransactionRepo:
         return TransactionRepo(self.state)
+
+    @property
+    def saved_screens(self) -> SavedScreens:
+        return SavedScreens(self.state)
 
     @property
     def features(self) -> FeatureStore:

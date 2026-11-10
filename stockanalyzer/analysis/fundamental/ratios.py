@@ -13,11 +13,27 @@ def _div(a: pd.Series, b: pd.Series) -> pd.Series:
     return a / b.where(b != 0)
 
 
+def ebit(stmts: FinancialStatements) -> pd.Series:
+    return line(stmts, "ebit").fillna(line(stmts, "operating_income"))
+
+
+def nopat(stmts: FinancialStatements) -> pd.Series:
+    """Operating profit after tax: EBIT × (1 − effective tax rate, kept within 0-40%, 21% when unknown)."""
+    tax_rate = _div(line(stmts, "tax"), line(stmts, "pretax_income")).clip(0, 0.4).fillna(0.21)
+    return ebit(stmts) * (1 - tax_rate)
+
+
+def invested_capital(stmts: FinancialStatements) -> pd.Series:
+    """Yahoo's invested capital (debt + equity), else equity + debt − cash."""
+    debt = line(stmts, "total_debt").fillna(line(stmts, "long_term_debt"))
+    return line(stmts, "invested_capital").fillna(line(stmts, "equity") + debt - line(stmts, "cash"))
+
+
 def compute_ratios(stmts: FinancialStatements) -> pd.DataFrame:
     """Rows are periods (oldest first); growth columns need one prior year (four quarters)."""
     L = lambda k: line(stmts, k)  # noqa: E731
-    revenue, ni, ebit = L("revenue"), L("net_income"), L("ebit")
-    ebit = ebit.fillna(L("operating_income"))
+    revenue, ni = L("revenue"), L("net_income")
+    op_profit = ebit(stmts)
     assets, equity = L("total_assets"), L("equity")
     debt = L("total_debt").fillna(L("long_term_debt"))
     cash = L("cash")
@@ -26,8 +42,6 @@ def compute_ratios(stmts: FinancialStatements) -> pd.DataFrame:
 
     avg_equity = (equity + equity.shift(1)) / 2
     avg_assets = (assets + assets.shift(1)) / 2
-    tax_rate = _div(L("tax"), L("pretax_income")).clip(0, 0.4).fillna(0.21)
-    invested = L("invested_capital").fillna(equity + debt - cash)
 
     out = pd.DataFrame(
         {
@@ -37,17 +51,17 @@ def compute_ratios(stmts: FinancialStatements) -> pd.DataFrame:
             "fcf": fcf,
             # profitability
             "gross_margin": _div(L("gross_profit"), revenue),
-            "operating_margin": _div(L("operating_income").fillna(ebit), revenue),
+            "operating_margin": _div(L("operating_income").fillna(op_profit), revenue),
             "net_margin": _div(ni, revenue),
             "roe": _div(ni, avg_equity.fillna(equity)),
             "roa": _div(ni, avg_assets.fillna(assets)),
-            "roic": _div(ebit * (1 - tax_rate), invested),
+            "roic": _div(nopat(stmts), invested_capital(stmts)),
             # safety
             "current_ratio": _div(L("current_assets"), L("current_liabilities")),
             "quick_ratio": _div(L("current_assets") - L("inventory").fillna(0), L("current_liabilities")),
             "debt_to_equity": _div(debt, equity),
             "net_debt_to_ebitda": _div(debt - cash, L("ebitda")),
-            "interest_coverage": _div(ebit, L("interest_expense").abs()),
+            "interest_coverage": _div(op_profit, L("interest_expense").abs()),
             # efficiency & cash
             "asset_turnover": _div(revenue, avg_assets.fillna(assets)),
             "fcf_margin": _div(fcf, revenue),
@@ -63,6 +77,7 @@ def compute_ratios(stmts: FinancialStatements) -> pd.DataFrame:
             "share_count_change": L("shares").pct_change(lag, fill_method=None),
         }
     )
+    out["rule_of_40"] = out["revenue_growth"] + out["fcf_margin"]  # growth + free-cash-flow margin: above 40% is a healthy grower
     # growth from a negative base is meaningless (-100% -> +50% would read as "growth")
     for growth, base in [("net_income_growth", ni), ("eps_growth", L("eps")), ("fcf_growth", fcf)]:
         out.loc[base.shift(lag) <= 0, growth] = np.nan

@@ -24,6 +24,13 @@ ALIASES: dict[str, dict[str, list[str]]] = {
         "tax": ["Tax Provision"],
         "eps": ["Diluted EPS", "Basic EPS"],
         "shares_avg": ["Diluted Average Shares", "Basic Average Shares"],
+        "net_interest_income": ["Net Interest Income"],  # banks
+        "interest_income": ["Interest Income"],
+        "sga": ["Selling General And Administration"],
+        "unusual_items": ["Total Unusual Items"],  # positive = one-off gains, negative = one-off charges
+        "income_continuing": ["Net Income Continuous Operations", "Net Income From Continuing Operation Net Minority Interest"],
+        # the whole group's profit, minority shareholders' part included - the basis consolidated cash flow is on
+        "net_income_consolidated": ["Net Income Including Noncontrolling Interests", "Net Income Continuous Operations"],
     },
     "balance": {
         "total_assets": ["Total Assets"],
@@ -39,6 +46,10 @@ ALIASES: dict[str, dict[str, list[str]]] = {
         "shares": ["Ordinary Shares Number", "Share Issued"],
         "invested_capital": ["Invested Capital"],
         "minority": ["Minority Interest"],
+        "net_loans": ["Net Loan"],  # banks
+        "receivables": ["Accounts Receivable", "Receivables"],
+        "payables": ["Accounts Payable", "Payables"],
+        "net_ppe": ["Net PPE"],
     },
     "cashflow": {
         "cfo": ["Operating Cash Flow", "Cash Flow From Continuing Operating Activities"],

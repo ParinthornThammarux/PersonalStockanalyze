@@ -12,17 +12,22 @@ from typing import Callable, Iterable
 
 import pandas as pd
 
-from stockanalyzer.analysis.fundamental.valuation import snapshot_from_info
+from stockanalyzer.analysis.fundamental.valuation import snapshot_from_info, snapshot_from_quote
 from stockanalyzer.config import Settings, get_settings
 from stockanalyzer.data.providers.base import FundamentalsProvider, ProviderError
 from stockanalyzer.data.providers.yfinance_provider import YFinanceProvider
 from stockanalyzer.data.statement_archive import StatementArchive
+from stockanalyzer.domain.estimates import Estimates
 from stockanalyzer.domain.financials import FinancialStatements
 from stockanalyzer.storage.state import StateDB, to_iso
 
 log = logging.getLogger(__name__)
 
 EMPTY_RETRY_DAYS = 1  # symbols Yahoo returned nothing for are retried sooner than real data
+# Screening columns a light (market-wide) snapshot carries; every other fundamentals column needs the full, per-stock fetch.
+LIGHT_FIELDS = frozenset({"market_cap", "pe", "forward_pe", "pb", "dividend_yield", "eps", "currency", "name"})
+FULL_ONLY_FIELDS = frozenset(snapshot_from_info({}).keys()) - LIGHT_FIELDS - {"sector", "industry"}
+NEWEST_FIELDS = ("rule_of_40", "target_upside")  # columns added last: a full snapshot without them predates them
 
 
 @dataclass
@@ -78,6 +83,43 @@ class FundamentalsService:
     def info(self, symbol: str) -> dict:
         return self.provider.info(symbol.upper())
 
+    # -- analyst estimates --------------------------------------------------------------------
+    def estimates(self, symbol: str, *, refresh: bool = False) -> Estimates:
+        """Analyst consensus for ``symbol``: today's snapshot if there is one, else fetched and stored as today's.
+
+        Consensus moves daily, so one snapshot is kept per day (``estimates_history`` reads them back). When Yahoo
+        fails, the latest earlier snapshot is served if there is one. An empty answer is returned, never stored.
+        """
+        symbol = symbol.upper()
+        today = self._now().date().isoformat()
+        if not refresh:
+            row = self.state.query_one("SELECT data FROM estimates_snapshots WHERE symbol=? AND day=?", (symbol, today))
+            if row:
+                return Estimates.from_dict(json.loads(row["data"]))
+        fetch = getattr(self.provider, "estimates", None)
+        if fetch is None:
+            raise ProviderError("this fundamentals provider has no analyst estimates")
+        try:
+            fresh: Estimates = fetch(symbol)
+        except ProviderError:
+            history = self.estimates_history(symbol)
+            if history:
+                log.warning("estimates(%s) failed, serving the snapshot of %s", symbol, history[-1][0])
+                return history[-1][1]
+            raise
+        if not fresh.is_empty:
+            fresh.as_of = fresh.as_of or to_iso(self._now())
+            self.state.execute(
+                "INSERT INTO estimates_snapshots(symbol, day, fetched_at, data) VALUES (?,?,?,?) "
+                "ON CONFLICT(symbol, day) DO UPDATE SET fetched_at=excluded.fetched_at, data=excluded.data",
+                (symbol, today, to_iso(self._now()), json.dumps(fresh.to_dict())))
+        return fresh
+
+    def estimates_history(self, symbol: str) -> list[tuple[str, Estimates]]:
+        """Every stored daily snapshot as ``(day, Estimates)``, oldest first."""
+        rows = self.state.query("SELECT day, data FROM estimates_snapshots WHERE symbol=? ORDER BY day", (symbol.upper(),))
+        return [(r["day"], Estimates.from_dict(json.loads(r["data"]))) for r in rows]
+
     # -- cached snapshots ---------------------------------------------------------------------
     def _cached(self, symbols: Iterable[str] | None = None) -> dict[str, dict]:
         rows = self.state.query("SELECT symbol, fetched_at, data FROM fundamentals_cache")
@@ -86,8 +128,10 @@ class FundamentalsService:
                 for r in rows if wanted is None or r["symbol"] in wanted}
 
     def _is_stale(self, entry: dict | None, max_age_days: float) -> bool:
-        if entry is None:
+        if entry is None or entry["data"].get("_light"):  # a market-wide quote is only a placeholder for the full snapshot
             return True
+        if not entry["data"].get("_empty") and any(k not in entry["data"] for k in NEWEST_FIELDS):
+            return True  # saved before these columns existed: refetch so screens on them have something to judge
         age_limit = EMPTY_RETRY_DAYS if entry["data"].get("_empty") else max_age_days
         fetched = datetime.fromisoformat(entry["fetched_at"]).replace(tzinfo=timezone.utc)
         return self._now() - fetched > timedelta(days=age_limit)
@@ -144,7 +188,8 @@ class FundamentalsService:
                     continue
                 if data is None:
                     report.empty.append(symbol)
-                    self._store(symbol, {"_empty": True})
+                    if not cached.get(symbol, {}).get("data", {}).get("_light"):  # a light snapshot still has P/E, P/B and yield: keep it
+                        self._store(symbol, {"_empty": True})
                 else:
                     report.refreshed += 1
                     self._store(symbol, data)
@@ -153,9 +198,42 @@ class FundamentalsService:
         report.elapsed = time.monotonic() - t0
         return report
 
+    def refresh_market(self, market: str, *, only: Iterable[str] | None = None) -> RefreshReport:
+        """P/E, P/B, market cap and dividend yield of a whole market (``"us"`` / ``"th"``) in a few dozen requests.
+
+        These *light* snapshots fill the screener for every listed stock at once. They never replace a full
+        snapshot (which has ROE, margins, cash flow ...) and are themselves replaced by one when it is fetched.
+        ``only`` limits it to symbols you know about, which leaves out the funds and ETFs Yahoo lists alongside.
+        """
+        fetch = getattr(self.provider, "market_quotes", None)
+        if fetch is None:
+            raise ProviderError("this fundamentals provider cannot list a whole market")
+        t0 = time.monotonic()
+        quotes = fetch(market)
+        wanted = None if only is None else {s.upper() for s in only}
+        cached = self._cached()
+        at, rows = to_iso(self._now()), []
+        report = RefreshReport(requested=len(quotes))
+        for quote in quotes:
+            symbol = str(quote.get("symbol") or "").upper()
+            if not symbol or quote.get("quoteType") not in (None, "EQUITY") or (wanted is not None and symbol not in wanted):
+                continue
+            entry = cached.get(symbol)
+            if entry and not entry["data"].get("_empty") and not entry["data"].get("_light"):
+                report.fresh += 1  # already has the full snapshot
+                continue
+            rows.append((symbol, at, json.dumps(snapshot_from_quote(quote))))
+        self.state.executemany(
+            "INSERT INTO fundamentals_cache(symbol, fetched_at, data) VALUES (?,?,?) "
+            "ON CONFLICT(symbol) DO UPDATE SET fetched_at=excluded.fetched_at, data=excluded.data", rows)
+        report.refreshed = len(rows)
+        report.elapsed = time.monotonic() - t0
+        return report
+
     def snapshots_frame(self, symbols: Iterable[str] | None = None) -> pd.DataFrame:
         """Cached snapshots as a frame indexed by symbol (for the screener)."""
-        rows = {s: {**e["data"], "fundamentals_at": e["fetched_at"]}
+        rows = {s: {**{k: v for k, v in e["data"].items() if k != "_light"}, "fundamentals_at": e["fetched_at"],
+                    "fundamentals": "light" if e["data"].get("_light") else "full"}
                 for s, e in self._cached(symbols).items() if not e["data"].get("_empty")}
         if not rows:
             return pd.DataFrame()

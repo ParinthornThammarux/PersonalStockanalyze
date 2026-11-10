@@ -100,36 +100,42 @@ def trend_regression(close: pd.Series, n: int = 60) -> dict:
 def trend_state(df: pd.DataFrame) -> dict:
     """Classify the current trend from moving averages, ADX and regression quality.
 
-    Score from -5 to +5 (price vs SMA50/200, SMA50 vs SMA200, SMA50 slope, DI direction).
+    Five votes (price vs SMA50 and SMA200, SMA50 vs SMA200, SMA50 slope, DI direction) give a score from -5 to +5. A vote
+    whose inputs do not exist yet (no SMA200 before 200 bars) is *left out*, not counted as bearish: ``available`` says
+    how many votes were cast, and the label needs 60% of them to agree (3 of 5, as before, when all are cast).
     """
     close = df["close"]
     sma50, sma200 = ind.sma(close, 50), ind.sma(close, 200)
     adx = ind.adx(df["high"], df["low"], close)
     last = close.iloc[-1]
 
-    points, notes = 0, []
-    for cond, up_note, down_note in [
-        (last > sma50.iloc[-1], "above SMA50", "below SMA50"),
-        (last > sma200.iloc[-1], "above SMA200", "below SMA200"),
-        (sma50.iloc[-1] > sma200.iloc[-1], "SMA50 > SMA200", "SMA50 < SMA200"),
-        (sma50.iloc[-1] > sma50.iloc[-11] if len(sma50) > 11 else False, "SMA50 rising", "SMA50 falling"),
-        (adx["plus_di"].iloc[-1] > adx["minus_di"].iloc[-1], "+DI > -DI", "-DI > +DI"),
-    ]:
-        if pd.isna(cond):
-            continue
-        points += 1 if cond else -1
-        notes.append(up_note if cond else down_note)
+    def above(a, b) -> bool | None:
+        return None if pd.isna(a) or pd.isna(b) else bool(a > b)
+
+    votes = [
+        (above(last, sma50.iloc[-1]), "above SMA50", "below SMA50"),
+        (above(last, sma200.iloc[-1]), "above SMA200", "below SMA200"),
+        (above(sma50.iloc[-1], sma200.iloc[-1]), "SMA50 > SMA200", "SMA50 < SMA200"),
+        (above(sma50.iloc[-1], sma50.iloc[-11]) if len(sma50) > 11 else None, "SMA50 rising", "SMA50 falling"),
+        (above(adx["plus_di"].iloc[-1], adx["minus_di"].iloc[-1]), "+DI > -DI", "-DI > +DI"),
+    ]
+    cast = [(cond, up, down) for cond, up, down in votes if cond is not None]
+    points = sum(1 if cond else -1 for cond, _, _ in cast)
+    notes = [up if cond else down for cond, up, down in cast]
+    if pd.isna(sma200.iloc[-1]):
+        notes.append("no SMA200 yet (needs 200 bars)")
 
     strength = adx["adx"].iloc[-1]
-    if points >= 3:
+    if cast and points * 5 >= 3 * len(cast):
         label = "Uptrend"
-    elif points <= -3:
+    elif cast and points * 5 <= -3 * len(cast):
         label = "Downtrend"
     else:
         label = "Sideways / mixed"
     return {
         "label": label,
         "score": points,
+        "available": len(cast),
         "adx": None if pd.isna(strength) else float(strength),
         "trending": bool(strength >= 25) if not pd.isna(strength) else False,
         "notes": notes,

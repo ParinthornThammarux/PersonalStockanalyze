@@ -4,6 +4,7 @@
 * Existing symbols are re-fetched from ``last bar - overlap`` so late revisions are caught.
 * If the overlap no longer matches what we stored (split / dividend re-adjusted the
   history) that symbol is downloaded in full and replaced.
+* ``backfill`` replaces a symbol with its whole history (the update only extends forwards).
 * Symbols are grouped by fetch-start so a whole chunk is one batched provider call, with
   retries and exponential backoff for rate limits.
 """
@@ -31,6 +32,7 @@ log = logging.getLogger(__name__)
 
 THROTTLE_MIN_BATCH = 10  # smaller batches are too small to tell throttling from a few dead tickers
 THROTTLE_EMPTY_SHARE = 0.5
+BACKFILL_START = "1900-01-01"  # earlier than any Yahoo history (the S&P 500 index starts in 1927)
 
 
 @dataclass
@@ -232,6 +234,47 @@ class Updater:
         report.elapsed = time.monotonic() - t0
         return report
 
+    def backfill(
+        self,
+        symbols: Iterable[str],
+        interval: str = "1d",
+        *,
+        start: str | pd.Timestamp = BACKFILL_START,
+        progress: Callable[[int, int, str], None] | None = None,
+    ) -> UpdateReport:
+        """Download each symbol's whole history from ``start`` and replace what is stored.
+
+        The normal update only extends a stored history forwards, so a symbol first stored with 10 years never reaches
+        2008 or 2000. One full download per symbol, adjusted consistently from end to end, is written over the old file.
+        """
+        t0 = time.monotonic()
+        syms = list(dict.fromkeys(s.strip().upper() for s in symbols if s and s.strip()))
+        report = UpdateReport(interval=interval, requested=len(syms))
+        for i, s in enumerate(syms, 1):
+            existed = self.store.exists(s, interval)
+            try:
+                frame = self.provider.history(s, start=pd.Timestamp(start), interval=interval)
+            except Exception as exc:  # providers raise many types
+                report.failed[s] = str(exc)
+                self._log(s, interval, "error", str(exc))
+            else:
+                frame = frame[frame.index <= last_completed_session(s, self._now())]
+                frame, _ = clean_ohlcv(frame, interval=interval, require_positive=_is_price_series(s))
+                if frame.empty:
+                    if not existed:
+                        report.no_data.append(s)
+                else:
+                    before = self.store.read(s, interval).index
+                    self.store.write(s, frame, interval, replace=True)
+                    report.rows_added += int(len(frame.index.difference(before)))
+                    report.updated += 1
+                    report.new_symbols += 0 if existed else 1
+                    self._log(s, interval, "ok", f"full history from {frame.index.min():%Y-%m-%d}", len(frame))
+            if progress:
+                progress(i, len(syms), s)
+        report.elapsed = time.monotonic() - t0
+        return report
+
     def _ingest(self, symbol, frame, existed: bool, fetch_from, interval, report: UpdateReport) -> None:
         if frame is None or frame.empty:
             if not existed:
@@ -255,7 +298,10 @@ class Updater:
                 old = self.store.read(symbol, interval, start=frame.index.min())
                 if adjustment_changed(old, frame):
                     log.info("%s: history re-adjusted, downloading in full", symbol)
-                    full = self.provider.history(symbol, start=self._default_start(), interval=interval)
+                    # as deep as the stored history: a backfilled symbol must not shrink back to the default years
+                    stored = self.store.read(symbol, interval)
+                    depth = min(self._default_start(), stored.index.min()) if not stored.empty else self._default_start()
+                    full = self.provider.history(symbol, start=depth, interval=interval)
                     full = full[full.index <= last_completed_session(symbol, self._now())]
                     frame, _ = clean_ohlcv(full, interval=interval, require_positive=_is_price_series(symbol))
                     replace = True

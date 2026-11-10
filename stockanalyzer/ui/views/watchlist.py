@@ -85,7 +85,10 @@ def _alerts_tab() -> None:
         for col, (name, default) in zip(cols, spec.defaults.items()):
             params[name] = col.number_input(name, value=float(default) if not isinstance(default, int) else int(default),
                                             key=f"al_{kind}_{name}")
-    cooldown = st.number_input("Mute after firing (hours)", 1.0, 720.0, 24.0, key="al_cd")
+    cooldown = st.number_input("Quiet period after firing (hours)", 1.0, 720.0, 24.0, key="al_cd",
+                               help="An alert fires when its condition *starts* to hold (a price crossing its level, a cross happening) and "
+                                    "re-arms once the condition ends. This is an extra guard for a price that keeps flipping around its "
+                                    "level: it will not fire again for this long.")
     if st.button("Create alert", disabled=not symbol, type="primary"):
         try:
             mgr.add(symbol, kind, params, cooldown)
@@ -99,7 +102,8 @@ def _alerts_tab() -> None:
         st.caption("No alerts yet.")
     for a in alerts:
         c1, c2, c3 = st.columns([6, 1, 1])
-        c1.write(("🟢 " if a.active else "⚪ ") + a.describe() + (f" · last fired {a.last_triggered_at} UTC" if a.last_triggered_at else ""))
+        c1.write(("🟢 " if a.active else "⚪ ") + a.describe() + (f" · last fired {a.last_triggered_at} UTC" if a.last_triggered_at else "")
+                 + (" · condition holds now, fires again after it has ended" if a.active and a.in_zone else ""))
         if c2.button("Pause" if a.active else "Resume", key=f"al_t{a.id}"):
             mgr.set_active(a.id, not a.active)
             st.rerun()
@@ -112,7 +116,7 @@ def _alerts_tab() -> None:
         for e in fired:
             st.success(f"{e.symbol}: {e.message}")
         if not fired:
-            st.info("Nothing triggered (or alerts are muted/stale - update prices first).")
+            st.info("Nothing new: no alert's condition started to hold since the last check (or there are no newer prices - update them first).")
     events = mgr.events(25)
     if events:
         st.markdown("**History**")

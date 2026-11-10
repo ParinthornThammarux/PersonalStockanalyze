@@ -7,11 +7,13 @@ import streamlit as st
 from stockanalyzer.ui import nav
 from stockanalyzer.ui.views import (
     backtest,
+    breadth,
     data_manager,
     events,
     fundamentals,
     home,
     markets,
+    montecarlo,
     overview,
     portfolio,
     rotation,
@@ -32,9 +34,11 @@ PAGE_SPECS = {
     "watchlist": (watchlist, "Watchlists & Alerts", "⭐", "Scale"),
     "calendar": (events, "Calendar & News", "📅", "Scale"),
     "markets": (markets, "Markets & Macro", "🌍", "Scale"),
+    "breadth": (breadth, "Market Breadth", "📊", "Scale"),
     "rotation": (rotation, "Sector Rotation", "🔄", "Scale"),
     "backtest": (backtest, "Backtest", "🧪", "Test"),
     "portfolio": (portfolio, "Portfolio & Risk", "💼", "Test"),
+    "montecarlo": (montecarlo, "Monte Carlo", "🎲", "Test"),
     "data": (data_manager, "Data Manager", "🗄️", "System"),
 }
 

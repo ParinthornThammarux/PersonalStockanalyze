@@ -19,9 +19,10 @@ import pandas as pd
 
 from stockanalyzer.alerts.alerts import AlertManager
 from stockanalyzer.alerts.watchlist import WatchlistRepo
-from stockanalyzer.data import sectors, universe as uni
+from stockanalyzer.data import pools, sectors, universe as uni
 from stockanalyzer.data.events import EventsService
 from stockanalyzer.data.fundamentals import FundamentalsService
+from stockanalyzer.data.providers.base import RateLimitError
 from stockanalyzer.data.service import MarketData
 from stockanalyzer.portfolio.ledger import TransactionRepo, build_book
 from stockanalyzer.screener.features import compute_universe_features
@@ -42,6 +43,10 @@ class PipelineOptions:
     symbols: list[str] = field(default_factory=list)
     include_cross_assets: bool = True
     include_sectors: bool = False  # sector ETFs, asset-class ETFs and the Thai sector baskets for Sector Rotation
+    thai: str = "none"  # "core" = SET50 + the sector baskets, "all" = every share on the SET and mai (th_stocks.json)
+    market_snapshot: bool = False  # P/E, P/B, market cap, yield of the whole market in a few requests (light fundamentals)
+    rate_limit_waits: int = 0  # when Yahoo throttles: wait and carry on this many times instead of giving up
+    rate_limit_wait_minutes: float = 5.0
     include_watchlists: bool = True
     include_macro: bool = False
     benchmark: str = "SPY"
@@ -85,6 +90,14 @@ def tracked_symbols(state: StateDB) -> list[str]:
     return list(dict.fromkeys(symbols))
 
 
+THAI_CHOICES = ("none", "core", "all")
+
+
+def thai_core() -> list[str]:
+    """The SET50 and every member of the Thai sector baskets: the Thai stocks the app tracks by default."""
+    return list(dict.fromkeys([*pools.load_pools()["set50"].symbols, *sectors.THAI_SECTORS.members]))
+
+
 def resolve_symbols(opts: PipelineOptions, md: MarketData) -> list[str]:
     """Everything the run should keep fresh, benchmark and extras first."""
     symbols: list[str] = [opts.benchmark] if opts.benchmark else []
@@ -93,6 +106,12 @@ def resolve_symbols(opts: PipelineOptions, md: MarketData) -> list[str]:
         symbols += list(uni.cross_asset_universe()["symbol"])
     if opts.include_sectors:
         symbols += sectors.all_symbols()
+    if opts.thai not in THAI_CHOICES:
+        raise ValueError(f"thai must be one of {', '.join(THAI_CHOICES)}, got {opts.thai!r}")
+    if opts.thai == "core":
+        symbols += thai_core()
+    elif opts.thai == "all":
+        symbols += list(uni.load_th_stocks()["symbol"])
     if opts.include_macro:
         symbols += list(uni.MACRO_SERIES)
     if opts.include_watchlists:
@@ -112,6 +131,7 @@ def run_pipeline(
     fundamentals: FundamentalsService | None = None,
     progress: Callable[[str, int, int, str], None] | None = None,
     events: EventsService | None = None,
+    sleep: Callable[[float], None] = time.sleep,
 ) -> PipelineResult:
     opts = opts or PipelineOptions()
     md = md or MarketData()
@@ -122,6 +142,8 @@ def run_pipeline(
 
     def step(name: str, fn: Callable[[], str]) -> None:
         t0 = time.monotonic()
+        if progress:
+            progress(name, 0, 0, "running")
         try:
             summary = fn()
             result.steps[name] = {"summary": f"{summary} ({time.monotonic() - t0:.1f}s)"}
@@ -136,17 +158,31 @@ def run_pipeline(
 
     step("resolve", resolve)
 
+    def wait_for_yahoo(what: str, attempt: int) -> None:
+        minutes = opts.rate_limit_wait_minutes
+        if progress:
+            progress("update", 0, 0, f"Yahoo is rate limiting {what} - waiting {minutes:g} min, then carrying on "
+                                     f"({attempt}/{opts.rate_limit_waits})")
+        log.warning("rate limited; waiting %g min (%d/%d)", minutes, attempt, opts.rate_limit_waits)
+        sleep(minutes * 60)
+
     if opts.update_prices and symbols:
         def update() -> str:
-            report = md.update(
-                symbols, start=opts.start, force=opts.force,
-                progress=(lambda d, t, m: progress("update", d, t, m)) if progress else None,
-            )
+            rounds = []
+            for attempt in range(opts.rate_limit_waits + 1):
+                report = md.update(
+                    symbols, start=opts.start, force=opts.force,
+                    progress=(lambda d, t, m: progress("update", d, t, m)) if progress else None,
+                )
+                rounds.append(report.summary())
+                if not report.aborted or attempt == opts.rate_limit_waits:
+                    break
+                wait_for_yahoo("price downloads", attempt + 1)  # what is stored stays; the next round skips it
             attempted = report.updated + len(report.failed)
             # a few failed tickers are normal; most of them failing means the provider is down
             if report.aborted or (attempted and len(report.failed) / attempted >= MAX_FAILED_SHARE):
-                raise RuntimeError(report.summary())
-            return report.summary()
+                raise RuntimeError("; ".join(rounds))
+            return "; ".join(rounds)
 
         step("update_prices", update)
 
@@ -161,6 +197,27 @@ def run_pipeline(
             return f"{len(frame)} symbols, as of {frame['last_date'].max():%Y-%m-%d}"
 
         step("features", features)
+
+    if opts.market_snapshot:
+        def snapshot() -> str:
+            svc = fundamentals or FundamentalsService(settings=md.settings, state=md.state)
+            known = set(uni.load_us_stocks()["symbol"]) | set(uni.load_th_stocks()["symbol"]) | set(md.store.symbols())
+            markets = (["us"] if opts.universe == "us" else []) + (["th"] if opts.thai != "none" else [])
+            if not markets:
+                return "no market selected"
+            parts = []
+            for market in markets:
+                for attempt in range(opts.rate_limit_waits + 1):
+                    try:
+                        parts.append(f"{market}: {svc.refresh_market(market, only=known).summary()}")
+                        break
+                    except RateLimitError:
+                        if attempt == opts.rate_limit_waits:
+                            raise
+                        wait_for_yahoo("the market snapshot", attempt + 1)
+            return "; ".join(parts)
+
+        step("market_snapshot", snapshot)
 
     if opts.fundamentals_limit > 0:
         def refresh() -> str:

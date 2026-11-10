@@ -15,10 +15,31 @@ import pandas as pd
 from numpy.lib.stride_tricks import sliding_window_view
 
 TRADING_DAYS = 252
+# Relative size below which two typical prices count as equal. It removes float64 rounding noise (~1e-15, measured up to
+# 2.4e-16) and nothing else: widening it to 1e-9 / 1e-7 changed MFI by more than 1 point on 6 / 161 of 300 stored symbols,
+# so those moves are mostly real. Yahoo's float32 prices leave ~1e-8 noise on some true ties (adj_close/close differs per
+# bar); that stays a "move", as in TA-Lib.
+_TIE_TOLERANCE = 1e-12
 
 
 def _wilder(s: pd.Series, n: int) -> pd.Series:
     return s.ewm(alpha=1.0 / n, adjust=False, min_periods=n).mean()
+
+
+def _rolling_std(s: pd.Series, n: int, ddof: int = 0) -> pd.Series:
+    """Rolling standard deviation, recomputed from scratch on every window (two-pass).
+
+    ``Series.rolling(n).std()`` updates running sums as bars enter and leave the window, so rounding error from earlier,
+    much larger prices stays in them. On split-adjusted history that fell by orders of magnitude (ENSC: 86,000 -> 0.25)
+    a 20-bar std ended up 0.2-1.6% off. A window computed on its own values has no memory. A window containing a NaN
+    gives NaN, as with ``rolling``.
+    """
+    values = s.to_numpy(dtype=float)
+    out = np.full(len(values), np.nan)
+    if len(values) >= n:
+        with np.errstate(invalid="ignore", divide="ignore"):  # inf / n=1 with ddof=1 -> NaN, not a warning
+            out[n - 1:] = np.std(sliding_window_view(values, n), axis=1, ddof=ddof)
+    return pd.Series(out, index=s.index)
 
 
 # -- trend / overlays -------------------------------------------------------------------------
@@ -32,7 +53,7 @@ def ema(close: pd.Series, n: int = 20) -> pd.Series:
 
 def bollinger(close: pd.Series, n: int = 20, k: float = 2.0) -> pd.DataFrame:
     mid = close.rolling(n).mean()
-    std = close.rolling(n).std(ddof=0)
+    std = _rolling_std(close, n, ddof=0)
     upper, lower = mid + k * std, mid - k * std
     width = (upper - lower).replace(0, np.nan)
     return pd.DataFrame(
@@ -127,7 +148,9 @@ def adx(high: pd.Series, low: pd.Series, close: pd.Series, n: int = 14) -> pd.Da
 
 def historical_volatility(close: pd.Series, n: int = 20, periods_per_year: int = TRADING_DAYS) -> pd.Series:
     """Annualised standard deviation of log returns, in percent."""
-    return 100 * np.log(close / close.shift(1)).rolling(n).std() * np.sqrt(periods_per_year)
+    with np.errstate(divide="ignore", invalid="ignore"):  # a zero price gives log(0): the window turns NaN
+        log_return = np.log(close / close.shift(1))
+    return 100 * _rolling_std(log_return, n, ddof=1) * np.sqrt(periods_per_year)
 
 
 # -- volume -------------------------------------------------------------------------------------
@@ -151,6 +174,9 @@ def mfi(high: pd.Series, low: pd.Series, close: pd.Series, volume: pd.Series, n:
     typical = (high + low + close) / 3
     flow = typical * volume
     change = typical.diff()
+    # Two typical prices that are equal in exact arithmetic (Thai tick sizes: 6.5+6.35+6.4 = 6.45+6.4+6.4) differ by ~1e-15
+    # once the prices are multiplied by a split/dividend adjustment factor; that noise must not decide the direction.
+    change = change.mask(change.abs() <= _TIE_TOLERANCE * typical.abs(), 0.0)  # keeps the NaN of the first bar
     positive = flow.where(change > 0, 0.0).rolling(n).sum()
     negative = flow.where(change < 0, 0.0).rolling(n).sum()
     total = (positive + negative).replace(0, np.nan)

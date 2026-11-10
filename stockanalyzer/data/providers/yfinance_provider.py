@@ -18,6 +18,7 @@ from stockanalyzer.data.providers.base import (
     empty_ohlcv,
     normalize_ohlcv,
 )
+from stockanalyzer.domain.estimates import PERIODS, Estimates
 from stockanalyzer.domain.financials import FinancialStatements
 
 log = logging.getLogger(__name__)
@@ -28,7 +29,8 @@ ECONOMIC_MAX_PAGES = 60
 
 def _wrap(exc: Exception) -> ProviderError:
     text = f"{type(exc).__name__}: {exc}"
-    if "RateLimit" in type(exc).__name__ or "Too Many Requests" in text:
+    # HTTP 401 / "Invalid Crumb" is how Yahoo's screener answers when its crumb request was itself rate limited
+    if "RateLimit" in type(exc).__name__ or "Too Many Requests" in text or "401" in text or "Crumb" in text:
         return RateLimitError(text)
     return ProviderError(text)
 
@@ -105,6 +107,70 @@ def calendar_dict(raw: dict | None) -> dict:
     }
 
 
+# Yahoo column -> our key, per estimate table
+_ESTIMATE_COLUMNS = {"avg": "avg", "low": "low", "high": "high", "yearAgoEps": "year_ago", "yearAgoRevenue": "year_ago",
+                     "numberOfAnalysts": "analysts", "growth": "growth"}
+_TREND_COLUMNS = {"current": "current", "7daysAgo": "d7", "30daysAgo": "d30", "60daysAgo": "d60", "90daysAgo": "d90"}
+_REVISION_COLUMNS = {"upLast7days": "up7", "upLast30days": "up30", "downLast7Days": "down7", "downLast30days": "down30"}
+
+
+def _period_table(raw: pd.DataFrame | None, columns: dict[str, str], *, need_analysts: bool = False) -> dict[str, dict[str, float]]:
+    """One of Yahoo's period-indexed estimate frames -> ``{period: {key: number}}``, numbers that are missing left out.
+
+    With ``need_analysts`` a period with no analysts is dropped: Yahoo fills such a row with zeros (Thai stocks have
+    no revenue estimate for the quarters), and a zero consensus is not a forecast.
+    """
+    out: dict[str, dict[str, float]] = {}
+    if raw is None or len(raw) == 0:
+        return out
+    for period in PERIODS:
+        if period not in raw.index:
+            continue
+        row = raw.loc[period]
+        values = {key: n for col, key in columns.items() if col in raw.columns and (n := _number(row[col])) is not None}
+        if need_analysts and not values.get("analysts"):
+            continue
+        if values:
+            out[period] = values
+    return out
+
+
+def estimates_from_yahoo(symbol: str, frames: dict, info: dict | None = None, *, as_of: str | None = None) -> Estimates:
+    """Yahoo's estimate frames, price-target dict and ``info`` -> ``Estimates``.
+
+    ``frames`` has any of ``earnings_estimate``, ``revenue_estimate``, ``eps_trend``, ``eps_revisions`` (DataFrames) and
+    ``analyst_price_targets`` (dict); a missing or failed one leaves its part empty. ``growth_estimates`` is ignored on
+    purpose: its index column is the S&P 500 for every stock, Thai ones included.
+    """
+    info = info or {}
+    target_raw = frames.get("analyst_price_targets") or {}
+    target = {key: n for key in ("mean", "median", "high", "low") if (n := _number(target_raw.get(key))) is not None}
+    if not target:
+        target = {key: n for key, src in (("mean", "targetMeanPrice"), ("median", "targetMedianPrice"), ("high", "targetHighPrice"),
+                                          ("low", "targetLowPrice")) if (n := _number(info.get(src))) is not None}
+    analysts = _number(info.get("numberOfAnalystOpinions"))
+    if target and analysts:
+        target["analysts"] = analysts
+    rec_mean = _number(info.get("recommendationMean"))
+    recommendation = {}
+    if rec_mean is not None:
+        recommendation = {"mean": rec_mean, "key": info.get("recommendationKey"), "analysts": analysts}
+    currency = None
+    for name in ("earnings_estimate", "revenue_estimate"):
+        raw = frames.get(name)
+        if raw is not None and len(raw) and "currency" in raw.columns:
+            currency = str(raw["currency"].iloc[0])
+            break
+    return Estimates(
+        symbol=symbol, currency=currency or info.get("financialCurrency"),
+        eps=_period_table(frames.get("earnings_estimate"), _ESTIMATE_COLUMNS, need_analysts=True),
+        revenue=_period_table(frames.get("revenue_estimate"), _ESTIMATE_COLUMNS, need_analysts=True),
+        eps_trend=_period_table(frames.get("eps_trend"), _TREND_COLUMNS),
+        eps_revisions=_period_table(frames.get("eps_revisions"), _REVISION_COLUMNS),
+        target=target, recommendation=recommendation, as_of=as_of,
+    )
+
+
 def economic_frame(raw: pd.DataFrame | None) -> pd.DataFrame:
     """Pages of ``Calendars.get_economic_events_calendar()`` (index reset) -> ``ECONOMIC_COLUMNS``."""
     if raw is None or len(raw) == 0:
@@ -140,6 +206,26 @@ def news_items(raw: list[dict], symbol: str) -> list[dict]:
         items.append({"title": n["title"].strip(), "source": n.get("publisher") or "", "url": n.get("link") or "",
                       "published": pd.to_datetime(n.get("providerPublishTime"), unit="s", utc=True, errors="coerce")})
     return items
+
+
+SCREEN_PAGE = 250  # Yahoo's maximum page size
+MARKET_QUOTE_LIMIT = 12000  # deeper than Yahoo pages anyway (about 8,000 rows)
+
+
+def _us_query():
+    from yfinance import EquityQuery
+
+    return EquityQuery("and", [EquityQuery("eq", ["region", "us"]),
+                               EquityQuery("is-in", ["exchange", "NMS", "NYQ", "ASE", "NGM", "NCM"])])
+
+
+def _th_query():
+    from yfinance import EquityQuery
+
+    return EquityQuery("eq", ["region", "th"])
+
+
+MARKET_QUERIES = {"us": _us_query, "th": _th_query}
 
 
 class YFinanceProvider:
@@ -231,6 +317,55 @@ class YFinanceProvider:
             log.warning("info(%s) failed: %s", symbol, exc)
             return {}
 
+    def estimates(self, symbol: str) -> Estimates:
+        """Analyst consensus: EPS and revenue estimates, EPS revisions, price targets and the recommendation mean.
+
+        Each Yahoo table is its own request and fails on its own; the call raises only when nothing at all came back
+        and something failed (an unknown symbol is an empty result, not an error).
+        """
+        import yfinance as yf
+
+        t = yf.Ticker(symbol)
+        frames: dict = {}
+        failures: list[Exception] = []
+        for name in ("earnings_estimate", "revenue_estimate", "eps_trend", "eps_revisions", "analyst_price_targets"):
+            try:
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore")
+                    frames[name] = getattr(t, name)
+            except Exception as exc:  # yfinance raises many unrelated types
+                failures.append(exc)
+        info = self.info(symbol)
+        result = estimates_from_yahoo(symbol, frames, info, as_of=pd.Timestamp.now(tz="UTC").strftime("%Y-%m-%dT%H:%M:%SZ"))
+        if result.is_empty and failures:
+            raise _wrap(failures[0]) from failures[0]
+        return result
+
+    def market_quotes(self, market: str) -> list[dict]:
+        """Every listed equity of a market with Yahoo's headline numbers (P/E, P/B, market cap, dividend yield ...).
+
+        Yahoo's screener answers 250 stocks per request, so a whole market is a few dozen calls instead of one
+        ``info`` call per stock. ``market`` is ``"us"`` or ``"th"``; the result includes ETFs and funds, which the
+        caller filters against the symbols it knows.
+        """
+        import yfinance as yf
+        from yfinance import EquityQuery
+
+        if market not in MARKET_QUERIES:
+            raise ProviderError(f"unknown market {market!r}; choose from {', '.join(MARKET_QUERIES)}")
+        query = MARKET_QUERIES[market]()
+        quotes: list[dict] = []
+        while len(quotes) < MARKET_QUOTE_LIMIT:
+            try:
+                page = yf.screen(query, size=SCREEN_PAGE, offset=len(quotes), sortField="intradaymarketcap", sortAsc=False)
+            except Exception as exc:
+                raise _wrap(exc) from exc
+            found = page.get("quotes") or []
+            quotes += found
+            if not found or len(quotes) >= (page.get("total") or 0):
+                break
+        return quotes
+
     # -- calendars -------------------------------------------------------------------------
     def earnings_dates(self, symbol: str, *, limit: int = 12) -> pd.DataFrame:
         import yfinance as yf
@@ -283,4 +418,4 @@ class YFinanceProvider:
         return news_items(raw, symbol)
 
 
-__all__ = ["YFinanceProvider", "calendar_dict", "earnings_frame", "economic_frame", "empty_ohlcv", "news_items"]
+__all__ = ["YFinanceProvider", "calendar_dict", "earnings_frame", "economic_frame", "empty_ohlcv", "estimates_from_yahoo", "news_items"]

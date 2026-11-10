@@ -32,10 +32,11 @@ def render() -> None:
     if not ov["symbols"]:
         st.info(
             "The local data store is empty. Open **Data Manager** and update a universe "
-            "(e.g. the 100 largest US companies + cross-asset presets takes about 10 seconds), "
+            "(the 100 largest US companies + cross-asset presets takes about 10 seconds; the **whole market** - all US and Thai "
+            "stocks - takes 10-15 minutes and runs in the background), "
             "or look up any symbol on **Stock Overview** - it is downloaded and cached on first use."
         )
-        st.code("python -m stockanalyzer nightly --limit 500", language="bash")
+        st.code("python -m stockanalyzer nightly --thai all      # the whole US and Thai market", language="bash")
     elif ov["features_asof"] is None:
         st.warning("Prices are stored but no feature snapshot exists yet. Open **Screener** and compute it, "
                    "or run `python -m stockanalyzer features`.")

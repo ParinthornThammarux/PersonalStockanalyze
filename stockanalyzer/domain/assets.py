@@ -42,6 +42,52 @@ def infer_asset_class(symbol: str) -> AssetClass:
     return AssetClass.EQUITY
 
 
+# Yahoo exchange suffix -> currency the listing is quoted in (the stock itself may report in another one)
+SUFFIX_CURRENCY = {
+    ".BK": "THB", ".T": "JPY", ".HK": "HKD", ".SI": "SGD", ".L": "GBp", ".TO": "CAD", ".AX": "AUD",
+    ".DE": "EUR", ".PA": "EUR", ".AS": "EUR", ".MI": "EUR", ".MC": "EUR", ".SS": "CNY", ".SZ": "CNY",
+    ".KS": "KRW", ".TW": "TWD", ".NS": "INR", ".BO": "INR", ".JK": "IDR", ".KL": "MYR", ".SW": "CHF",
+}
+# Local market benchmark by suffix; anything else is measured against the S&P 500
+MARKET_BENCHMARKS = {".BK": "TDEX.BK"}
+DEFAULT_BENCHMARK = "SPY"
+THAI_BOARD_LOT = 100
+MINOR_UNIT_CODES = ("GBp", "GBX", "ZAc", "ILA")  # quoted in a hundredth of the major unit; the only mixed-case codes
+
+
+def clean_currency(code: str) -> str:
+    """Currency codes are upper case, except the minor units Yahoo quotes (GBp = pence)."""
+    code = code.strip()
+    return code if code in MINOR_UNIT_CODES else code.upper()
+
+
+def currency_of(symbol: str) -> str:
+    """Currency a Yahoo symbol is quoted in: its exchange suffix, the quote side of a crypto pair, else USD."""
+    s = symbol.strip().upper()
+    for suffix, ccy in SUFFIX_CURRENCY.items():
+        if s.endswith(suffix):
+            return ccy
+    pair = _CRYPTO.fullmatch(s)
+    if pair:
+        quote = pair.group(1)
+        return "USD" if quote in ("USDT", "BTC") else quote
+    return "USD"
+
+
+def benchmark_for(symbol: str) -> str:
+    """The index/ETF a symbol's beta and relative strength are measured against (SET50 ETF for Thai listings)."""
+    s = symbol.strip().upper()
+    for suffix, bench in MARKET_BENCHMARKS.items():
+        if s.endswith(suffix) and s != bench:
+            return bench
+    return DEFAULT_BENCHMARK
+
+
+def lot_size(symbol: str) -> int:
+    """Shares per board lot: 100 on the SET, 1 elsewhere."""
+    return THAI_BOARD_LOT if symbol.strip().upper().endswith(".BK") else 1
+
+
 @dataclass(frozen=True)
 class Asset:
     symbol: str

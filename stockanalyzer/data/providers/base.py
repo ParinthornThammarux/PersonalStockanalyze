@@ -133,6 +133,8 @@ class FundamentalsProvider(Protocol):
 
     def info(self, symbol: str) -> dict: ...
 
+    # optional: ``market_quotes(market: str) -> list[dict]`` - headline numbers of a whole market in a few requests
+
 
 EARNINGS_COLUMNS = ["at", "eps_estimate", "eps_actual", "surprise_pct"]
 ECONOMIC_COLUMNS = ["at", "event", "region", "period", "actual", "expected", "last", "revised"]
